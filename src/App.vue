@@ -12,9 +12,12 @@ export default {
   components: {
     Navbar
   },
-  created () {
+  mounted () {
     if (this.$store.getters.timeUntilExpired > 0) {
       this.$store.dispatch('scheduleRenewal')
+      if (this.$store.state.userProfile == null) {
+        this.$store.dispatch('refreshProfile')
+      }
     } else if (this.$store.getters.authenticated) {
       this.$store.dispatch('logout')
     }

@@ -25,6 +25,11 @@ export default new Router({
       path: '/auth/logincallback',
       name: 'logincallback',
       component: () => import(/* webpackChunkName: "logincallback" */ './views/auth/LoginCallback.vue')
+    },
+    {
+      path: '/auth/logoutcallback',
+      name: 'logoutcallback',
+      component: () => import(/* webpackChunkName: "logoutcallback" */ './views/auth/LogoutCallback.vue')
     }
   ]
 })

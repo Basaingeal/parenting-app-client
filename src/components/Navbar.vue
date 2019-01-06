@@ -1,30 +1,40 @@
 <template>
-  <nav class="navbar navbar-dark bg-dark">
-    <a
-      href="#"
-      class="navbar-brand"
-    >
-      Parenting App
-    </a>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <button
-          v-if="!authenticated"
-          class="btn btn-primary"
+  <b-navbar
+    type="dark"
+    variant="dark"
+  >
+    <router-link :to="{name: 'home'}">
+      <b-navbar-brand>
+        Parenting App
+      </b-navbar-brand>
+    </router-link>
+
+    <b-img
+      v-if="authenticated"
+      :src="profileImgSource"
+      rounded="circle"
+      width="48"
+      height="48"
+      alt="Profile Image"
+      class="my-1 ml-auto mr-3"
+    />
+    <b-navbar-nav>
+      <b-nav-item v-if="!authenticated">
+        <b-btn
           @click="login()"
         >
-          Sign In
-        </button>
-        <button
-          v-if="authenticated"
-          class="btn btn-primary"
-          @click="logout()"
+          Sign in
+        </b-btn>
+      </b-nav-item>
+      <b-nav-item v-if="authenticated">
+        <b-btn
+          @click="fullLogout()"
         >
-          Sign Out
-        </button>
-      </li>
-    </ul>
-  </nav>
+          Sign out
+        </b-btn>
+      </b-nav-item>
+    </b-navbar-nav>
+  </b-navbar>
 </template>
 
 <script>
@@ -32,10 +42,10 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Navbar',
   computed: {
-    ...mapGetters(['authenticated'])
+    ...mapGetters(['authenticated', 'profileImgSource'])
   },
   methods: {
-    ...mapActions(['login', 'logout'])
+    ...mapActions(['login', 'fullLogout'])
   }
 }
 </script>

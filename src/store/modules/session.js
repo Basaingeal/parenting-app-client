@@ -8,7 +8,8 @@ const state = {
   accessToken: localStorage.getItem('access_token'),
   idToken: localStorage.getItem('id_token'),
   expiresAt: localStorage.getItem('expires_at'),
-  tokenRenewalTimeoutId: null
+  tokenRenewalTimeoutId: null,
+  userProfile: localStorage.getItem('user_profile')
 }
 
 const getters = {
@@ -20,6 +21,13 @@ const getters = {
       return 0
     }
     return state.expiresAt - Date.now()
+  },
+  profileImgSource (state) {
+    if (state.userProfile) {
+      return state.userProfile.picture
+    } else {
+      return null
+    }
   }
 }
 
@@ -66,8 +74,12 @@ const actions = {
   },
 
   logout ({ commit }) {
-    auth.logout()
     commit('logout')
+  },
+
+  fullLogout ({ commit }) {
+    commit('logout')
+    auth.logout()
   },
 
   async handleAuthentication ({ commit, dispatch }) {
