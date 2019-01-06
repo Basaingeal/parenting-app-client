@@ -1,16 +1,26 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">
-        Home
-      </router-link> |
-      <router-link to="/about">
-        About
-      </router-link>
-    </div>
+    <navbar />
     <router-view />
   </div>
 </template>
+
+<script>
+import Navbar from '@/components/Navbar'
+
+export default {
+  components: {
+    Navbar
+  },
+  created () {
+    if (this.$store.getters.timeUntilExpired > 0) {
+      this.$store.dispatch('scheduleRenewal')
+    } else if (this.$store.getters.authenticated) {
+      this.$store.dispatch('logout')
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
