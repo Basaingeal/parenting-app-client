@@ -8,7 +8,8 @@ export default class Authenticator {
       clientID: 'azsRdIUydF66WsEjdQaClnrAonfBUExE',
       redirectUri: 'http://localhost:8080/auth/logincallback',
       responseType: 'token id_token',
-      scope: 'openid profile'
+      scope: 'openid profile read:activity write:activity',
+      audience: 'https://parenting.app/api'
     })
   }
 

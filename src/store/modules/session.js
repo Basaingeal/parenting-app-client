@@ -113,7 +113,7 @@ const actions = {
       dispatch('scheduleRenewal')
       dispatch('refreshProfile')
     } catch (error) {
-      console.error(error)
+      console.log(error)
       commit('logout')
     }
   },
