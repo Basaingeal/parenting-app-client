@@ -1,4 +1,5 @@
 import Authenticator from '@/services/Authenticator'
+import axios from 'axios'
 
 const auth = new Authenticator()
 const localStorage = window.localStorage
@@ -27,6 +28,7 @@ const mutations = {
     state.authenticated = true
     state.accessToken = authData.accessToken
     state.idToken = authData.idToken
+    state.userProfile = authData.idTokenPayload
     state.expiresAt = authData.expiresIn * 1000 + new Date().getTime()
 
     localStorage.setItem('access_token', state.accessToken)
@@ -40,14 +42,21 @@ const mutations = {
     state.idToken = false
     clearInterval(state.tokenRenewalTimeoutId)
     state.tokenRenewalTimeoutId = null
+    state.userProfile = null
 
     localStorage.removeItem('access_token')
     localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
+    localStorage.removeItem('user_profile')
   },
 
   tokenRenewalTimeoutId (state, id) {
     state.tokenRenewalTimeoutId = id
+  },
+
+  userProfile (state, userProfile) {
+    state.userProfile = userProfile
+    localStorage.setItem('user_profile', state.userProfile)
   }
 }
 
@@ -57,6 +66,7 @@ const actions = {
   },
 
   logout ({ commit }) {
+    auth.logout()
     commit('logout')
   },
 
@@ -89,6 +99,17 @@ const actions = {
       const renewalResult = await auth.renewToken()
       commit('authenticated', renewalResult)
       dispatch('scheduleRenewal')
+      dispatch('refreshProfile')
+    } catch (error) {
+      console.error(error)
+      commit('logout')
+    }
+  },
+
+  async refreshProfile ({ commit, state }) {
+    try {
+      const userProfile = await auth.getUserInfo(state.accessToken)
+      commit('userProfile', userProfile)
     } catch (error) {
       console.error(error)
       commit('logout')
