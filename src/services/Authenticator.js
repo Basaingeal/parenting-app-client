@@ -6,10 +6,10 @@ export default class Authenticator {
     this.auth0 = new auth0.WebAuth({
       domain: this.domain,
       clientID: 'azsRdIUydF66WsEjdQaClnrAonfBUExE',
-      redirectUri: 'http://localhost:8080/auth/logincallback',
+      redirectUri: `${window.location.protocol}//${window.location.host}/auth/logincallback`,
       responseType: 'token id_token',
       scope: 'openid profile read:activity write:activity',
-      audience: 'https://parenting.app/api'
+      audience: 'https://api.nursry.app'
     })
   }
 
