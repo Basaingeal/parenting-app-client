@@ -20,8 +20,6 @@ export default {
       }
     } else if (this.$store.getters.authenticated) {
       this.$store.dispatch('logout')
-    } else {
-      this.$store.dispatch('renewToken')
     }
   }
 }
