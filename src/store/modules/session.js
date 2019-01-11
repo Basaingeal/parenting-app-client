@@ -1,5 +1,4 @@
 import Authenticator from '@/services/Authenticator'
-import axios from 'axios'
 
 const auth = new Authenticator()
 const localStorage = window.localStorage
