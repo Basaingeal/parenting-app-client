@@ -1,6 +1,6 @@
 {
-  "name": "parenting-app-client",
-  "short_name": "parenting-app-client",
+  "name": "Nursry.APP",
+  "short_name": "Nursry.APP",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -16,5 +16,5 @@
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#CE93D8",
-  "theme_color": "#4DBA87"
+  "theme_color": "#FFFFFF"
 }
