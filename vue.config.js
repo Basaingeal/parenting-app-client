@@ -8,5 +8,11 @@ module.exports = {
 
   css: {
     sourceMap: true
+  },
+
+  pwa: {
+    name: 'Nursry.APP',
+    themeColor: '#FFFFFF',
+    msTileColor: '#CE93D8'
   }
 }

@@ -8,7 +8,7 @@ export default class Authenticator {
       clientID: 'azsRdIUydF66WsEjdQaClnrAonfBUExE',
       redirectUri: `${window.location.protocol}//${window.location.host}/auth/logincallback`,
       responseType: 'token id_token',
-      scope: 'openid profile read:activity write:activity',
+      scope: 'openid profile email read:activity write:activity',
       audience: 'https://api.nursry.app'
     })
   }

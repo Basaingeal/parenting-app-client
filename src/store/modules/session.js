@@ -3,20 +3,19 @@ import Authenticator from '@/services/Authenticator'
 const auth = new Authenticator()
 const localStorage = window.localStorage
 const state = {
-  authenticated: !!localStorage.getItem('access_token'),
-  accessToken: localStorage.getItem('access_token'),
   idToken: localStorage.getItem('id_token'),
   expiresAt: localStorage.getItem('expires_at'),
   tokenRenewalTimeoutId: null,
-  userProfile: localStorage.getItem('user_profile')
+  userProfile: JSON.parse(localStorage.getItem('user_profile')),
+  accessToken: localStorage.getItem('access_token')
 }
 
 const getters = {
-  authenticated (state) {
-    return state.authenticated
+  authenticated (state, getters) {
+    return getters.timeUntilExpired > 0
   },
   timeUntilExpired (state) {
-    if (!state.authenticated || !state.expiresAt) {
+    if (!state.expiresAt) {
       return 0
     }
     return state.expiresAt - Date.now()
@@ -27,34 +26,36 @@ const getters = {
     } else {
       return null
     }
+  },
+  userProfile (state) {
+    return state.userProfile
   }
 }
 
 const mutations = {
   authenticated (state, authData) {
-    state.authenticated = true
     state.accessToken = authData.accessToken
     state.idToken = authData.idToken
     state.userProfile = authData.idTokenPayload
     state.expiresAt = authData.expiresIn * 1000 + new Date().getTime()
 
-    localStorage.setItem('access_token', state.accessToken)
     localStorage.setItem('id_token', state.idToken)
     localStorage.setItem('expires_at', state.expiresAt)
+    localStorage.setItem('user_profile', JSON.stringify(state.userProfile))
+    localStorage.setItem('access_token', state.accessToken)
   },
 
   logout (state) {
-    state.authenticated = false
     state.accessToken = null
     state.idToken = false
     clearInterval(state.tokenRenewalTimeoutId)
     state.tokenRenewalTimeoutId = null
     state.userProfile = null
 
-    localStorage.removeItem('access_token')
     localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
     localStorage.removeItem('user_profile')
+    localStorage.removeItem('access_token')
   },
 
   tokenRenewalTimeoutId (state, id) {
@@ -63,7 +64,6 @@ const mutations = {
 
   userProfile (state, userProfile) {
     state.userProfile = userProfile
-    localStorage.setItem('user_profile', state.userProfile)
   }
 }
 
