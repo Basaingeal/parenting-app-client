@@ -3,7 +3,10 @@
     <v-app>
       <the-navbar v-if="!$route.path.includes('auth/')" />
       <v-content>
-        <v-container fluid>
+        <v-container
+          fluid
+          fill-height
+        >
           <router-view />
         </v-container>
       </v-content>
@@ -24,6 +27,8 @@ export default {
       if (this.$store.state.userProfile == null) {
         this.$store.dispatch('refreshProfile')
       }
+    } else {
+      this.$store.dispatch('logout')
     }
   }
 }

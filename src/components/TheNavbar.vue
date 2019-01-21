@@ -12,23 +12,27 @@
     </v-toolbar-title>
     <v-spacer />
     <v-toolbar-items>
-      <v-menu
-        v-if="authenticated"
-        offset-y
-        nudge-bottom="12"
-      >
-        <v-avatar
-          slot="activator"
-          size="40"
-          class="my-auto"
+      <v-hover>
+        <v-menu
+          v-if="authenticated"
+          slot-scope="{ hover }"
+          offset-y
+          nudge-bottom="12"
         >
-          <v-img
-            :src="profileImgSource"
-            alt="Profile Image"
-          />
-        </v-avatar>
-        <the-account-card />
-      </v-menu>
+          <v-avatar
+            slot="activator"
+            size="40"
+            class="my-auto"
+            :class="`elevation-${hover ? 12 : 2}`"
+          >
+            <v-img
+              :src="profileImgSource"
+              alt="Profile Image"
+            />
+          </v-avatar>
+          <the-account-card />
+        </v-menu>
+      </v-hover>
 
       <v-btn
         v-if="!authenticated"

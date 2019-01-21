@@ -1,5 +1,5 @@
 <template>
-  <v-card height="190">
+  <v-card>
     <v-card-text>
       <v-layout fill-height>
         <v-flex class="mr-4">
