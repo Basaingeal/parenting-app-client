@@ -11,9 +11,13 @@ import { createProvider } from './vue-apollo'
 
 Vue.config.productionTip = false
 
+const apolloClientOptions = {
+  getAuth: (tokenName) => `Bearer ${store.getters.accessToken}`
+}
+
 new Vue({
   router,
   store,
-  apolloProvider: createProvider(),
+  apolloProvider: createProvider(apolloClientOptions),
   render: h => h(App)
 }).$mount('#app')

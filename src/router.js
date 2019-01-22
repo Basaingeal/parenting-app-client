@@ -32,6 +32,14 @@ const router = new Router({
       path: '/welcome',
       name: 'welcome',
       component: () => import(/* webpackChunkName: "welcome" */ './views/Welcome.vue')
+    },
+    {
+      path: '/newchild',
+      name: 'newchild',
+      meta: {
+        middleware: auth
+      },
+      component: () => import(/* webpackChunkName: "welcome" */ './views/NewChild.vue')
     }
   ]
 })

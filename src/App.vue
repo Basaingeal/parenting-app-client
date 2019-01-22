@@ -4,7 +4,6 @@
       <the-navbar v-if="!$route.path.includes('auth/')" />
       <v-content>
         <v-container
-          fluid
           fill-height
         >
           <router-view />
@@ -16,16 +15,30 @@
 
 <script>
 import TheNavbar from '@/components/TheNavbar'
+import GET_CHILDREN from '@/graphql/GetChildren.gql'
 
 export default {
   components: {
     TheNavbar
   },
-  mounted () {
+  async created () {
     if (this.$store.getters.authenticated) {
       this.$store.dispatch('scheduleRenewal')
       if (this.$store.state.userProfile == null) {
         this.$store.dispatch('refreshProfile')
+      }
+
+      if (!this.$store.getters.childrenCount) {
+        this.$store.dispatch('setFetchingChildren', true)
+        const result = await this.$apollo.query({
+          query: GET_CHILDREN
+        })
+        const children = result.data.children
+        this.$store.dispatch('setChildren', children)
+        this.$store.dispatch('setFetchingChildren', false)
+        if (!this.$store.getters.childrenCount) {
+          this.$router.push({ name: 'newchild' })
+        }
       }
     } else {
       this.$store.dispatch('logout')
@@ -35,11 +48,4 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 </style>

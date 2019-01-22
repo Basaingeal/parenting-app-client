@@ -29,6 +29,9 @@ const getters = {
   },
   userProfile (state) {
     return state.userProfile
+  },
+  accessToken (state) {
+    return state.accessToken
   }
 }
 

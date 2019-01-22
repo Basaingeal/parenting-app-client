@@ -1,11 +1,8 @@
-mutation CreateTestChild($child: ChildInput!){
+mutation CreateChild($child: ChildInput!){
   createChild(child: $child){
     id,
     userId,
     gender,
-    dateOfBirth,
-    logs {
-      id
-    }
+    dateOfBirth
   }
 }
