@@ -3,6 +3,8 @@ mutation CreateChild($child: ChildInput!){
     id,
     userId,
     gender,
+    firstName,
+    lastName,
     dateOfBirth
   }
 }
