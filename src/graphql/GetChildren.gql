@@ -1,0 +1,13 @@
+query GetChildren{
+  children{
+    id,
+    userId,
+    gender,
+    firstName,
+    lastName,
+    dateOfBirth,
+    logs {
+      id
+    }
+  }
+}
