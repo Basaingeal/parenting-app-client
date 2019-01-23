@@ -19,9 +19,8 @@
     </v-toolbar-title>
     <v-spacer />
     <v-toolbar-items>
-      <v-hover>
+      <v-hover v-if="authenticated">
         <v-menu
-          v-if="authenticated"
           slot-scope="{ hover }"
           offset-y
           nudge-bottom="12"

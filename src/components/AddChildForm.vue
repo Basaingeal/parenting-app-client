@@ -222,6 +222,17 @@ export default {
       })
       const newChild = response.data.createChild
 
+      // if an image was added, upload it using the new id.
+      if (this.imageAdded) {
+        const formData = new FormData()
+        formData.append('file', this.$refs.babyImageInput.files[0])
+        await this.$axios.post(`childImage/${newChild.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+      }
+
       this.$store.dispatch('addChild', newChild)
       return newChild
     },
