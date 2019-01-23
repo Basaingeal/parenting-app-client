@@ -1,14 +1,21 @@
 <template>
   <v-toolbar app>
     <v-toolbar-title>
-      <img
-        src="../assets/logo.png"
-        class="my-auto"
-        height="24"
-      >
-      <span class="font-weight-regular title">
-        Nursry.APP
-      </span>
+      <v-layout>
+        <v-flex>
+          <v-img
+            :src="require('@/assets/logo.png')"
+            class="my-auto"
+            height="24"
+            width="24"
+          />
+        </v-flex>
+        <v-flex class="ml-1">
+          <span class="font-weight-regular title">
+            Nursry.APP
+          </span>
+        </v-flex>
+      </v-layout>
     </v-toolbar-title>
     <v-spacer />
     <v-toolbar-items>
@@ -18,6 +25,7 @@
           slot-scope="{ hover }"
           offset-y
           nudge-bottom="12"
+          transition="slide-y-transition"
         >
           <v-avatar
             slot="activator"

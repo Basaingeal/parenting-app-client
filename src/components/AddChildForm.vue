@@ -5,6 +5,40 @@
         row
         wrap
       >
+        <input
+          v-show="false"
+          ref="babyImageInput"
+          type="file"
+          accept="image/*"
+          @change="imagePicked"
+        >
+        <v-flex xs12>
+          <v-hover style="cursor: pointer">
+            <v-avatar
+              slot-scope="{ hover }"
+              size="144"
+              color="white"
+              @click="openFileInput"
+            >
+              <v-img
+                :src="babyImgSource"
+                height="144"
+                width="144"
+                contain
+              >
+                <v-expand-transition>
+                  <div
+                    v-if="hover"
+                    class="d-flex accent darken-2 white--text v-card--reveal caption"
+                    style="height:33%"
+                  >
+                    {{ addImageText }}
+                  </div>
+                </v-expand-transition>
+              </v-img>
+            </v-avatar>
+          </v-hover>
+        </v-flex>
         <v-flex
           xs12
           md6
@@ -132,7 +166,9 @@ export default {
           text: 'Female',
           value: 'FEMALE'
         }
-      ]
+      ],
+      babyImgSource: require('@/assets/baby-solid.svg'),
+      imageAdded: false
     }
   },
   computed: {
@@ -156,6 +192,9 @@ export default {
         ...this.nameRules,
         ...this.requiredRule('First Name')
       ]
+    },
+    addImageText () {
+      return this.imageAdded ? 'Change Image' : 'Add Image'
     }
   },
   watch: {
@@ -185,11 +224,30 @@ export default {
 
       this.$store.dispatch('addChild', newChild)
       return newChild
+    },
+    openFileInput () {
+      this.$refs.babyImageInput.click()
+    },
+    imagePicked (e) {
+      const file = e.target.files[0]
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.babyImgSource = fileReader.result
+      }
+      fileReader.readAsDataURL(file)
+      this.imageAdded = true
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .75;
+  position: absolute;
+  width: 100%;
+}
 </style>
