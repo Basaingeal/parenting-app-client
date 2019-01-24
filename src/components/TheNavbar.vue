@@ -20,6 +20,7 @@
     <v-spacer />
     <v-toolbar-items>
       <v-menu
+        v-if="authenticated"
         class="mr-3"
         offset-y
         left
