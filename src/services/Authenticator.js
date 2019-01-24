@@ -46,6 +46,6 @@ export default class Authenticator {
   }
 
   logout () {
-    this.auth0.logout({returnTo: `${window.location.protocol}//${window.location.host}/auth/logoutcallback`})
+    this.auth0.logout({ returnTo: `${window.location.protocol}//${window.location.host}/auth/logoutcallback` })
   }
 }
