@@ -1,4 +1,4 @@
-export function webPIsSupported () {
+export function isWebPSupported () {
   return new Promise((resolve, reject) => {
     const kTestImages = {
       lossy: 'UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA',
@@ -14,6 +14,6 @@ export function webPIsSupported () {
     img.onerror = function () {
       resolve(false)
     }
-    img.src = 'data:image/webp;base64,' + kTestImages['lossless']
+    img.src = 'data:image/webp;base64,' + kTestImages['lossy']
   })
 }

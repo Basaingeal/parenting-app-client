@@ -39,7 +39,7 @@ const router = new Router({
       meta: {
         middleware: auth
       },
-      component: () => import(/* webpackChunkName: "welcome" */ './views/NewChild.vue')
+      component: () => import(/* webpackChunkName: "newchild" */ './views/NewChild.vue')
     }
   ]
 })
