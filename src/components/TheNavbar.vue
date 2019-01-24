@@ -20,21 +20,18 @@
     <v-spacer />
     <v-toolbar-items>
       <v-menu
-        class="mr-2"
+        class="mr-3"
         offset-y
         left
         nudge-bottom="12"
         open-on-hover
         transition="slide-y-transition"
       >
-        <v-btn
+        <v-icon
           slot="activator"
-          icon
-        >
-          <v-icon
-            v-text="'$vuetify.icons.change'"
-          />
-        </v-btn>
+          medium
+          v-text="'$vuetify.icons.change'"
+        />
         <children-list />
       </v-menu>
       <v-hover v-if="authenticated">

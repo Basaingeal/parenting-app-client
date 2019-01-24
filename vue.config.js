@@ -14,5 +14,6 @@ module.exports = {
     name: 'Nursry.APP',
     themeColor: '#FFFFFF',
     msTileColor: '#CE93D8'
-  }
+  },
+  transpileDependencies: [/node_modules[/\\\\]vuetify[/\\\\]/]
 }
