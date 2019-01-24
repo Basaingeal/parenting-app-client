@@ -34,7 +34,7 @@ export default {
           query: GET_CHILDREN
         })
         const children = result.data.children
-        this.$store.dispatch('setChildren', children)
+        await this.$store.dispatch('setChildren', children)
         this.$store.dispatch('setFetchingChildren', false)
         if (!this.$store.getters.childrenCount) {
           this.$router.push({ name: 'newchild' })

@@ -177,11 +177,13 @@ export default {
       const lastName = this.lastName
       const gender = this.gender
       const dateOfBirthFull = `${this.dateOfBirth}T${this.timeOfBirth}`
+      const imageAdded = this.imageAdded
       return {
         firstName,
         lastName,
         dateOfBirth: format(parse(dateOfBirthFull)),
-        gender
+        gender,
+        imageAdded
       }
     },
     readableDoB () {
@@ -233,7 +235,7 @@ export default {
         })
       }
 
-      this.$store.dispatch('addChild', newChild)
+      await this.$store.dispatch('addChild', newChild)
       return newChild
     },
     openFileInput () {

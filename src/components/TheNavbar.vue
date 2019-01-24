@@ -19,10 +19,29 @@
     </v-toolbar-title>
     <v-spacer />
     <v-toolbar-items>
+      <v-menu
+        class="mr-2"
+        offset-y
+        left
+        nudge-bottom="12"
+        open-on-hover
+        transition="slide-y-transition"
+      >
+        <v-btn
+          slot="activator"
+          icon
+        >
+          <v-icon
+            v-text="'$vuetify.icons.change'"
+          />
+        </v-btn>
+        <children-list />
+      </v-menu>
       <v-hover v-if="authenticated">
         <v-menu
           slot-scope="{ hover }"
           offset-y
+          left
           nudge-bottom="12"
           transition="slide-y-transition"
         >
@@ -60,14 +79,16 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import TheAccountCard from './TheAccountCard'
+import ChildrenList from './ChildrenList'
 
 export default {
   name: 'TheNavbar',
   components: {
-    TheAccountCard
+    TheAccountCard,
+    ChildrenList
   },
   computed: {
-    ...mapGetters(['authenticated', 'profileImgSource'])
+    ...mapGetters(['authenticated', 'profileImgSource', 'childrenCount'])
   },
   methods: {
     ...mapActions(['login', 'fullLogout'])

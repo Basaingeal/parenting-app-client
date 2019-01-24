@@ -5,6 +5,7 @@ mutation CreateChild($child: ChildInput!){
     gender,
     firstName,
     lastName,
-    dateOfBirth
+    dateOfBirth,
+    imageAdded
   }
 }

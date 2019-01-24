@@ -1,3 +1,5 @@
+import { isWebPSupported } from '@/services/SupportManager'
+
 const state = {
   children: [],
   currentChildId: window.localStorage.getItem('current_child_id') || null,
@@ -6,13 +8,24 @@ const state = {
 
 const getters = {
   currentChild (state) {
-    return state.children.find(c => c.id === state.currentChildId)
+    const foundChild = state.children.find(c => c.id === state.currentChildId)
+    if (foundChild) {
+      return foundChild
+    }
+    if (state.children.length > 0) {
+      const firstChild = state.children[0]
+      return firstChild
+    }
+    return null
   },
   childrenCount (state) {
     return state.children.length
   },
   fetchingChildren (state) {
     return state.fetchingChildren
+  },
+  children (state) {
+    return state.children
   }
 }
 
@@ -29,18 +42,35 @@ const mutations = {
   },
   setFetchingChildren (state, isFetching) {
     state.fetchingChildren = isFetching
+  },
+  currentChildId (state, currentChildId) {
+    state.currentChildId = currentChildId
   }
 }
 
 const actions = {
-  addChild ({ commit }, child) {
+  async addChild ({ commit }, child) {
+    const webPSupport = await isWebPSupported()
+    child.src = webPSupport
+      ? `${process.env.VUE_APP_SERVER}childImage/${child.id}`
+      : `${process.env.VUE_APP_SERVER}childImage/png/${child.id}`
     commit('newChild', child)
   },
-  setChildren ({ commit }, children) {
+  async setChildren ({ commit }, children) {
+    const webPSupport = await isWebPSupported()
+    children = children.map(child => ({
+      ...child,
+      src: webPSupport
+        ? `${process.env.VUE_APP_SERVER}childImage/${child.id}`
+        : `${process.env.VUE_APP_SERVER}childImage/png/${child.id}`
+    }))
     commit('setChildren', children)
   },
   setFetchingChildren ({ commit }, isFetching) {
     commit('setFetchingChildren', isFetching)
+  },
+  setCurrentChild ({ commit }, childId) {
+    commit('currentChildId', childId)
   }
 }
 

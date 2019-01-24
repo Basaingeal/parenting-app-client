@@ -7,7 +7,6 @@ import store from './store/index'
 import './registerServiceWorker'
 
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
-import '@fortawesome/fontawesome-free/css/all.css'
 import { createProvider } from './vue-apollo'
 
 Vue.config.productionTip = false

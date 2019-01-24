@@ -1,45 +1,48 @@
 <template>
-  <div class="children-list">
-    <div
+  <v-list>
+    <v-list-tile
       v-for="child in children"
       :key="child.id"
-      class="child"
+      avatar
+      :disabled="child.id === currentChild.id"
+      @click="setCurrentChild(child.id)"
     >
-      <p>{{ child.firstName }}</p>
-      <p>{{ child.lastName }}</p>
-      <v-avatar size="48">
+      <v-list-tile-avatar>
         <v-img
-          height="48"
-          width="48"
+          v-if="child.imageAdded"
           :src="child.src"
         />
-      </v-avatar>
-    </div>
-  </div>
+      </v-list-tile-avatar>
+      <v-list-tile-content>
+        <v-list-tile-title>{{ child.firstName }} {{ child.lastName }}</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+    <v-list-tile
+      avatar
+      to="newchild"
+    >
+      <v-list-tile-avatar>
+        <v-icon
+          medium
+          v-text="'$vuetify.icons.plus'"
+        />
+      </v-list-tile-avatar>
+      <v-list-tile-content>
+        <v-list-tile-title>New Child</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+  </v-list>
 </template>
 
 <script>
-import GET_CHILDREN from '@/graphql/GetChildren.gql'
-import { isWebPSupported } from '@/services/SupportManager'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'ChildrenList',
-  data () {
-    return {
-      webPSupport: false,
-      children: []
-    }
+  computed: {
+    ...mapGetters(['children', 'currentChild'])
   },
-  async created () {
-    this.webPSupport = await isWebPSupported()
-    const childrenResult = await this.$apollo.query({
-      query: GET_CHILDREN
-    })
-    for (let child of childrenResult.data.children) {
-      child.src = this.webPSupport
-        ? `${process.env.VUE_APP_SERVER}childImage/${child.id}`
-        : `${process.env.VUE_APP_SERVER}childImage/png/${child.id}`
-    }
-    this.children = childrenResult.data.children
+  methods: {
+    ...mapActions(['setCurrentChild'])
   }
 }
 </script>
