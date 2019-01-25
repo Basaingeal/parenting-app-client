@@ -67,9 +67,9 @@
     }
   },
   "browserslist": [
-    "> 1%",
     "last 2 versions",
     "Firefox ESR",
-    "not < 0.1%"
+    "not < 0.5%",
+    "not ie 11"
   ]
 }
