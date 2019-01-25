@@ -1,0 +1,11 @@
+mutation CreateBreastFeedingLog($log: BreastFeedingLogInput!){
+  createBreastFeedingLog(log: $log) {
+    userId,
+    details,
+    startTime,
+    endTime,
+    lastBreastUsed,
+    leftBreastDuration,
+    rightBreastDuration
+  }
+}

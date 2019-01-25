@@ -45,6 +45,10 @@ const mutations = {
   },
   currentChildId (state, currentChildId) {
     state.currentChildId = currentChildId
+  },
+  newChildLog (state, newLog) {
+    const currentChild = state.children.find(c => c.id === state.currentChildId)
+    currentChild.logs.push(newLog)
   }
 }
 
@@ -71,6 +75,9 @@ const actions = {
   },
   setCurrentChild ({ commit }, childId) {
     commit('currentChildId', childId)
+  },
+  newChildLog ({commit }, newLog) {
+    commit('newChildLog', newLog)
   }
 }
 

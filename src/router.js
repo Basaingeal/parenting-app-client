@@ -40,6 +40,14 @@ const router = new Router({
         middleware: auth
       },
       component: () => import(/* webpackChunkName: "newchild" */ './views/NewChild.vue')
+    },
+    {
+      path: '/log/newbreastfeedinglog',
+      name: 'newbreastfeedinglog',
+      meta: {
+        middleware: auth
+      },
+      component: () => import(/* webpackChunkName: "newbreastfeedinglog" */ './views/log/NewBreastFeedingLog.vue')
     }
   ]
 })

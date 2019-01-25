@@ -24,8 +24,9 @@
       <v-list-tile-avatar>
         <v-icon
           medium
-          v-text="'$vuetify.icons.plus'"
-        />
+        >
+          fas fa-plus
+        </v-icon>
       </v-list-tile-avatar>
       <v-list-tile-content>
         <v-list-tile-title>New Child</v-list-tile-title>

@@ -1,43 +1,93 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-flex>
-        <v-layout column>
-          <v-flex>
-            <p>{{ leftDisplay }}</p>
-          </v-flex>
-          <v-flex>
-            <v-btn @click="leftButtonClick">
-              <v-icon
-                v-if="!leftTimerRunning"
-                v-text="'$vuetify.icons.play'"
-              />
-              <v-icon
-                v-if="leftTimerRunning"
-                v-text="'$vuetify.icons.pause'"
-              />
-              {{ leftTimerRunning ? 'Pause' : 'Start' }}
-            </v-btn>
-          </v-flex>
-        </v-layout>
+  <v-container fill-height>
+    <v-layout
+      column
+      align-center
+      justify-center
+    >
+      <v-flex
+        shrink
+        class="my-auto"
+      >
+        <span class="display-2">
+          {{ toTimerString(new Date(totalMilliseconds)) }}
+        </span>
       </v-flex>
-      <v-flex>
-        <v-layout column>
+      <v-flex
+        shrink
+        style="width:100%"
+      >
+        <v-layout
+          row
+          justify-space-around
+        >
           <v-flex>
-            <p>{{ rightDisplay }}</p>
+            <v-layout
+              column
+              align-center
+            >
+              <v-flex>
+                <span class="display-1">
+                  {{ leftDisplay }}
+                </span>
+              </v-flex>
+              <v-flex>
+                <v-btn
+                  :color="leftTimerRunning ? 'primary' : ''"
+                  @click="leftButtonClick"
+                >
+                  <v-icon
+                    v-if="!leftTimerRunning"
+                    small
+                  >
+                    fas fa-play
+                  </v-icon>
+                  <v-icon
+                    v-if="leftTimerRunning"
+                    small
+                  >
+                    fas fa-pause
+                  </v-icon>
+                  <span class="ml-2">
+                    Left
+                  </span>
+                </v-btn>
+              </v-flex>
+            </v-layout>
           </v-flex>
           <v-flex>
-            <v-btn @click="rightButtonClick">
-              <v-icon
-                v-if="!rightTimerRunning"
-                v-text="'$vuetify.icons.play'"
-              />
-              <v-icon
-                v-if="rightTimerRunning"
-                v-text="'$vuetify.icons.pause'"
-              />
-              {{ rightTimerRunning ? 'Pause' : 'Start' }}
-            </v-btn>
+            <v-layout
+              column
+              align-center
+            >
+              <v-flex>
+                <span class="display-1">
+                  {{ rightDisplay }}
+                </span>
+              </v-flex>
+              <v-flex>
+                <v-btn
+                  :color="rightTimerRunning ? 'primary' : ''"
+                  @click="rightButtonClick"
+                >
+                  <v-icon
+                    v-if="!rightTimerRunning"
+                    small
+                  >
+                    fas fa-play
+                  </v-icon>
+                  <v-icon
+                    v-if="rightTimerRunning"
+                    small
+                  >
+                    fas fa-pause
+                  </v-icon>
+                  <span class="ml-2">
+                    Right
+                  </span>
+                </v-btn>
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -57,40 +107,73 @@ export default {
       now: new Date(),
       counter: 0,
       leftDurations: [],
-      rightDurations: []
+      rightDurations: [],
+      timerStarted: false,
+      startTime: null,
+      lastTimerUsed: null,
+      endTime: null
     }
   },
   computed: {
-    leftDisplay () {
+    leftMilliseconds () {
       let milliseconds = 0
       for (let duration of this.leftDurations) {
         const startTime = duration.startTime
         const endTime = duration.endTime || this.now
         milliseconds += endTime - startTime
       }
-
-      return this.toTimerString(new Date(milliseconds))
+      return milliseconds
     },
-    rightDisplay () {
+    rightMilliseconds () {
       let milliseconds = 0
       for (let duration of this.rightDurations) {
         const startTime = duration.startTime
         const endTime = duration.endTime || this.now
         milliseconds += endTime - startTime
       }
-
-      return this.toTimerString(new Date(milliseconds))
+      return milliseconds
+    },
+    totalMilliseconds () {
+      return this.leftMilliseconds + this.rightMilliseconds
+    },
+    leftDisplay () {
+      return this.toTimerString(new Date(this.leftMilliseconds))
+    },
+    rightDisplay () {
+      return this.toTimerString(new Date(this.rightMilliseconds))
+    },
+    outputData () {
+      const leftDuration = Math.floor(this.leftMilliseconds / 1000)
+      const rightDuration = Math.floor(this.rightMilliseconds / 1000)
+      const endTime = this.endTime
+      const lastTimerUsed = this.lastTimerUsed
+      const timerRunning = this.leftTimerRunning || this.rightTimerRunning
+      return {
+        leftDuration,
+        rightDuration,
+        endTime,
+        lastTimerUsed,
+        timerRunning
+      }
+    }
+  },
+  watch: {
+    timerStarted () {
+      this.startTime = new Date()
+      this.$emit('timerStarted')
     }
   },
   created () {
-    window.setInterval(() => { this.now = new Date() }, 16.67)
+    window.setInterval(() => { this.now = new Date() }, 500)
   },
   methods: {
     startLeftTimer () {
+      this.timerStarted = true
+      this.leftTimerRunning = true
       this.stopRightTimer()
+      this.lastTimerUsed = 'LEFT'
 
       this.counter++
-      this.leftTimerRunning = true
       this.leftDurations.push({
         counter: this.counter,
         startTime: new Date(),
@@ -100,15 +183,20 @@ export default {
     stopLeftTimer () {
       this.leftTimerRunning = false
       const currentDuration = this.leftDurations.find(d => d.counter === this.counter)
+      const endTime = new Date()
       if (currentDuration) {
-        currentDuration.endTime = new Date()
+        currentDuration.endTime = currentDuration.endTime || endTime
       }
+      this.endTime = endTime
+      this.$emit('timerStopped', this.outputData)
     },
     startRightTimer () {
+      this.timerStarted = true
+      this.rightTimerRunning = true
       this.stopLeftTimer()
+      this.lastTimerUsed = 'RIGHT'
 
       this.counter++
-      this.rightTimerRunning = true
       this.rightDurations.push({
         counter: this.counter,
         startTime: new Date(),
@@ -118,9 +206,12 @@ export default {
     stopRightTimer () {
       this.rightTimerRunning = false
       const currentDuration = this.rightDurations.find(d => d.counter === this.counter)
+      const endTime = new Date()
       if (currentDuration) {
-        currentDuration.endTime = new Date()
+        currentDuration.endTime = currentDuration.endTime || endTime
       }
+      this.endTime = endTime
+      this.$emit('timerStopped', this.outputData)
     },
     leftButtonClick () {
       if (this.leftTimerRunning) {
