@@ -15,30 +15,17 @@
 
 <script>
 import TheNavbar from '@/components/TheNavbar'
-import GET_CHILDREN from '@/graphql/GetChildren.gql'
 
 export default {
   components: {
     TheNavbar
   },
   async created () {
+    await this.$store.dispatch('checkWebPSupport')
     if (this.$store.getters.authenticated) {
       this.$store.dispatch('scheduleRenewal')
       if (this.$store.state.userProfile == null) {
         this.$store.dispatch('refreshProfile')
-      }
-
-      if (!this.$store.getters.childrenCount) {
-        this.$store.dispatch('setFetchingChildren', true)
-        const result = await this.$apollo.query({
-          query: GET_CHILDREN
-        })
-        const children = result.data.children
-        await this.$store.dispatch('setChildren', children)
-        this.$store.dispatch('setFetchingChildren', false)
-        if (!this.$store.getters.childrenCount) {
-          this.$router.push({ name: 'newchild' })
-        }
       }
     } else {
       this.$store.dispatch('logout')

@@ -149,6 +149,7 @@ import { mapGetters } from 'vuex'
 import { format, parse, isBefore } from 'date-fns'
 import DualTimer from '@/components/DualTimer.vue'
 import CREATE_BREAST_FEEDING_LOG from '@/graphql/CreateBreastFeedingLog.gql'
+import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 
 export default {
   name: 'NewBreastFeedingLog',
@@ -174,7 +175,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentChild']),
+    ...mapGetters(['currentChildId']),
     startDateFormatted () {
       if (!this.startDate) {
         return ''
@@ -195,7 +196,7 @@ export default {
       const endDateISO = format(parse(`${this.endDate}T${this.endTime}`))
       return {
         details: '',
-        childId: this.currentChild.id,
+        childId: this.currentChildId,
         startTime: startDateISO,
         endTime: endDateISO,
         leftBreastDuration: this.leftDuration,
@@ -241,15 +242,28 @@ export default {
       this.timerRunning = data.timerRunning
     },
     async saveLog () {
-      const response = await this.$apollo.mutate({
+      await this.$apollo.mutate({
         mutation: CREATE_BREAST_FEEDING_LOG,
         variables: {
           log: this.logToSave
+        },
+        update (cache, { data: { createBreastFeedingLog } }) {
+          const data = cache.readQuery({
+            query: GET_CHILD_WITH_EVERYTHING,
+            variables () {
+              return {
+                id: this.currentChildId
+              }
+            }
+          })
+          data.child.logs.push(createBreastFeedingLog)
+          cache.writeQuery({
+            query: GET_CHILD_WITH_EVERYTHING,
+            data
+          })
         }
       })
 
-      const newLog = response.data.createBreastFeedingLog
-      this.$store.dispatch('newChildLog', newLog)
       this.$router.push({ name: 'home' })
     }
   }

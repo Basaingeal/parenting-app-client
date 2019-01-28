@@ -4,7 +4,7 @@
       v-for="child in children"
       :key="child.id"
       avatar
-      :disabled="child.id === currentChild.id"
+      :disabled="child.id === currentChildId"
       @click="setCurrentChild(child.id)"
     >
       <v-list-tile-avatar>
@@ -37,13 +37,27 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import GET_CHILDREN from '@/graphql/GetChildren.gql'
 export default {
   name: 'ChildrenList',
   computed: {
-    ...mapGetters(['children', 'currentChild'])
+    ...mapGetters(['currentChildId', 'canUseWebP'])
   },
   methods: {
     ...mapActions(['setCurrentChild'])
+  },
+  apollo: {
+    children: {
+      query: GET_CHILDREN,
+      update (data) {
+        data.children = data.children.map(child => {
+          const pngPath = this.canUseWebP ? '' : 'png/'
+          child.src = `${process.env.VUE_APP_SERVER}childImage/${pngPath}${child.id}`
+          return child
+        })
+        return data.children
+      }
+    }
   }
 }
 </script>

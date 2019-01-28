@@ -141,6 +141,8 @@
 import format from 'date-fns/format'
 import { isBefore, parse } from 'date-fns'
 import CREATE_CHILD from '@/graphql/CreateChild.gql'
+import GET_CHILDREN from '@/graphql/GetChildren.gql'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AddChildForm',
@@ -205,6 +207,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions,
     requiredRule: (fieldName) => [
       v => !!v || `${fieldName} is required`
     ],
@@ -220,10 +223,17 @@ export default {
         mutation: CREATE_CHILD,
         variables: {
           child: this.childInputModel
+        },
+        update (cache, { data: { createChild } }) {
+          const { children } = cache.readQuery({ query: GET_CHILDREN })
+          cache.writeQuery({
+            query: GET_CHILDREN,
+            data: { children: [...children, createChild] }
+          })
         }
       })
       const newChild = response.data.createChild
-
+      this.setCurrentChild(newChild.id)
       // if an image was added, upload it using the new id.
       if (this.imageAdded) {
         const formData = new FormData()
@@ -235,7 +245,6 @@ export default {
         })
       }
 
-      await this.$store.dispatch('addChild', newChild)
       return newChild
     },
     openFileInput () {

@@ -1,0 +1,27 @@
+query GetChildWithEverything($id: ID!){
+  child(id: $id){
+    id,
+    userId,
+    firstName,
+    lastName,
+    dateOfBirth,
+    gender,
+    imageAdded,
+    logs {
+      id,
+      details,
+      ... on BreastFeedingLog {
+        startTime,
+        endTime,
+        feedingType,
+        leftBreastDuration,
+        rightBreastDuration
+      },
+      ... on BottleFeedingLog {
+        startTime,
+        amount,
+        bottleContent
+      }
+    }
+  }
+}
