@@ -9,7 +9,7 @@
       <v-card-text>
         Renewing login
         <v-progress-linear
-          v-model="progress"
+          indeterminate
           color="primary"
           class="mb-0"
         />
@@ -26,28 +26,6 @@ export default {
       default: true,
       required: true
     }
-  },
-  data () {
-    return {
-      progress: 0
-    }
-  },
-  watch: {
-    showDialog (val) {
-      if (!val) {
-        this.progress = 100
-      } else {
-        this.progress = 0
-      }
-    }
-  },
-  created () {
-    const intervalId = window.setInterval(() => {
-      this.progress++
-      if (this.progress === 100) {
-        window.clearInterval(intervalId)
-      }
-    }, 25)
   }
 }
 </script>
