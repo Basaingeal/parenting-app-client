@@ -7,7 +7,7 @@ export default {
   name: 'LogoutCallback',
   mounted () {
     this.$nextTick(() => {
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'welcome' })
     })
   }
 }

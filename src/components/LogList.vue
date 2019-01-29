@@ -5,7 +5,7 @@
       :key="log.id"
     >
       <v-list-tile-content>
-        <v-list-tile-title>{{ log.__typename }}: {{ log.startTime }}</v-list-tile-title>
+        <v-list-tile-title>{{ log.__typename }}: {{ log.startTime | toFullDateTime }}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
   </v-list>
@@ -14,9 +14,13 @@
 <script>
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import { mapGetters } from 'vuex'
+import { toFullDateTime } from '@/services/DateFilters'
 
 export default {
   name: 'LogList',
+  filters: {
+    toFullDateTime
+  },
   computed: {
     ...mapGetters(['currentChildId'])
   },

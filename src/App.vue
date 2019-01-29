@@ -1,16 +1,18 @@
 <template>
   <div id="app">
     <v-app>
-      <div v-if="authCheckComplete">
-        <the-navbar v-if="!isCallbackPage" />
-        <v-content>
-          <v-container
-            fill-height
-          >
-            <router-view />
-          </v-container>
-        </v-content>
-      </div>
+      <v-slide-y-transition>
+        <div v-if="authCheckComplete">
+          <the-navbar />
+          <v-content>
+            <v-container
+              fill-height
+            >
+              <router-view />
+            </v-container>
+          </v-content>
+        </div>
+      </v-slide-y-transition>
       <v-content v-if="!authCheckComplete">
         <the-token-loader :show-dialog="renewingToken" />
       </v-content>
@@ -31,7 +33,6 @@ export default {
   data () {
     return {
       authCheckComplete: false,
-      isCallbackPage: this.$route.path.includes('auth/'),
       renewingToken: false
     }
   },
@@ -39,14 +40,14 @@ export default {
     ...mapGetters(['authenticated'])
   },
   async created () {
-    if (!this.isCallbackPage) {
-      if (this.authenticated) {
-        this.renewingToken = true
-        await this.renewToken()
-        this.renewingToken = false
-      } else {
-        this.logout()
-      }
+    const isCallbackPage = window.location.href.includes('auth/')
+    const hasLoggedInBefore = window.localStorage.getItem('has_logged_in_on_browser')
+    if (!isCallbackPage && hasLoggedInBefore) {
+      this.renewingToken = true
+      await this.renewToken()
+      this.renewingToken = false
+    } else if (!hasLoggedInBefore) {
+      this.$router.push({ name: 'welcome' })
     }
     this.authCheckComplete = true
     await this.checkWebPSupport()

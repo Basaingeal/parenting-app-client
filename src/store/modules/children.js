@@ -17,7 +17,11 @@ const getters = {
 const mutations = {
   currentChildId (state, currentChildId) {
     state.currentChildId = currentChildId
-    window.localStorage.setItem('current_child_id', currentChildId)
+    if (currentChildId) {
+      window.localStorage.setItem('current_child_id', currentChildId)
+    } else {
+      window.localStorage.removeItem('current_child_id')
+    }
   },
   canUseWebP (state, hasSupport) {
     state.canUseWebP = hasSupport

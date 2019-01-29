@@ -54,6 +54,10 @@ export default {
           child.src = `${process.env.VUE_APP_SERVER}childImage/${child.id}`
           return child
         })
+
+        if (!this.currentChildId && data.children.length) {
+          this.setCurrentChild(data.children[data.children.length - 1].id)
+        }
         return data.children
       }
     }

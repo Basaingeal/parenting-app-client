@@ -1,4 +1,5 @@
 import Authenticator from '@/services/Authenticator'
+import router from '@/router.js'
 
 const auth = new Authenticator()
 const localStorage = window.localStorage
@@ -11,8 +12,8 @@ const state = {
 }
 
 const getters = {
-  authenticated (state, getters) {
-    return getters.timeUntilExpired > 0
+  authenticated (state) {
+    return !!state.accessToken
   },
   timeUntilExpired (state) {
     if (!state.expiresAt) {
@@ -45,7 +46,7 @@ const mutations = {
     localStorage.setItem('expires_at', state.expiresAt)
   },
 
-  logout (state) {
+  logout (state, redirect = true) {
     state.accessToken = null
     state.idToken = false
     clearInterval(state.tokenRenewalTimeoutId)
@@ -53,6 +54,9 @@ const mutations = {
     state.userProfile = null
 
     localStorage.removeItem('expires_at')
+    if (redirect) {
+      router.push({ name: 'welcome' })
+    }
   },
 
   tokenRenewalTimeoutId (state, id) {
@@ -66,15 +70,17 @@ const mutations = {
 
 const actions = {
   login () {
+    localStorage.setItem('has_logged_in_on_browser', true)
     auth.login()
   },
 
   logout ({ commit }) {
-    commit('logout')
+    commit('logout', true)
   },
 
   fullLogout ({ commit }) {
-    commit('logout')
+    commit('logout', false)
+    commit('currentChildId', null)
     auth.logout()
   },
 
@@ -91,10 +97,10 @@ const actions = {
   scheduleRenewal ({ commit, state, dispatch }) {
     const expiresAt = JSON.parse(state.expiresAt)
     const delay = expiresAt - Date.now()
-    if (delay > 0) {
+    if (delay > 5000) {
       const tokenRenewalTimeoutId = setTimeout(async () => {
         await dispatch('renewToken')
-      }, delay)
+      }, delay - 5000)
       commit('tokenRenewalTimeoutId', tokenRenewalTimeoutId)
     } else {
       dispatch('logout')
@@ -110,7 +116,7 @@ const actions = {
       dispatch('refreshProfile')
     } catch (error) {
       console.log(error)
-      commit('logout')
+      commit('logout', true)
     }
   },
 
@@ -120,7 +126,7 @@ const actions = {
       commit('userProfile', userProfile)
     } catch (error) {
       console.error(error)
-      commit('logout')
+      commit('logout', true)
     }
   }
 }
