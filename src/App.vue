@@ -1,13 +1,18 @@
 <template>
   <div id="app">
     <v-app>
-      <the-navbar v-if="!$route.path.includes('auth/')" />
-      <v-content>
-        <v-container
-          fill-height
-        >
-          <router-view />
-        </v-container>
+      <div v-if="authCheckComplete">
+        <the-navbar v-if="!isCallbackPage" />
+        <v-content>
+          <v-container
+            fill-height
+          >
+            <router-view />
+          </v-container>
+        </v-content>
+      </div>
+      <v-content v-if="!authCheckComplete">
+        <the-token-loader :show-dialog="renewingToken" />
       </v-content>
     </v-app>
   </div>
@@ -15,21 +20,39 @@
 
 <script>
 import TheNavbar from '@/components/TheNavbar'
+import TheTokenLoader from '@/components/TheTokenLoader'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
-    TheNavbar
+    TheNavbar,
+    TheTokenLoader
+  },
+  data () {
+    return {
+      authCheckComplete: false,
+      isCallbackPage: this.$route.path.includes('auth/'),
+      renewingToken: false
+    }
+  },
+  computed: {
+    ...mapGetters(['authenticated'])
   },
   async created () {
-    await this.$store.dispatch('checkWebPSupport')
-    if (this.$store.getters.authenticated) {
-      this.$store.dispatch('scheduleRenewal')
-      if (this.$store.state.userProfile == null) {
-        this.$store.dispatch('refreshProfile')
+    if (!this.isCallbackPage) {
+      if (this.authenticated) {
+        this.renewingToken = true
+        await this.renewToken()
+        this.renewingToken = false
+      } else {
+        this.logout()
       }
-    } else {
-      this.$store.dispatch('logout')
     }
+    this.authCheckComplete = true
+    await this.checkWebPSupport()
+  },
+  methods: {
+    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken'])
   }
 }
 </script>

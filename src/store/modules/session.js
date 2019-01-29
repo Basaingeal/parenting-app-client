@@ -3,11 +3,11 @@ import Authenticator from '@/services/Authenticator'
 const auth = new Authenticator()
 const localStorage = window.localStorage
 const state = {
-  idToken: localStorage.getItem('id_token'),
+  idToken: null,
   expiresAt: localStorage.getItem('expires_at'),
   tokenRenewalTimeoutId: null,
-  userProfile: JSON.parse(localStorage.getItem('user_profile')),
-  accessToken: localStorage.getItem('access_token')
+  userProfile: null,
+  accessToken: null
 }
 
 const getters = {
@@ -24,7 +24,7 @@ const getters = {
     if (state.userProfile) {
       return state.userProfile.picture
     } else {
-      return null
+      return ''
     }
   },
   userProfile (state) {
@@ -42,10 +42,7 @@ const mutations = {
     state.userProfile = authData.idTokenPayload
     state.expiresAt = authData.expiresIn * 1000 + new Date().getTime()
 
-    localStorage.setItem('id_token', state.idToken)
     localStorage.setItem('expires_at', state.expiresAt)
-    localStorage.setItem('user_profile', JSON.stringify(state.userProfile))
-    localStorage.setItem('access_token', state.accessToken)
   },
 
   logout (state) {
@@ -55,10 +52,7 @@ const mutations = {
     state.tokenRenewalTimeoutId = null
     state.userProfile = null
 
-    localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
-    localStorage.removeItem('user_profile')
-    localStorage.removeItem('access_token')
   },
 
   tokenRenewalTimeoutId (state, id) {
