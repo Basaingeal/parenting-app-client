@@ -51,8 +51,7 @@ export default {
       query: GET_CHILDREN,
       update (data) {
         data.children = data.children.map(child => {
-          const pngPath = this.canUseWebP ? '' : 'png/'
-          child.src = `${process.env.VUE_APP_SERVER}childImage/${pngPath}${child.id}`
+          child.src = `${process.env.VUE_APP_SERVER}childImage/${child.id}`
           return child
         })
         return data.children
