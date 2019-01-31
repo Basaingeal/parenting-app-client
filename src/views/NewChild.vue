@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     updateGender (newGender) {
-      newGender === 'MALE' ? this.pronoun = 'his' : this.pronoun = 'her'
+      newGender === 'FEMALE' ? this.pronoun = 'her' : this.pronoun = 'his'
     }
   }
 }

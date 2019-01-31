@@ -48,6 +48,8 @@
             :rules="firstNameRules"
             label="First Name"
             required
+            hint="Required"
+            outline
           />
         </v-flex>
         <v-flex
@@ -58,6 +60,7 @@
             v-model="lastName"
             :rules="nameRules"
             label="Last Name (optional)"
+            outline
           />
         </v-flex>
         <v-flex
@@ -76,6 +79,9 @@
               label="Date of Birth"
               readonly
               required
+              outline
+              clearable
+              prepend-inner-icon="far fa-calendar"
               :rules="requiredRule('Date of Birth')"
             />
             <v-date-picker
@@ -101,6 +107,9 @@
               v-model="timeOfBirth"
               label="Time of Birth"
               readonly
+              clearable
+              outline
+              prepend-inner-icon="far fa-clock"
             />
             <v-time-picker
               v-model="timeOfBirth"
@@ -117,16 +126,16 @@
             :items="genders"
             :rules="requiredRule('Gender')"
             label="Gender"
+            outline
           />
         </v-flex>
         <v-flex
           xs12
-          md2
         >
           <v-btn
             color="primary"
             :disabled="!valid"
-            block
+            :block="!$vuetify.breakpoint.mdAndUp"
             @click="submitForm"
           >
             Add Child

@@ -1,9 +1,9 @@
-import auth0 from 'auth0-js'
+import { WebAuth } from 'auth0-js'
 
 export default class Authenticator {
   constructor () {
     this.domain = 'basaingeal.auth0.com'
-    this.auth0 = new auth0.WebAuth({
+    this.auth0 = new WebAuth({
       domain: this.domain,
       clientID: 'azsRdIUydF66WsEjdQaClnrAonfBUExE',
       redirectUri: `${window.location.protocol}//${window.location.host}/auth/logincallback`,
