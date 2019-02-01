@@ -15,7 +15,8 @@ query GetChildWithEverything($id: ID!){
         endTime,
         feedingType,
         leftBreastDuration,
-        rightBreastDuration
+        rightBreastDuration,
+        lastBreastUsed
       },
       ... on BottleFeedingLog {
         startTime,

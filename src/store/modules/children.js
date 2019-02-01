@@ -2,7 +2,8 @@ import { isWebPSupported } from '@/services/SupportManager'
 
 const state = {
   currentChildId: window.localStorage.getItem('current_child_id') || null,
-  canUseWebP: window.localStorage.getItem('can_use_webp') || false
+  canUseWebP: window.localStorage.getItem('can_use_webp') || false,
+  now: new Date()
 }
 
 const getters = {
@@ -26,6 +27,9 @@ const mutations = {
   canUseWebP (state, hasSupport) {
     state.canUseWebP = hasSupport
     window.localStorage.setItem('can_use_webp', hasSupport)
+  },
+  updateNow (state) {
+    state.now = new Date()
   }
 }
 
@@ -36,6 +40,9 @@ const actions = {
   async checkWebPSupport ({ commit }) {
     const hasSupport = await isWebPSupported()
     commit('canUseWebP', hasSupport)
+  },
+  startNowTimer ({ commit }) {
+    window.setInterval(() => commit('updateNow'), 1000)
   }
 }
 

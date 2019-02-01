@@ -5,11 +5,7 @@
         <div v-if="authCheckComplete">
           <the-navbar />
           <v-content>
-            <v-container
-              fill-height
-            >
-              <router-view />
-            </v-container>
+            <router-view />
           </v-content>
         </div>
       </v-slide-y-transition>
@@ -26,6 +22,7 @@ import TheTokenLoader from '@/components/TheTokenLoader'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  name: 'App',
   components: {
     TheNavbar,
     TheTokenLoader
@@ -40,6 +37,7 @@ export default {
     ...mapGetters(['authenticated'])
   },
   async created () {
+    this.startNowTimer()
     const isCallbackPage = window.location.href.includes('auth/')
     const hasLoggedInBefore = window.localStorage.getItem('has_logged_in_on_browser')
     if (!isCallbackPage && hasLoggedInBefore) {
@@ -53,7 +51,7 @@ export default {
     await this.checkWebPSupport()
   },
   methods: {
-    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken'])
+    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer'])
   }
 }
 </script>

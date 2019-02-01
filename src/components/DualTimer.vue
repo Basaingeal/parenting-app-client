@@ -27,9 +27,19 @@
               align-center
             >
               <v-flex>
-                <span class="display-1">
-                  {{ leftDisplay }}
-                </span>
+                <v-badge
+                  color="info"
+                  :value="lastSideUsed === 'LEFT' && !timerStarted"
+                >
+                  <v-icon slot="badge">
+                    fas fa-angle-double-left
+                  </v-icon>
+                  <span
+                    class="display-1"
+                  >
+                    {{ leftDisplay }}
+                  </span>
+                </v-badge>
               </v-flex>
               <v-flex>
                 <v-btn
@@ -61,9 +71,19 @@
               align-center
             >
               <v-flex>
-                <span class="display-1">
-                  {{ rightDisplay }}
-                </span>
+                <v-badge
+                  color="info"
+                  :value="lastSideUsed === 'RIGHT' && !timerStarted"
+                >
+                  <v-icon slot="badge">
+                    fas fa-angle-double-left
+                  </v-icon>
+                  <span
+                    class="display-1"
+                  >
+                    {{ rightDisplay }}
+                  </span>
+                </v-badge>
               </v-flex>
               <v-flex>
                 <v-btn
@@ -99,6 +119,13 @@
 
 export default {
   name: 'DualTimer',
+  props: {
+    lastSideUsed: {
+      type: String,
+      required: false,
+      default: ''
+    }
+  },
   data () {
     return {
       leftTimerRunning: false,
