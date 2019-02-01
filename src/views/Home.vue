@@ -1,35 +1,45 @@
 <template>
-  <div>
+  <v-container
+    fluid
+  >
     <log-list v-if="validCurrentChildId" />
+
     <v-speed-dial
       v-model="fab"
       transition="slide-y-reverse-transition"
       bottom
       right
+      open-on-hover
     >
       <v-btn
         slot="activator"
         v-model="fab"
-        color="primary"
-        dark
+        light
         fab
       >
         <v-icon>fas fa-plus</v-icon>
         <v-icon>fas fa-chevron-down</v-icon>
       </v-btn>
-      <v-btn
-        fab
-        dark
-        small
+      <v-tooltip
         color="light-blue"
-        :to="{ name: 'newbreastfeedinglog'}"
+        left
       >
-        <v-icon>
-          fas fa-utensils
-        </v-icon>
-      </v-btn>
+        <v-btn
+          slot="activator"
+          fab
+          dark
+          small
+          color="light-blue"
+          :to="{ name: 'newbreastfeedinglog'}"
+        >
+          <v-icon>
+            fas fa-utensils
+          </v-icon>
+        </v-btn>
+        <span>Add Breastfeeding Log</span>
+      </v-tooltip>
     </v-speed-dial>
-  </div>
+  </v-container>
 </template>
 
 <script>

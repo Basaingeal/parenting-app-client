@@ -1,16 +1,12 @@
 <template>
   <div id="app">
     <v-app>
-      <v-slide-y-transition>
-        <div v-if="authCheckComplete">
-          <the-navbar />
-          <v-content>
-            <router-view />
-          </v-content>
+      <the-navbar v-if="authCheckComplete" />
+      <v-content>
+        <router-view v-if="authCheckComplete" />
+        <div v-if="!authCheckComplete">
+          <the-token-loader :show-dialog="renewingToken" />
         </div>
-      </v-slide-y-transition>
-      <v-content v-if="!authCheckComplete">
-        <the-token-loader :show-dialog="renewingToken" />
       </v-content>
     </v-app>
   </div>
