@@ -16,10 +16,7 @@
       Manual
     </v-tab>
     <v-tab-item>
-      <dual-timer
-        :last-side-used="lastSideUsed"
-        color="light-blue"
-      />
+      <add-breast-feeding-log-timer-form :last-side-used="lastSideUsed" />
     </v-tab-item>
     <v-tab-item>
       <span>MANUAL</span>
@@ -28,14 +25,14 @@
 </template>
 
 <script>
-import DualTimer from '@/components/DualTimer'
+import AddBreastFeedingLogTimerForm from '@/components/AddBreastFeedingLogTimerForm'
 import { mapGetters } from 'vuex'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 
 export default {
   name: 'NewBreastFeedingLog',
   components: {
-    DualTimer
+    AddBreastFeedingLogTimerForm
   },
   data () {
     return {
