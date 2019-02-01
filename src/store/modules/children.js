@@ -12,6 +12,9 @@ const getters = {
   },
   canUseWebP (state) {
     return state.canUseWebP
+  },
+  now (state) {
+    return state.now
   }
 }
 

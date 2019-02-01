@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'DualTimer',
@@ -138,7 +139,6 @@ export default {
       leftTimerRunning: false,
       rightTimerRunning: false,
 
-      now: new Date(),
       counter: 0,
       leftDurations: [],
       rightDurations: [],
@@ -149,12 +149,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['now']),
     leftMilliseconds () {
       let milliseconds = 0
       for (let duration of this.leftDurations) {
         const startTime = duration.startTime
-        const endTime = duration.endTime || this.now
-        milliseconds += endTime - startTime
+        const endTime = duration.endTime || new Date(this.now.getTime())
+        milliseconds += Math.round((endTime - startTime) / 1000) * 1000
       }
       return milliseconds
     },
@@ -162,8 +163,8 @@ export default {
       let milliseconds = 0
       for (let duration of this.rightDurations) {
         const startTime = duration.startTime
-        const endTime = duration.endTime || this.now
-        milliseconds += endTime - startTime
+        const endTime = duration.endTime || new Date(this.now.getTime())
+        milliseconds += Math.round((endTime - startTime) / 1000) * 1000
       }
       return milliseconds
     },
@@ -193,12 +194,9 @@ export default {
   },
   watch: {
     timerStarted () {
-      this.startTime = new Date()
+      this.startTime = new Date(this.now.getTime())
       this.$emit('timerStarted')
     }
-  },
-  created () {
-    window.setInterval(() => { this.now = new Date() }, 500)
   },
   methods: {
     startLeftTimer () {
@@ -210,14 +208,14 @@ export default {
       this.counter++
       this.leftDurations.push({
         counter: this.counter,
-        startTime: new Date(),
+        startTime: new Date(this.now.getTime()),
         endTime: null
       })
     },
     stopLeftTimer () {
       this.leftTimerRunning = false
       const currentDuration = this.leftDurations.find(d => d.counter === this.counter)
-      const endTime = new Date()
+      const endTime = new Date(this.now.getTime())
       if (currentDuration) {
         currentDuration.endTime = currentDuration.endTime || endTime
       }
@@ -233,14 +231,14 @@ export default {
       this.counter++
       this.rightDurations.push({
         counter: this.counter,
-        startTime: new Date(),
+        startTime: new Date(this.now.getTime()),
         endTime: null
       })
     },
     stopRightTimer () {
       this.rightTimerRunning = false
       const currentDuration = this.rightDurations.find(d => d.counter === this.counter)
-      const endTime = new Date()
+      const endTime = new Date(this.now.getTime())
       if (currentDuration) {
         currentDuration.endTime = currentDuration.endTime || endTime
       }
