@@ -36,7 +36,7 @@
     </v-card-text>
     <v-card-actions>
       <v-btn
-        flat
+        text
         color="red"
         class="ml-auto"
         @click="fullLogout"
