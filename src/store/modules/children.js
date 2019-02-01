@@ -45,6 +45,10 @@ const actions = {
     commit('canUseWebP', hasSupport)
   },
   startNowTimer ({ commit }) {
+    let now = new Date()
+    while (now.getMilliseconds() % 1000 !== 0) {
+      now = new Date()
+    }
     window.setInterval(() => commit('updateNow'), 1000)
   }
 }
