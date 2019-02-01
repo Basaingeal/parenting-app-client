@@ -27,19 +27,20 @@
               align-center
             >
               <v-flex>
-                <v-badge
-                  color="info"
+                <v-tooltip
                   :value="lastSideUsed === 'LEFT' && !timerStarted"
+                  disabled
+                  color="info"
+                  top
                 >
-                  <v-icon slot="badge">
-                    fas fa-angle-double-left
-                  </v-icon>
+                  <span>Last Used</span>
                   <span
+                    slot="activator"
                     class="display-1"
                   >
                     {{ leftDisplay }}
                   </span>
-                </v-badge>
+                </v-tooltip>
               </v-flex>
               <v-flex>
                 <v-btn
@@ -72,19 +73,20 @@
               align-center
             >
               <v-flex>
-                <v-badge
-                  color="info"
+                <v-tooltip
                   :value="lastSideUsed === 'RIGHT' && !timerStarted"
+                  disabled
+                  color="info"
+                  top
                 >
-                  <v-icon slot="badge">
-                    fas fa-angle-double-left
-                  </v-icon>
+                  <span>Last Used</span>
                   <span
+                    slot="activator"
                     class="display-1"
                   >
                     {{ rightDisplay }}
                   </span>
-                </v-badge>
+                </v-tooltip>
               </v-flex>
               <v-flex>
                 <v-btn

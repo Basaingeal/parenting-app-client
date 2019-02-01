@@ -92,14 +92,14 @@
             >
               <v-spacer />
               <v-btn
-                text
+                flat
                 color="primary"
                 @click="dobModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
-                text
+                flat
                 color="primary"
                 @click="$refs.dobDialog.save(dateOfBirth)"
               >
@@ -134,14 +134,14 @@
             >
               <v-spacer />
               <v-btn
-                text
+                flat
                 color="primary"
                 @click="tobModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
-                text
+                flat
                 color="primary"
                 @click="$refs.tobDialog.save(timeOfBirth)"
               >

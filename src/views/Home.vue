@@ -1,5 +1,35 @@
 <template>
-  <log-list v-if="validCurrentChildId" />
+  <div>
+    <log-list v-if="validCurrentChildId" />
+    <v-speed-dial
+      v-model="fab"
+      transition="slide-y-reverse-transition"
+      bottom
+      right
+    >
+      <v-btn
+        slot="activator"
+        v-model="fab"
+        color="primary"
+        dark
+        fab
+      >
+        <v-icon>fas fa-plus</v-icon>
+        <v-icon>fas fa-chevron-down</v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        color="light-blue"
+        :to="{ name: 'newbreastfeedinglog'}"
+      >
+        <v-icon>
+          fas fa-utensils
+        </v-icon>
+      </v-btn>
+    </v-speed-dial>
+  </div>
 </template>
 
 <script>
@@ -12,6 +42,11 @@ export default {
   name: 'Home',
   components: {
     LogList
+  },
+  data () {
+    return {
+      fab: false
+    }
   },
   computed: {
     ...mapGetters(['currentChildId']),
@@ -31,3 +66,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.v-speed-dial {
+  position: absolute;
+}
+
+.v-btn--floating {
+  position: relative;
+}
+.fas {
+  display: flex
+}
+</style>

@@ -5,7 +5,7 @@
       :key="log.id"
     >
       <v-list-tile-content>
-        <v-list-tile-title>{{ log.__typename }}: {{ log.startTime | toFullDateTime }}</v-list-tile-title>
+        <v-list-tile-title>{{ log.__typename }}: {{ log.startTime | differenceInWords(now) }}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
   </v-list>
@@ -14,15 +14,15 @@
 <script>
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import { mapGetters } from 'vuex'
-import { toFullDateTime } from '@/services/DateFilters'
+import { differenceInWords } from '@/services/DateFilters'
 
 export default {
   name: 'LogList',
   filters: {
-    toFullDateTime
+    differenceInWords
   },
   computed: {
-    ...mapGetters(['currentChildId'])
+    ...mapGetters(['currentChildId', 'now'])
   },
   apollo: {
     logs: {
