@@ -16,7 +16,10 @@
       Manual
     </v-tab>
     <v-tab-item>
-      <dual-timer :last-side-used="lastSideUsed" />
+      <dual-timer
+        :last-side-used="lastSideUsed"
+        color="light-blue"
+      />
     </v-tab-item>
     <v-tab-item>
       <span>MANUAL</span>

@@ -43,7 +43,8 @@
               </v-flex>
               <v-flex>
                 <v-btn
-                  :color="leftTimerRunning ? 'primary' : ''"
+                  :color="leftTimerRunning ? color : ''"
+                  :dark="leftTimerRunning"
                   @click="leftButtonClick"
                 >
                   <v-icon
@@ -87,7 +88,8 @@
               </v-flex>
               <v-flex>
                 <v-btn
-                  :color="rightTimerRunning ? 'primary' : ''"
+                  :color="rightTimerRunning ? color : ''"
+                  :dark="rightTimerRunning"
                   @click="rightButtonClick"
                 >
                   <v-icon
@@ -124,6 +126,11 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'light-blue'
     }
   },
   data () {
