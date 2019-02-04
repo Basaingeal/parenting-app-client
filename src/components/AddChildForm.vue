@@ -181,7 +181,7 @@
 
 <script>
 import format from 'date-fns/format'
-import { isBefore, parse, getYear } from 'date-fns'
+import { isBefore, parseISO, getYear } from 'date-fns'
 import CREATE_CHILD from '@/graphql/CreateChild.gql'
 import GET_CHILDREN from '@/graphql/GetChildren.gql'
 import { mapActions } from 'vuex'
@@ -226,20 +226,20 @@ export default {
       }
     },
     readableDoB () {
-      const dobYear = getYear(parse(this.dateOfBirth))
+      const dobYear = getYear(parseISO(this.dateOfBirth))
       const currentYear = getYear(new Date())
-      let formatString = 'MMMM D'
+      let formatString = 'MMMM d'
       if (dobYear !== currentYear) {
-        formatString += ' YYYY'
+        formatString += ' yyyy'
       }
-      return this.dateOfBirth ? format(this.dateOfBirth, formatString) : ''
+      return this.dateOfBirth ? format(parseISO(this.dateOfBirth), formatString) : ''
     },
     readableToB () {
-      return this.timeOfBirth ? format(this.fullDateOfBirth, 'h:mm A') : ''
+      return this.timeOfBirth ? format(parseISO(this.fullDateOfBirth), 'h:mm aa') : ''
     },
     fullDateOfBirth () {
-      const dateToUse = this.dateOfBirth || format(new Date(), 'YYYY-MM-DD')
-      return format((parse(`${dateToUse}T${this.timeOfBirth}`)))
+      const dateToUse = this.dateOfBirth || format(new Date(), 'yyyy-MM-dd')
+      return format((parseISO(`${dateToUse}T${this.timeOfBirth}`)), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
     },
     firstNameRules () {
       return [
@@ -261,7 +261,7 @@ export default {
     requiredRule: (fieldName) => [
       v => !!v || `${fieldName} is required`
     ],
-    allowedDoB: (value) => isBefore(parse(value), new Date()),
+    allowedDoB: (value) => isBefore(parseISO(value), new Date()),
     async submitForm () {
       if (this.valid) {
         const newChild = await this.saveChild()

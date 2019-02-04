@@ -1,5 +1,7 @@
 <template>
-  <v-toolbar app>
+  <v-toolbar
+    app
+  >
     <v-toolbar-title>
       <v-layout>
         <v-flex>

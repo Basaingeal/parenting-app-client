@@ -142,7 +142,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { format, parse, isBefore } from 'date-fns'
+import { format, parseISO, isBefore } from 'date-fns'
 import DualTimer from '@/components/DualTimer'
 
 export default {
@@ -162,7 +162,7 @@ export default {
       valid: false,
       startDateModal: false,
       startTimeModal: false,
-      startDate: format(new Date(), 'YYYY-MM-DD'),
+      startDate: format(new Date(), 'yyyy-MM-dd'),
       startTime: format(new Date(), 'HH:mm'),
       leftDuration: 0,
       rightDuration: 0,
@@ -174,16 +174,16 @@ export default {
   computed: {
     ...mapGetters(['now']),
     readableStartDate () {
-      return format(parse(this.startDate), 'MMMM D')
+      return format(parseISO(this.startDate), 'MMMM d')
     },
     readableStartTime () {
-      return format(parse(`${this.startDate}T${this.startTime}`), 'h:mm A')
+      return format(parseISO(`${this.startDate}T${this.startTime}`), 'h:mm aa')
     },
     startDateTimeISO () {
-      return format(parse(`${this.startDate}T${this.startTime}`))
+      return format(parseISO(`${this.startDate}T${this.startTime}`), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
     },
     startDateTimeInPast () {
-      return isBefore(parse(this.startDateTimeISO), this.now)
+      return isBefore(parseISO(this.startDateTimeISO), this.now)
     },
     canSubmit () {
       return ((!!this.leftDuration || !!this.rightDuration) && !this.timerRunning && this.valid)
@@ -200,10 +200,10 @@ export default {
   },
   methods: {
     previousDates (value) {
-      return isBefore(parse(value), this.now)
+      return isBefore(parseISO(value), this.now)
     },
     updateStartDateTime () {
-      this.startDate = format(this.now, 'YYYY-MM-DD')
+      this.startDate = format(this.now, 'yyyy-MM-dd')
       this.startTime = format(this.now, 'HH:mm')
       this.timerRunning = true
     },

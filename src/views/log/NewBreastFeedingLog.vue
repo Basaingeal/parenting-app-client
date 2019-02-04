@@ -2,7 +2,7 @@
   <v-tabs
     v-model="tabsActive"
     color="light-blue lighten-4"
-    grow
+    fixed-tabs
     slider-color="light-blue darken-4"
   >
     <v-tab
@@ -103,5 +103,7 @@ export default {
 </script>
 
 <style>
-
+.fixed {
+  position: fixed
+}
 </style>
