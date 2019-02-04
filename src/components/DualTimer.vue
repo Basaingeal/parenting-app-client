@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height>
+  <v-container>
     <v-layout
       column
       align-center
@@ -7,7 +7,7 @@
     >
       <v-flex
         shrink
-        class="my-auto"
+        class="my-auto mb-3"
       >
         <span class="display-2">
           {{ toTimerString(new Date(totalMilliseconds)) }}
@@ -26,10 +26,14 @@
               column
               align-center
             >
+              <v-flex class="mb-3">
+                <span class="display-3">
+                  🤱
+                </span>
+              </v-flex>
               <v-flex>
                 <v-tooltip
                   :value="lastSideUsed === 'LEFT' && !timerStarted"
-                  disabled
                   color="info"
                   top
                 >
@@ -72,6 +76,11 @@
               column
               align-center
             >
+              <v-flex class="mb-3">
+                <span class="display-3 mirror">
+                  🤱
+                </span>
+              </v-flex>
               <v-flex>
                 <v-tooltip
                   :value="lastSideUsed === 'RIGHT' && !timerStarted"
@@ -180,17 +189,12 @@ export default {
       return this.toTimerString(new Date(this.rightMilliseconds))
     },
     outputData () {
-      const leftDuration = Math.floor(this.leftMilliseconds / 1000)
-      const rightDuration = Math.floor(this.rightMilliseconds / 1000)
-      const endTime = this.endTime
-      const lastTimerUsed = this.lastTimerUsed
-      const timerRunning = this.leftTimerRunning || this.rightTimerRunning
       return {
-        leftDuration,
-        rightDuration,
-        endTime,
-        lastTimerUsed,
-        timerRunning
+        leftDuration: Math.floor(this.leftMilliseconds / 1000),
+        rightDuration: Math.floor(this.rightMilliseconds / 1000),
+        endTime: this.endTime,
+        lastTimerUsed: this.lastTimerUsed,
+        timerRunning: this.leftTimerRunning || this.rightTimerRunning
       }
     }
   },
@@ -274,6 +278,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.mirror {
+  transform: scaleX(-1);
+  display: block;
+}
 </style>

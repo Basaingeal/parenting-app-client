@@ -3,7 +3,9 @@
     <v-app>
       <the-navbar v-if="authCheckComplete" />
       <v-content>
-        <router-view v-if="authCheckComplete" />
+        <v-scale-transition>
+          <router-view v-if="authCheckComplete" />
+        </v-scale-transition>
         <div v-if="!authCheckComplete">
           <the-token-loader :show-dialog="renewingToken" />
         </div>

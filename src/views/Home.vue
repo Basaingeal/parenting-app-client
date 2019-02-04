@@ -9,12 +9,14 @@
       transition="slide-y-reverse-transition"
       bottom
       right
-      open-on-hover
+      app
     >
       <v-btn
         slot="activator"
         v-model="fab"
-        light
+        :light="!fab"
+        :dark="fab"
+        :color="fab ? 'primary' : ''"
         fab
       >
         <v-icon>fas fa-plus</v-icon>
@@ -32,11 +34,41 @@
           color="light-blue"
           :to="{ name: 'newbreastfeedinglog'}"
         >
-          <v-icon>
-            fas fa-utensils
-          </v-icon>
+          🤱
         </v-btn>
-        <span>Add Breastfeeding Log</span>
+        <span>Add Breast-feeding Log</span>
+      </v-tooltip>
+      <v-tooltip
+        color="light-blue"
+        left
+      >
+        <v-btn
+          slot="activator"
+          fab
+          dark
+          small
+          color="light-blue"
+          :to="{ name: 'newbreastfeedinglog'}"
+        >
+          🍼
+        </v-btn>
+        <span>Add Bottle-feeding Log</span>
+      </v-tooltip>
+      <v-tooltip
+        color="light-green"
+        left
+      >
+        <v-btn
+          slot="activator"
+          fab
+          dark
+          small
+          color="light-green"
+          :to="{ name: 'newbreastfeedinglog'}"
+        >
+          🧷
+        </v-btn>
+        <span>Add Diaper Log</span>
       </v-tooltip>
     </v-speed-dial>
   </v-container>

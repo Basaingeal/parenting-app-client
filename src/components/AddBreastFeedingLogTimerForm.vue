@@ -1,9 +1,12 @@
 <template>
-  <v-form v-model="valid">
-    <v-container>
+  <v-form
+    v-model="valid"
+  >
+    <v-container fill-height>
       <v-layout
         row
         wrap
+        fill-height
       >
         <v-flex
           xs7
@@ -71,6 +74,7 @@
               required
               outline
               prepend-inner-icon="far fa-clock"
+              :rules="[timeInPast]"
             />
             <v-time-picker
               v-model="startTime"
@@ -97,11 +101,39 @@
         <v-flex
           xs12
           md12
+          grow
         >
           <dual-timer
             :last-side-used="lastSideUsed"
             @timerStarted="updateStartDateTime"
+            @timerStopped="updateTimerInfo"
           />
+        </v-flex>
+        <v-flex
+          xs12
+          md6
+        >
+          <v-textarea
+            v-model="details"
+            outline
+            color="light-blue"
+            label="Details"
+            rows="2"
+          />
+        </v-flex>
+        <v-flex
+          xs12
+          class="mt-auto"
+        >
+          <v-btn
+            color="light-blue"
+            dark
+            :block="$vuetify.breakpoint.smAndDown"
+            :disabled="!canSubmit"
+            @click="submitForm"
+          >
+            Finish and save
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -131,7 +163,12 @@ export default {
       startDateModal: false,
       startTimeModal: false,
       startDate: format(new Date(), 'YYYY-MM-DD'),
-      startTime: format(new Date(), 'HH:mm')
+      startTime: format(new Date(), 'HH:mm'),
+      leftDuration: 0,
+      rightDuration: 0,
+      lastBreastUsed: null,
+      timerRunning: false,
+      details: ''
     }
   },
   computed: {
@@ -141,6 +178,24 @@ export default {
     },
     readableStartTime () {
       return format(parse(`${this.startDate}T${this.startTime}`), 'h:mm A')
+    },
+    startDateTimeISO () {
+      return format(parse(`${this.startDate}T${this.startTime}`))
+    },
+    startDateTimeInPast () {
+      return isBefore(parse(this.startDateTimeISO), this.now)
+    },
+    canSubmit () {
+      return ((!!this.leftDuration || !!this.rightDuration) && !this.timerRunning && this.valid)
+    },
+    submitData () {
+      return {
+        details: this.details,
+        startTime: this.startDateTimeISO,
+        lastBreastUsed: this.lastBreastUsed,
+        leftBreastDuration: this.leftDuration,
+        rightBreastDuration: this.rightDuration
+      }
     }
   },
   methods: {
@@ -150,6 +205,19 @@ export default {
     updateStartDateTime () {
       this.startDate = format(this.now, 'YYYY-MM-DD')
       this.startTime = format(this.now, 'HH:mm')
+      this.timerRunning = true
+    },
+    updateTimerInfo (timerInfo) {
+      this.leftDuration = timerInfo.leftDuration
+      this.rightDuration = timerInfo.rightDuration
+      this.lastBreastUsed = timerInfo.lastTimerUsed
+      this.timerRunning = timerInfo.timerRunning
+    },
+    submitForm () {
+      this.$emit('formSubmitted', this.submitData)
+    },
+    timeInPast () {
+      return this.startDateTimeInPast || 'Start time must be in the past'
     }
   }
 }
