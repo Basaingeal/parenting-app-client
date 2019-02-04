@@ -28,11 +28,17 @@
         open-on-hover
         transition="slide-y-transition"
       >
-        <v-icon
+        <v-btn
           slot="activator"
-          medium
-          v-text="'$vuetify.icons.change'"
-        />
+          icon
+        >
+          <v-icon
+            small
+          >
+            fas fa-person-booth
+          </v-icon>
+        </v-btn>
+
         <children-list />
       </v-menu>
       <v-hover v-if="authenticated">

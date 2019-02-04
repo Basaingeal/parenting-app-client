@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="userProfile">
     <v-card-text>
       <v-layout fill-height>
         <v-flex class="mr-4">

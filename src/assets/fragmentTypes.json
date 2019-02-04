@@ -1,0 +1,18 @@
+{
+  "__schema": {
+    "types": [{
+      "kind": "INTERFACE",
+      "name": "Log",
+      "possibleTypes": [{
+          "name": "BreastFeedingLog"
+        },
+        {
+          "name": "BottleFeedingLog"
+        },
+        {
+          "name": "DiaperLog"
+        }
+      ]
+    }]
+  }
+}

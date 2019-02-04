@@ -48,6 +48,8 @@
             :rules="firstNameRules"
             label="First Name"
             required
+            hint="Required"
+            outline
           />
         </v-flex>
         <v-flex
@@ -58,15 +60,19 @@
             v-model="lastName"
             :rules="nameRules"
             label="Last Name (optional)"
+            outline
           />
         </v-flex>
         <v-flex
-          xs7
+          xs12
           md4
         >
-          <v-menu
-            v-model="dobMenu"
-            :close-on-content-click="false"
+          <v-dialog
+            ref="dobDialog"
+            v-model="dobModal"
+            :return-value.sync="dateOfBirth"
+            persistent
+            lazy
             full-width
             max-width="290px"
           >
@@ -76,37 +82,73 @@
               label="Date of Birth"
               readonly
               required
+              outline
+              prepend-inner-icon="far fa-calendar"
               :rules="requiredRule('Date of Birth')"
             />
             <v-date-picker
               v-model="dateOfBirth"
               :allowed-dates="allowedDoB"
-              @change="dobMenu = false"
-            />
-          </v-menu>
+            >
+              <v-spacer />
+              <v-btn
+                flat
+                color="primary"
+                @click="dobModal = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                flat
+                color="primary"
+                @click="$refs.dobDialog.save(dateOfBirth)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
         </v-flex>
 
         <v-flex
-          xs5
+          xs12
           md2
         >
-          <v-menu
-            v-model="tobMenu"
-            :close-on-content-click="false"
+          <v-dialog
+            ref="tobDialog"
+            v-model="tobModal"
             full-width
+            lazy
+            persistent
             max-width="290px"
           >
             <v-text-field
               slot="activator"
-              v-model="timeOfBirth"
+              :value="readableToB"
               label="Time of Birth"
               readonly
+              outline
+              prepend-inner-icon="far fa-clock"
             />
             <v-time-picker
               v-model="timeOfBirth"
-              @change="tobMenu = false"
-            />
-          </v-menu>
+            >
+              <v-spacer />
+              <v-btn
+                flat
+                color="primary"
+                @click="tobModal = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                flat
+                color="primary"
+                @click="$refs.tobDialog.save(timeOfBirth)"
+              >
+                OK
+              </v-btn>
+            </v-time-picker>
+          </v-dialog>
         </v-flex>
         <v-flex
           xs12
@@ -117,16 +159,16 @@
             :items="genders"
             :rules="requiredRule('Gender')"
             label="Gender"
+            outline
           />
         </v-flex>
         <v-flex
           xs12
-          md2
         >
           <v-btn
             color="primary"
             :disabled="!valid"
-            block
+            :block="!$vuetify.breakpoint.mdAndUp"
             @click="submitForm"
           >
             Add Child
@@ -139,8 +181,10 @@
 
 <script>
 import format from 'date-fns/format'
-import { isBefore, parse } from 'date-fns'
+import { isBefore, parse, getYear } from 'date-fns'
 import CREATE_CHILD from '@/graphql/CreateChild.gql'
+import GET_CHILDREN from '@/graphql/GetChildren.gql'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AddChildForm',
@@ -152,9 +196,9 @@ export default {
         v => v.length > 2 || v.length === 0 || 'Name must be more than 2 characters long'
       ],
       dateOfBirth: '',
-      dobMenu: false,
+      dobModal: false,
       timeOfBirth: '',
-      tobMenu: false,
+      tobModal: false,
       valid: false,
       gender: '',
       genders: [
@@ -173,21 +217,29 @@ export default {
   },
   computed: {
     childInputModel  () {
-      const firstName = this.firstName
-      const lastName = this.lastName
-      const gender = this.gender
-      const dateOfBirthFull = `${this.dateOfBirth}T${this.timeOfBirth}`
-      const imageAdded = this.imageAdded
       return {
-        firstName,
-        lastName,
-        dateOfBirth: format(parse(dateOfBirthFull)),
-        gender,
-        imageAdded
+        firstName: this.firstName,
+        lastName: this.lastName,
+        dateOfBirth: this.fullDateOfBirth,
+        gender: this.gender,
+        imageAdded: this.imageAdded
       }
     },
     readableDoB () {
-      return this.dateOfBirth ? format(this.dateOfBirth, 'MMMM Do YYYY') : ''
+      const dobYear = getYear(parse(this.dateOfBirth))
+      const currentYear = getYear(new Date())
+      let formatString = 'MMMM D'
+      if (dobYear !== currentYear) {
+        formatString += ' YYYY'
+      }
+      return this.dateOfBirth ? format(this.dateOfBirth, formatString) : ''
+    },
+    readableToB () {
+      return this.timeOfBirth ? format(this.fullDateOfBirth, 'h:mm A') : ''
+    },
+    fullDateOfBirth () {
+      const dateToUse = this.dateOfBirth || format(new Date(), 'YYYY-MM-DD')
+      return format((parse(`${dateToUse}T${this.timeOfBirth}`)))
     },
     firstNameRules () {
       return [
@@ -205,6 +257,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions,
     requiredRule: (fieldName) => [
       v => !!v || `${fieldName} is required`
     ],
@@ -220,10 +273,17 @@ export default {
         mutation: CREATE_CHILD,
         variables: {
           child: this.childInputModel
+        },
+        update (cache, { data: { createChild } }) {
+          const { children } = cache.readQuery({ query: GET_CHILDREN })
+          cache.writeQuery({
+            query: GET_CHILDREN,
+            data: { children: [...children, createChild] }
+          })
         }
       })
       const newChild = response.data.createChild
-
+      this.setCurrentChild(newChild.id)
       // if an image was added, upload it using the new id.
       if (this.imageAdded) {
         const formData = new FormData()
@@ -235,7 +295,6 @@ export default {
         })
       }
 
-      await this.$store.dispatch('addChild', newChild)
       return newChild
     },
     openFileInput () {

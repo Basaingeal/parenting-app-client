@@ -1,18 +1,19 @@
 import Authenticator from '@/services/Authenticator'
+import router from '@/router.js'
 
 const auth = new Authenticator()
 const localStorage = window.localStorage
 const state = {
-  idToken: localStorage.getItem('id_token'),
+  idToken: null,
   expiresAt: localStorage.getItem('expires_at'),
   tokenRenewalTimeoutId: null,
-  userProfile: JSON.parse(localStorage.getItem('user_profile')),
-  accessToken: localStorage.getItem('access_token')
+  userProfile: null,
+  accessToken: null
 }
 
 const getters = {
-  authenticated (state, getters) {
-    return getters.timeUntilExpired > 0
+  authenticated (state) {
+    return !!state.accessToken
   },
   timeUntilExpired (state) {
     if (!state.expiresAt) {
@@ -24,7 +25,7 @@ const getters = {
     if (state.userProfile) {
       return state.userProfile.picture
     } else {
-      return null
+      return ''
     }
   },
   userProfile (state) {
@@ -42,23 +43,20 @@ const mutations = {
     state.userProfile = authData.idTokenPayload
     state.expiresAt = authData.expiresIn * 1000 + new Date().getTime()
 
-    localStorage.setItem('id_token', state.idToken)
     localStorage.setItem('expires_at', state.expiresAt)
-    localStorage.setItem('user_profile', JSON.stringify(state.userProfile))
-    localStorage.setItem('access_token', state.accessToken)
   },
 
-  logout (state) {
+  logout (state, redirect = true) {
     state.accessToken = null
     state.idToken = false
     clearInterval(state.tokenRenewalTimeoutId)
     state.tokenRenewalTimeoutId = null
     state.userProfile = null
 
-    localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
-    localStorage.removeItem('user_profile')
-    localStorage.removeItem('access_token')
+    if (redirect) {
+      router.push({ name: 'welcome' })
+    }
   },
 
   tokenRenewalTimeoutId (state, id) {
@@ -72,15 +70,17 @@ const mutations = {
 
 const actions = {
   login () {
+    localStorage.setItem('has_logged_in_on_browser', true)
     auth.login()
   },
 
   logout ({ commit }) {
-    commit('logout')
+    commit('logout', true)
   },
 
   fullLogout ({ commit }) {
-    commit('logout')
+    commit('logout', false)
+    commit('currentChildId', null)
     auth.logout()
   },
 
@@ -97,10 +97,10 @@ const actions = {
   scheduleRenewal ({ commit, state, dispatch }) {
     const expiresAt = JSON.parse(state.expiresAt)
     const delay = expiresAt - Date.now()
-    if (delay > 0) {
+    if (delay > 5000) {
       const tokenRenewalTimeoutId = setTimeout(async () => {
         await dispatch('renewToken')
-      }, delay)
+      }, delay - 5000)
       commit('tokenRenewalTimeoutId', tokenRenewalTimeoutId)
     } else {
       dispatch('logout')
@@ -116,7 +116,7 @@ const actions = {
       dispatch('refreshProfile')
     } catch (error) {
       console.log(error)
-      commit('logout')
+      commit('logout', true)
     }
   },
 
@@ -126,7 +126,7 @@ const actions = {
       commit('userProfile', userProfile)
     } catch (error) {
       console.error(error)
-      commit('logout')
+      commit('logout', true)
     }
   }
 }

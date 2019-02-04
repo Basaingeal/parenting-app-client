@@ -4,7 +4,7 @@
       v-for="child in children"
       :key="child.id"
       avatar
-      :disabled="child.id === currentChild.id"
+      :disabled="child.id === currentChildId"
       @click="setCurrentChild(child.id)"
     >
       <v-list-tile-avatar>
@@ -24,8 +24,9 @@
       <v-list-tile-avatar>
         <v-icon
           medium
-          v-text="'$vuetify.icons.plus'"
-        />
+        >
+          fas fa-plus
+        </v-icon>
       </v-list-tile-avatar>
       <v-list-tile-content>
         <v-list-tile-title>New Child</v-list-tile-title>
@@ -36,13 +37,31 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import GET_CHILDREN from '@/graphql/GetChildren.gql'
 export default {
   name: 'ChildrenList',
   computed: {
-    ...mapGetters(['children', 'currentChild'])
+    ...mapGetters(['currentChildId', 'canUseWebP'])
   },
   methods: {
     ...mapActions(['setCurrentChild'])
+  },
+  apollo: {
+    children: {
+      query: GET_CHILDREN,
+      update (data) {
+        data.children = data.children.map(child => {
+          const formatPath = this.canUseWebP ? 'webp/' : 'png/'
+          child.src = `${process.env.VUE_APP_SERVER}childImage/${formatPath}${child.id}`
+          return child
+        })
+
+        if (!this.currentChildId && data.children.length) {
+          this.setCurrentChild(data.children[data.children.length - 1].id)
+        }
+        return data.children
+      }
+    }
   }
 }
 </script>

@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <v-app>
-      <the-navbar v-if="!$route.path.includes('auth/')" />
+      <the-navbar v-if="authCheckComplete" />
       <v-content>
-        <v-container
-          fill-height
-        >
-          <router-view />
-        </v-container>
+        <v-scale-transition>
+          <router-view v-if="authCheckComplete" />
+        </v-scale-transition>
+        <div v-if="!authCheckComplete">
+          <the-token-loader :show-dialog="renewingToken" />
+        </div>
       </v-content>
     </v-app>
   </div>
@@ -15,34 +16,40 @@
 
 <script>
 import TheNavbar from '@/components/TheNavbar'
-import GET_CHILDREN from '@/graphql/GetChildren.gql'
+import TheTokenLoader from '@/components/TheTokenLoader'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  name: 'App',
   components: {
-    TheNavbar
+    TheNavbar,
+    TheTokenLoader
+  },
+  data () {
+    return {
+      authCheckComplete: false,
+      renewingToken: false
+    }
+  },
+  computed: {
+    ...mapGetters(['authenticated'])
   },
   async created () {
-    if (this.$store.getters.authenticated) {
-      this.$store.dispatch('scheduleRenewal')
-      if (this.$store.state.userProfile == null) {
-        this.$store.dispatch('refreshProfile')
-      }
-
-      if (!this.$store.getters.childrenCount) {
-        this.$store.dispatch('setFetchingChildren', true)
-        const result = await this.$apollo.query({
-          query: GET_CHILDREN
-        })
-        const children = result.data.children
-        await this.$store.dispatch('setChildren', children)
-        this.$store.dispatch('setFetchingChildren', false)
-        if (!this.$store.getters.childrenCount) {
-          this.$router.push({ name: 'newchild' })
-        }
-      }
-    } else {
-      this.$store.dispatch('logout')
+    this.startNowTimer()
+    const isCallbackPage = window.location.href.includes('auth/')
+    const hasLoggedInBefore = window.localStorage.getItem('has_logged_in_on_browser')
+    if (!isCallbackPage && hasLoggedInBefore) {
+      this.renewingToken = true
+      await this.renewToken()
+      this.renewingToken = false
+    } else if (!hasLoggedInBefore) {
+      this.$router.push({ name: 'welcome' })
     }
+    this.authCheckComplete = true
+    await this.checkWebPSupport()
+  },
+  methods: {
+    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer'])
   }
 }
 </script>

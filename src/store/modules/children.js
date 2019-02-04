@@ -1,76 +1,55 @@
 import { isWebPSupported } from '@/services/SupportManager'
 
 const state = {
-  children: [],
   currentChildId: window.localStorage.getItem('current_child_id') || null,
-  fetchingChildren: false
+  canUseWebP: window.localStorage.getItem('can_use_webp') || false,
+  now: new Date()
 }
 
 const getters = {
-  currentChild (state) {
-    const foundChild = state.children.find(c => c.id === state.currentChildId)
-    if (foundChild) {
-      return foundChild
-    }
-    if (state.children.length > 0) {
-      const firstChild = state.children[0]
-      return firstChild
-    }
-    return null
+  currentChildId (state) {
+    return state.currentChildId
   },
-  childrenCount (state) {
-    return state.children.length
+  canUseWebP (state) {
+    return state.canUseWebP
   },
-  fetchingChildren (state) {
-    return state.fetchingChildren
-  },
-  children (state) {
-    return state.children
+  now (state) {
+    return state.now
   }
 }
 
 const mutations = {
-  newChild (state, child) {
-    state.children.push(child)
-    state.currentChildId = child.id
-    window.localStorage.setItem('current_child_id', state.currentChildId)
-  },
-  setChildren (state, children) {
-    for (let child of children) {
-      state.children.push(child)
-    }
-  },
-  setFetchingChildren (state, isFetching) {
-    state.fetchingChildren = isFetching
-  },
   currentChildId (state, currentChildId) {
     state.currentChildId = currentChildId
+    if (currentChildId) {
+      window.localStorage.setItem('current_child_id', currentChildId)
+    } else {
+      window.localStorage.removeItem('current_child_id')
+    }
+  },
+  canUseWebP (state, hasSupport) {
+    state.canUseWebP = hasSupport
+    window.localStorage.setItem('can_use_webp', hasSupport)
+  },
+  updateNow (state) {
+    state.now = new Date()
   }
 }
 
 const actions = {
-  async addChild ({ commit }, child) {
-    const webPSupport = await isWebPSupported()
-    child.src = webPSupport
-      ? `${process.env.VUE_APP_SERVER}childImage/${child.id}`
-      : `${process.env.VUE_APP_SERVER}childImage/png/${child.id}`
-    commit('newChild', child)
-  },
-  async setChildren ({ commit }, children) {
-    const webPSupport = await isWebPSupported()
-    children = children.map(child => ({
-      ...child,
-      src: webPSupport
-        ? `${process.env.VUE_APP_SERVER}childImage/${child.id}`
-        : `${process.env.VUE_APP_SERVER}childImage/png/${child.id}`
-    }))
-    commit('setChildren', children)
-  },
-  setFetchingChildren ({ commit }, isFetching) {
-    commit('setFetchingChildren', isFetching)
-  },
   setCurrentChild ({ commit }, childId) {
     commit('currentChildId', childId)
+  },
+  async checkWebPSupport ({ commit }) {
+    const hasSupport = await isWebPSupported()
+    commit('canUseWebP', hasSupport)
+  },
+  startNowTimer ({ commit }) {
+    let now = new Date()
+    while (now.getMilliseconds() % 1000 !== 0) {
+      now = new Date()
+    }
+    window.setInterval(() => commit('updateNow'), 1000)
   }
 }
 

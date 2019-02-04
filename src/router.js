@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 
-import auth from '@/middleware/auth'
-
 Vue.use(Router)
 
 const router = new Router({
@@ -13,10 +11,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
-      meta: {
-        middleware: auth
-      }
+      component: Home
     },
     {
       path: '/auth/logincallback',
@@ -36,10 +31,12 @@ const router = new Router({
     {
       path: '/newchild',
       name: 'newchild',
-      meta: {
-        middleware: auth
-      },
       component: () => import(/* webpackChunkName: "newchild" */ './views/NewChild.vue')
+    },
+    {
+      path: '/log/newbreastfeedinglog',
+      name: 'newbreastfeedinglog',
+      component: () => import(/* webpackChunkName: "newbreastfeedinglog" */ './views/log/NewBreastFeedingLog.vue')
     }
   ]
 })
