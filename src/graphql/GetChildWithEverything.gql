@@ -12,7 +12,6 @@ query GetChildWithEverything($id: ID!){
       details,
       ... on BreastFeedingLog {
         startTime,
-        endTime,
         feedingType,
         leftBreastDuration,
         rightBreastDuration,

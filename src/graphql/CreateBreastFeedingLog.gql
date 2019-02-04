@@ -3,7 +3,6 @@ mutation CreateBreastFeedingLog($log: BreastFeedingLogInput!){
     userId,
     details,
     startTime,
-    endTime,
     lastBreastUsed,
     leftBreastDuration,
     rightBreastDuration
