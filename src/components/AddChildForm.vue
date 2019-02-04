@@ -257,7 +257,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions,
+    ...mapActions(['setCurrentChild']),
     requiredRule: (fieldName) => [
       v => !!v || `${fieldName} is required`
     ],
