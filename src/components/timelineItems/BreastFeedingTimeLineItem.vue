@@ -16,29 +16,38 @@
       raised
     >
       <v-card-text>
-        <span class="font-weight-bold">
-          {{ childFirstName }}
-        </span>
-        was breastfed for
-        <span class="font-weight-bold">
-          {{ getMinutesFromSeconds(log.leftBreastDuration) + getMinutesFromSeconds(log.rightBreastDuration) }} minutes.
-        </span>
-        <span v-if="getMinutesFromSeconds(log.leftBreastDuration)">
-          <span class="font-weight-bold">
-            {{ getMinutesFromSeconds(log.leftBreastDuration) }} minute{{ getMinutesFromSeconds(log.leftBreastDuration) !== 1 ? 's' : '' }}
-          </span> on the left side.
-        </span>
-        <span v-if="getMinutesFromSeconds(log.rightBreastDuration)">
-          <span class="font-weight-bold">
-            {{ getMinutesFromSeconds(log.rightBreastDuration) }} minute{{ getMinutesFromSeconds(log.rightBreastDuration) !== 1 ? 's' : '' }}
-          </span> on the right side.
-        </span>
-        <br>
-        <span
-          class="caption font-weight-light"
-        >
-          {{ log.startTime | toMaterialDateTime(now, true) }}
-        </span>
+        <v-layout column>
+          <span
+            v-if="dense"
+            class="title font-weight-light mb-2"
+          >
+            {{ log.startTime | differenceInWords(now) }}
+          </span>
+          <div class="mb-1">
+            <span class="font-weight-bold">
+              {{ childFirstName }}
+            </span>
+            was breastfed for
+            <span class="font-weight-bold">
+              {{ getMinutesFromSeconds(log.leftBreastDuration) + getMinutesFromSeconds(log.rightBreastDuration) }} minutes.
+            </span>
+            <span v-if="getMinutesFromSeconds(log.leftBreastDuration)">
+              <span class="font-weight-bold">
+                {{ getMinutesFromSeconds(log.leftBreastDuration) }} minute{{ getMinutesFromSeconds(log.leftBreastDuration) !== 1 ? 's' : '' }}
+              </span> on the left side.
+            </span>
+            <span v-if="getMinutesFromSeconds(log.rightBreastDuration)">
+              <span class="font-weight-bold">
+                {{ getMinutesFromSeconds(log.rightBreastDuration) }} minute{{ getMinutesFromSeconds(log.rightBreastDuration) !== 1 ? 's' : '' }}
+              </span> on the right side.
+            </span>
+          </div>
+          <span
+            class="caption font-weight-light"
+          >
+            {{ log.startTime | toMaterialDateTime(now, true) }}
+          </span>
+        </v-layout>
       </v-card-text>
     </v-card>
   </v-timeline-item>
@@ -65,12 +74,16 @@ export default {
       type: String,
       required: true,
       default: ''
+    },
+    dense: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
     return {
-      logThemes,
-      dense: this.$vuetify.breakpoint.smAndDown
+      logThemes
     }
   },
   computed: {

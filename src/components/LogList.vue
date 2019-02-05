@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-timeline
-      :dense="$vuetify.breakpoint.smAndDown"
+      :dense="dense"
     >
       <template #default>
         <template v-for="group in logsGroupedByDates">
@@ -19,6 +19,7 @@
               :key="log.id"
               :log="log"
               :child-first-name="childFirstName"
+              :dense="dense"
             />
           </template>
         </template>
@@ -83,6 +84,9 @@ export default {
       })
 
       return Array.from(grouped)
+    },
+    dense () {
+      return this.$vuetify.breakpoint.smAndDown
     }
   }
 }
