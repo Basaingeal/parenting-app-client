@@ -12,6 +12,7 @@
     </v-tab>
     <v-tab
       ripple
+      :disabled="timerRunning"
     >
       Manual
     </v-tab>
@@ -22,13 +23,16 @@
       />
     </v-tab-item>
     <v-tab-item>
-      <span>MANUAL</span>
+      <add-breast-feeding-log-manual-form
+        @formSubmitted="submitLog"
+      />
     </v-tab-item>
   </v-tabs>
 </template>
 
 <script>
 import AddBreastFeedingLogTimerForm from '@/components/AddBreastFeedingLogTimerForm'
+import AddBreastFeedingLogManualForm from '@/components/AddBreastFeedingLogManualForm'
 import { mapGetters } from 'vuex'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import CREATE_BREAST_FEEDING_LOG from '@/graphql/CreateBreastFeedingLog.gql'
@@ -36,11 +40,13 @@ import CREATE_BREAST_FEEDING_LOG from '@/graphql/CreateBreastFeedingLog.gql'
 export default {
   name: 'NewBreastFeedingLog',
   components: {
-    AddBreastFeedingLogTimerForm
+    AddBreastFeedingLogTimerForm,
+    AddBreastFeedingLogManualForm
   },
   data () {
     return {
-      tabsActive: 0
+      tabsActive: 0,
+      timerRunning: false
     }
   },
   computed: {

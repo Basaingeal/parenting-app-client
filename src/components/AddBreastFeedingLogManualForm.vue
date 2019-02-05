@@ -1,15 +1,16 @@
 <template>
   <v-form
+    ref="manualBFForm"
     v-model="valid"
   >
     <v-container fill-height>
       <v-layout
+        fill-height
         row
         wrap
-        fill-height
       >
         <v-flex
-          xs7
+          xs6
           md6
         >
           <v-dialog
@@ -24,12 +25,13 @@
             <template #activator>
               <v-text-field
                 :value="readableStartDate"
-                color="light-blue"
                 label="Start Date"
                 readonly
                 required
                 outline
                 prepend-inner-icon="far fa-calendar"
+                color="light-blue"
+                :rules="[timeInPast, requiredRule('Start Date')]"
               />
             </template>
 
@@ -57,7 +59,7 @@
           </v-dialog>
         </v-flex>
         <v-flex
-          xs5
+          xs6
           md6
         >
           <v-dialog
@@ -73,12 +75,12 @@
               <v-text-field
                 :value="readableStartTime"
                 label="Start Time"
-                color="light-blue"
                 readonly
                 required
                 outline
                 prepend-inner-icon="far fa-clock"
-                :rules="[timeInPast]"
+                color="light-blue"
+                :rules="[timeInPast, requiredRule('Start Time')]"
               />
             </template>
 
@@ -104,15 +106,37 @@
             </v-time-picker>
           </v-dialog>
         </v-flex>
+        <v-flex xs6>
+          <v-select
+            v-model="leftDuration"
+            :items="minuteSelectItems"
+            outline
+            color="light-blue"
+            label="Left Duration"
+            :rules="[durationRequiredRule]"
+          />
+        </v-flex>
+        <v-flex xs6>
+          <v-select
+            v-model="rightDuration"
+            :items="minuteSelectItems"
+            outline
+            color="light-blue"
+            label="Right Duration"
+            :rules="[durationRequiredRule]"
+          />
+        </v-flex>
         <v-flex
           xs12
-          md12
-          grow
+          md6
         >
-          <dual-timer
-            :last-side-used="lastSideUsed"
-            @timerStarted="updateStartDateTime"
-            @timerStopped="updateTimerInfo"
+          <v-select
+            v-model="lastBreastUsed"
+            :items="leftRightItems"
+            outline
+            color="light-blue"
+            label="Last Breast Used"
+            :rules="[requiredRule('Last Breast Used')]"
           />
         </v-flex>
         <v-flex
@@ -133,9 +157,8 @@
         >
           <v-btn
             color="light-blue"
-            dark
             :block="$vuetify.breakpoint.smAndDown"
-            :disabled="!canSubmit"
+            dark
             @click="submitForm"
           >
             Finish and save
@@ -149,21 +172,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import { format, parseISO, isBefore } from 'date-fns'
-import DualTimer from '@/components/DualTimer'
 import { toLocalISO } from '@/services/DateFilters'
 
 export default {
-  name: 'AddBreastFeedingLogTimerForm',
-  components: {
-    DualTimer
-  },
-  props: {
-    lastSideUsed: {
-      type: String,
-      required: false,
-      default: ''
-    }
-  },
+  name: 'AddBreastFeedingLogManualForm',
   data () {
     return {
       valid: false,
@@ -175,25 +187,34 @@ export default {
       rightDuration: 0,
       lastBreastUsed: null,
       timerRunning: false,
-      details: ''
+      details: '',
+      leftRightItems: [
+        {
+          text: 'Left',
+          value: 'LEFT'
+        },
+        {
+          text: 'Right',
+          value: 'RIGHT'
+        }
+      ]
     }
   },
   computed: {
     ...mapGetters(['now']),
-    readableStartDate () {
-      return format(parseISO(this.startDate), 'MMMM d')
-    },
-    readableStartTime () {
-      return format(parseISO(`${this.startDate}T${this.startTime}`), 'h:mm aa')
-    },
     startDateTimeISO () {
       return toLocalISO(`${this.startDate}T${this.startTime}`)
     },
-    startDateTimeInPast () {
-      return isBefore(parseISO(this.startDateTimeISO), this.now)
+    readableStartDate () {
+      return this.startDate ? format(parseISO(this.startDate), 'MMMM d') : this.startDate
     },
-    canSubmit () {
-      return ((!!this.leftDuration || !!this.rightDuration) && !this.timerRunning && this.valid)
+    readableStartTime () {
+      if (!this.startTime) {
+        return ''
+      }
+      const dateToUse = this.startDate ? parseISO(this.startDate) : this.now
+      const startDateString = format(dateToUse, 'yyy-MM-dd')
+      return format(parseISO(`${startDateString}T${this.startTime}`), 'h:mm aa')
     },
     submitData () {
       return {
@@ -203,28 +224,35 @@ export default {
         leftBreastDuration: this.leftDuration,
         rightBreastDuration: this.rightDuration
       }
+    },
+    minuteSelectItems () {
+      return [...Array(120).keys()].map(i => ({
+        text: i + ' minutes',
+        value: i * 60
+      }))
+    },
+    startDateTimeInPast () {
+      return isBefore(parseISO(this.startDateTimeISO), this.now)
     }
   },
   methods: {
     previousDates (value) {
       return isBefore(parseISO(value), this.now)
     },
-    updateStartDateTime () {
-      this.startDate = format(this.now, 'yyyy-MM-dd')
-      this.startTime = format(this.now, 'HH:mm')
-      this.timerRunning = true
-    },
-    updateTimerInfo (timerInfo) {
-      this.leftDuration = timerInfo.leftDuration
-      this.rightDuration = timerInfo.rightDuration
-      this.lastBreastUsed = timerInfo.lastTimerUsed
-      this.timerRunning = timerInfo.timerRunning
-    },
-    submitForm () {
-      this.$emit('formSubmitted', this.submitData)
-    },
     timeInPast () {
       return this.startDateTimeInPast || 'Start time must be in the past'
+    },
+    requiredRule (fieldName) {
+      return v => !!v || `${fieldName} is required`
+    },
+    durationRequiredRule (v) {
+      return (!!this.leftDuration || !!this.rightDuration) || 'Some time on at least one side is required.'
+    },
+    submitForm () {
+      this.$refs.manualBFForm.validate()
+      if (this.valid) {
+        this.$emit('formSubmitted', this.submitData)
+      }
     }
   }
 }

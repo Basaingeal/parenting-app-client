@@ -7,7 +7,7 @@
     >
       <v-flex
         shrink
-        class="my-auto mb-3"
+        class="my-auto mb-4"
       >
         <span class="display-2">
           {{ toTimerString(new Date(totalMilliseconds)) }}
@@ -27,23 +27,23 @@
               align-center
             >
               <v-flex class="mb-3">
-                <span class="display-3">
-                  🤱
-                </span>
+                <v-badge
+                  :value="lastSideUsed === 'LEFT' && !timerStarted"
+                  color="light-blue lighten-2"
+                  overlap
+                >
+                  <template #badge>
+                    <span>🍼</span>
+                  </template>
+                  <span class="display-3">
+                    🤱
+                  </span>
+                </v-badge>
               </v-flex>
               <v-flex>
-                <v-tooltip
-                  :value="lastSideUsed === 'LEFT' && !timerStarted"
-                  color="info"
-                  top
-                >
-                  <span>Last Used</span>
-                  <template #activator>
-                    <span class="display-1">
-                      {{ leftDisplay }}
-                    </span>
-                  </template>
-                </v-tooltip>
+                <span class="display-1">
+                  {{ leftDisplay }}
+                </span>
               </v-flex>
               <v-flex>
                 <v-btn
@@ -76,24 +76,23 @@
               align-center
             >
               <v-flex class="mb-3">
-                <span class="display-3 mirror">
-                  🤱
-                </span>
+                <v-badge
+                  :value="lastSideUsed === 'RIGHT' && !timerStarted"
+                  color="light-blue lighten-2"
+                  overlap
+                >
+                  <template #badge>
+                    <span>🍼</span>
+                  </template>
+                  <span class="display-3 mirror">
+                    🤱
+                  </span>
+                </v-badge>
               </v-flex>
               <v-flex>
-                <v-tooltip
-                  :value="lastSideUsed === 'RIGHT' && !timerStarted"
-                  disabled
-                  color="info"
-                  top
-                >
-                  <span>Last Used</span>
-                  <template #activator>
-                    <span class="display-1">
-                      {{ rightDisplay }}
-                    </span>
-                  </template>
-                </v-tooltip>
+                <span class="display-1">
+                  {{ rightDisplay }}
+                </span>
               </v-flex>
               <v-flex>
                 <v-btn
