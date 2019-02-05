@@ -32,6 +32,10 @@
             {{ getMinutesFromSeconds(log.rightBreastDuration) }} minute{{ getMinutesFromSeconds(log.rightBreastDuration) !== 1 ? 's' : '' }}
           </span> on the right side.
         </span>
+        <br>
+        <span class="caption">
+          {{ log.startTime | toMaterialDateTime(now, true) }}
+        </span>
       </v-card-text>
     </v-card>
   </v-timeline-item>
@@ -39,14 +43,15 @@
 
 <script>
 import logThemes from '@/constants/logThemes'
-import { differenceInWords, toMaterialDate } from '@/services/DateFilters'
+import { differenceInWords, toMaterialDate, toMaterialDateTime } from '@/services/DateFilters'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'BreastFeedingTimeLineItem',
   filters: {
     differenceInWords,
-    toMaterialDate
+    toMaterialDate,
+    toMaterialDateTime
   },
   props: {
     log: {

@@ -148,6 +148,7 @@
 import { mapGetters } from 'vuex'
 import { format, parseISO, isBefore } from 'date-fns'
 import DualTimer from '@/components/DualTimer'
+import { toLocalISO } from '@/services/DateFilters'
 
 export default {
   name: 'AddBreastFeedingLogTimerForm',
@@ -184,7 +185,7 @@ export default {
       return format(parseISO(`${this.startDate}T${this.startTime}`), 'h:mm aa')
     },
     startDateTimeISO () {
-      return format(parseISO(`${this.startDate}T${this.startTime}`), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
+      return toLocalISO(`${this.startDate}T${this.startTime}`)
     },
     startDateTimeInPast () {
       return isBefore(parseISO(this.startDateTimeISO), this.now)

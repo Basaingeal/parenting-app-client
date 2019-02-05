@@ -15,6 +15,7 @@
         <v-flex xs12>
           <v-hover
             v-slot="{ hover }"
+            :value="$vuetify.breakpoint.smAndDown"
             style="cursor: pointer"
           >
             <v-avatar
@@ -31,7 +32,7 @@
                 <v-expand-transition>
                   <div
                     v-if="hover"
-                    class="d-flex accent darken-2 white--text v-card--reveal caption"
+                    class="d-flex primary black--text font-weight-bold v-card--reveal caption"
                     style="height:33%"
                   >
                     {{ addImageText }}
@@ -189,6 +190,7 @@ import { isBefore, parseISO, getYear } from 'date-fns'
 import CREATE_CHILD from '@/graphql/CreateChild.gql'
 import GET_CHILDREN from '@/graphql/GetChildren.gql'
 import { mapActions } from 'vuex'
+import { toLocalISO } from '@/services/DateFilters'
 
 export default {
   name: 'AddChildForm',
@@ -243,7 +245,7 @@ export default {
     },
     fullDateOfBirth () {
       const dateToUse = this.dateOfBirth || format(new Date(), 'yyyy-MM-dd')
-      return format((parseISO(`${dateToUse}T${this.timeOfBirth}`)), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
+      return toLocalISO(`${dateToUse}T${this.timeOfBirth}`)
     },
     firstNameRules () {
       return [
