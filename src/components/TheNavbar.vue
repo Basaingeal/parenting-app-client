@@ -30,38 +30,41 @@
         open-on-hover
         transition="slide-y-transition"
       >
-        <v-btn
-          slot="activator"
-          icon
-        >
-          <v-icon
-            small
+        <template #activator>
+          <v-btn
+            icon
           >
-            fas fa-person-booth
-          </v-icon>
-        </v-btn>
-
+            <v-icon
+              small
+            >
+              fas fa-person-booth
+            </v-icon>
+          </v-btn>
+        </template>
         <children-list />
       </v-menu>
-      <v-hover v-if="authenticated">
+      <v-hover
+        v-if="authenticated"
+        v-slot="{ hover }"
+      >
         <v-menu
-          slot-scope="{ hover }"
           offset-y
           left
           nudge-bottom="12"
           transition="slide-y-transition"
         >
-          <v-avatar
-            slot="activator"
-            size="40"
-            class="my-auto"
-            :class="`elevation-${hover ? 12 : 2}`"
-          >
-            <v-img
-              :src="profileImgSource"
-              alt="Profile Image"
-            />
-          </v-avatar>
+          <template #activator>
+            <v-avatar
+              size="40"
+              class="my-auto"
+              :class="`elevation-${hover ? 12 : 2}`"
+            >
+              <v-img
+                :src="profileImgSource"
+                alt="Profile Image"
+              />
+            </v-avatar>
+          </template>
           <the-account-card />
         </v-menu>
       </v-hover>
