@@ -91,7 +91,7 @@ export default {
       },
       update (data) {
         const breastFeedingLogs = data.child.logs.filter(log => log.feedingType === 'BREAST')
-        if (!breastFeedingLogs) {
+        if (!breastFeedingLogs.length) {
           return ''
         }
         const mostRecentLog = breastFeedingLogs.sort((a, b) => a.startTime < b.startTime ? 1 : 0)[0]
