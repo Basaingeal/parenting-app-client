@@ -49,7 +49,7 @@ const actions = {
     while (now.getMilliseconds() % 1000 !== 0) {
       now = new Date()
     }
-    window.setInterval(() => commit('updateNow'), 1000)
+    window.setInterval(() => document.hidden ? null : commit('updateNow'), 1000)
   }
 }
 

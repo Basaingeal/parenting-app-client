@@ -38,11 +38,10 @@
                   top
                 >
                   <span>Last Used</span>
-                  <template
-                    v-slot:activator
-                    class="display-1"
-                  >
-                    {{ leftDisplay }}
+                  <template #activator>
+                    <span class="display-1">
+                      {{ leftDisplay }}
+                    </span>
                   </template>
                 </v-tooltip>
               </v-flex>
@@ -89,11 +88,10 @@
                   top
                 >
                   <span>Last Used</span>
-                  <template
-                    v-slot:activator
-                    class="display-1"
-                  >
-                    {{ rightDisplay }}
+                  <template #activator>
+                    <span class="display-1">
+                      {{ rightDisplay }}
+                    </span>
                   </template>
                 </v-tooltip>
               </v-flex>

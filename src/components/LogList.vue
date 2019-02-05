@@ -10,7 +10,7 @@
         fill-dot
         :large="$vuetify.breakpoint.mdAndUp"
       >
-        <template v-slot:icon>
+        <template #icon>
           {{ emojiForType(log.__typename) }}
         </template>
         <v-card elevation="2">

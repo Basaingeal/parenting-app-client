@@ -21,7 +21,7 @@
             full-width
             width="290px"
           >
-            <template v-slot:activator>
+            <template #activator>
               <v-text-field
                 :value="readableStartDate"
                 label="Start Date"
@@ -68,16 +68,18 @@
             full-width
             width="290px"
           >
-            <v-text-field
-              v-slot:activator
-              :value="readableStartTime"
-              label="Start Time"
-              readonly
-              required
-              outline
-              prepend-inner-icon="far fa-clock"
-              :rules="[timeInPast]"
-            />
+            <template #activator>
+              <v-text-field
+                :value="readableStartTime"
+                label="Start Time"
+                readonly
+                required
+                outline
+                prepend-inner-icon="far fa-clock"
+                :rules="[timeInPast]"
+              />
+            </template>
+
             <v-time-picker
               v-model="startTime"
               color="light-blue"
