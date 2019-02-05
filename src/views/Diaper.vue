@@ -11,7 +11,7 @@
     </v-fade-transition>
     <v-fade-transition>
       <div v-if="validCurrentChildId && child">
-        <div v-if="!child.logs.length">
+        <div v-if="!diaperLogs.length">
           <v-container
             fill-height
             style="min-height:50vh"
@@ -32,55 +32,51 @@
           </v-container>
         </div>
         <log-list
-          v-if="child.logs.length"
+          v-if="diaperLogs.length"
           :child-first-name="child.firstName"
-          :logs="child.logs"
+          :logs="diaperLogs"
         />
       </div>
     </v-fade-transition>
-
-    <home-speed-dial />
   </v-container>
 </template>
 
 <script>
 import LogList from '@/components/LogList.vue'
-import HomeSpeedDial from '@/components/HomeSpeedDial.vue'
-import TopNavigator from '@/components/TopNavigator.vue'
 import GET_CHILDREN from '@/graphql/GetChildren.gql'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import { mapGetters } from 'vuex'
 import { BulletListLoader } from 'vue-content-loader'
+import TopNavigator from '@/components/TopNavigator.vue'
 import logThemes from '@/constants/logThemes'
 
 export default {
   name: 'Home',
   components: {
     LogList,
-    HomeSpeedDial,
     BulletListLoader,
     TopNavigator
   },
   data () {
     return {
-      navigatorRoutes: [
-        {
-          label: 'Feeding',
-          color: logThemes.breastFeedingLog.color,
-          to: { name: 'feeding' }
-        },
-        {
-          label: 'Diaper',
-          color: logThemes.diaperLog.color,
-          to: { name: 'diaper' }
-        }
-      ]
+      navigatorRoutes: [{
+        label: 'Diaper Change',
+        color: logThemes.diaperLog.color,
+        to: { name: 'newdiaperlog' },
+        icon: 'fas fa-plus'
+      }]
     }
   },
   computed: {
     ...mapGetters(['currentChildId']),
     validCurrentChildId () {
       return this.children && this.children.find(c => c.id === this.currentChildId)
+    },
+    diaperLogs () {
+      if (!this.child) {
+        return []
+      }
+      return this.child.logs.filter(l => l.__typename === 'DiaperLog')
     }
   },
   apollo: {

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <top-navigator :routes="navigatorRoutes" />
     <v-fade-transition>
       <div v-if="!child">
         <bullet-list-loader
@@ -46,12 +47,31 @@ import GET_CHILDREN from '@/graphql/GetChildren.gql'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import { mapGetters } from 'vuex'
 import { BulletListLoader } from 'vue-content-loader'
+import TopNavigator from '@/components/TopNavigator.vue'
+import logThemes from '@/constants/logThemes'
 
 export default {
   name: 'Home',
   components: {
     LogList,
-    BulletListLoader
+    BulletListLoader,
+    TopNavigator
+  },
+  data () {
+    return {
+      navigatorRoutes: [{
+        label: 'Breast-feeding',
+        color: logThemes.breastFeedingLog.color,
+        to: { name: 'newbreastfeedinglog' },
+        icon: 'fas fa-plus'
+      },
+      {
+        label: 'Bottle-feeding',
+        color: logThemes.bottleFeedingLog.color,
+        to: { name: 'newbottlefeedinglog' },
+        icon: 'fas fa-plus'
+      }]
+    }
   },
   computed: {
     ...mapGetters(['currentChildId']),

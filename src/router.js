@@ -39,9 +39,24 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "feeding" */ './views/Feeding.vue')
     },
     {
+      path: '/diaper',
+      name: 'diaper',
+      component: () => import(/* webpackChunkName: "diaper" */ './views/Diaper.vue')
+    },
+    {
       path: '/log/newbreastfeedinglog',
       name: 'newbreastfeedinglog',
       component: () => import(/* webpackChunkName: "newbreastfeedinglog" */ './views/log/NewBreastFeedingLog.vue')
+    },
+    {
+      path: '/log/newbottlefeedinglog',
+      name: 'newbottlefeedinglog',
+      component: () => import(/* webpackChunkName: "newbottlefeedinglog" */ './views/log/NewBottleFeedingLog.vue')
+    },
+    {
+      path: '/log/newdiaperlog',
+      name: 'newdiaperlog',
+      component: () => import(/* webpackChunkName: "newdiaperlog" */ './views/log/NewDiaperLog.vue')
     }
   ]
 })
