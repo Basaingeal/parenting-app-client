@@ -1,4 +1,4 @@
-import { format, formatDistance, isSameDay, isSameYear, parseISO, addDays, subDays, differenceInWeeks } from 'date-fns'
+import { format, formatDistanceStrict, isSameDay, isSameYear, parseISO, addDays, subDays, differenceInWeeks } from 'date-fns'
 
 export function toLocalISO (value) {
   return format(parseISO(value), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
@@ -8,7 +8,7 @@ export function toFullDateTime (value) {
   return format(parseISO(value), 'dddd, MMMM Do, yyyy h:mm:ss aa')
 }
 
-export const differenceInWords = (value, compareDate) => formatDistance(parseISO(value), compareDate, { addSuffix: true })
+export const differenceInWords = (value, compareDate) => formatDistanceStrict(parseISO(value), compareDate, { addSuffix: true })
 
 export function toMaterialDate (value, currentDate) {
   const parsedValue = parseISO(value)

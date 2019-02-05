@@ -2,18 +2,19 @@
   <v-timeline-item
     :color="logThemes.breastFeedingLog.color"
     fill-dot
-    :large="$vuetify.breakpoint.mdAndUp"
+    :large="!dense"
   >
     <template #icon>
       {{ logThemes.breastFeedingLog.icon }}
     </template>
-    <v-card elevation="2">
-      <v-card-title
-        v-if="log.startTime"
-        class="title"
-      >
+    <template #opposite>
+      <span class="title font-weight-light">
         {{ log.startTime | differenceInWords(now) }}
-      </v-card-title>
+      </span>
+    </template>
+    <v-card
+      raised
+    >
       <v-card-text>
         <span class="font-weight-bold">
           {{ childFirstName }}
@@ -33,7 +34,9 @@
           </span> on the right side.
         </span>
         <br>
-        <span class="caption">
+        <span
+          class="caption font-weight-light"
+        >
           {{ log.startTime | toMaterialDateTime(now, true) }}
         </span>
       </v-card-text>
@@ -66,7 +69,8 @@ export default {
   },
   data () {
     return {
-      logThemes
+      logThemes,
+      dense: this.$vuetify.breakpoint.smAndDown
     }
   },
   computed: {

@@ -9,7 +9,9 @@
             :key="group[0]"
             hide-dot
           >
-            {{ group[0] }}
+            <span class="subheading font-weight-light">
+              {{ group[0] }}
+            </span>
           </v-timeline-item>
           <template v-for="log in group[1]">
             <breast-feeding-time-line-item

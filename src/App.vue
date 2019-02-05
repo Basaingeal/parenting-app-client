@@ -3,7 +3,7 @@
     <v-app>
       <the-navbar v-if="authCheckComplete" />
       <v-content>
-        <v-slide-x-reverse-transition>
+        <v-slide-x-reverse-transition leave-absolute>
           <router-view v-if="authCheckComplete" />
         </v-slide-x-reverse-transition>
         <div v-if="!authCheckComplete">
