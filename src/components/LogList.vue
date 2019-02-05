@@ -72,13 +72,7 @@ export default {
     ...mapGetters(['now']),
     sortedLogs () {
       const logsClone = [...this.logs]
-      logsClone.sort((a, b) => {
-        if (a.startTime && b.startTime) {
-          return new Date(b.startTime) - new Date(a.startTime)
-        } else {
-          return 1
-        }
-      })
+      logsClone.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
       return logsClone
     }
   },

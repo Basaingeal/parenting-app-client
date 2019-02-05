@@ -10,6 +10,7 @@ query GetChildWithEverything($id: ID!){
     logs {
       id,
       details,
+      dateAdded,
       ... on BreastFeedingLog {
         startTime,
         feedingType,
