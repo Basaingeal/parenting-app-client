@@ -2,12 +2,11 @@
   <v-card>
     <v-card-actions>
       <v-container
-        fluid
-        grid-list-xl
+        grid-list-lg
       >
         <v-layout
           row
-          wrap
+          class="scroll-x"
         >
           <v-flex
             v-for="(route, index) in routes"
@@ -18,6 +17,7 @@
               :color="route.color"
               outline
               round
+              small
               :to="route.to"
             >
               <v-icon
@@ -54,3 +54,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.scroll-x {
+  overflow-x: auto;
+}
+/* .scroll-x::-webkit-scrollbar {
+  display: none;
+} */
+</style>
