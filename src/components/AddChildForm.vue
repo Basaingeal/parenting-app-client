@@ -13,9 +13,11 @@
           @change="imagePicked"
         >
         <v-flex xs12>
-          <v-hover style="cursor: pointer">
+          <v-hover
+            v-slot="{ hover }"
+            style="cursor: pointer"
+          >
             <v-avatar
-              slot-scope="{ hover }"
               size="144"
               color="white"
               @click="openFileInput"
@@ -76,16 +78,17 @@
             full-width
             max-width="290px"
           >
-            <v-text-field
-              slot="activator"
-              :value="readableDoB"
-              label="Date of Birth"
-              readonly
-              required
-              outline
-              prepend-inner-icon="far fa-calendar"
-              :rules="requiredRule('Date of Birth')"
-            />
+            <template #activator>
+              <v-text-field
+                :value="readableDoB"
+                label="Date of Birth"
+                readonly
+                required
+                outline
+                prepend-inner-icon="far fa-calendar"
+                :rules="requiredRule('Date of Birth')"
+              />
+            </template>
             <v-date-picker
               v-model="dateOfBirth"
               :allowed-dates="allowedDoB"
@@ -121,14 +124,15 @@
             persistent
             max-width="290px"
           >
-            <v-text-field
-              slot="activator"
-              :value="readableToB"
-              label="Time of Birth"
-              readonly
-              outline
-              prepend-inner-icon="far fa-clock"
-            />
+            <template #activator>
+              <v-text-field
+                :value="readableToB"
+                label="Time of Birth"
+                readonly
+                outline
+                prepend-inner-icon="far fa-clock"
+              />
+            </template>
             <v-time-picker
               v-model="timeOfBirth"
             >

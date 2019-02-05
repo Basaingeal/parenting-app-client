@@ -10,9 +10,9 @@
         fill-dot
         :large="$vuetify.breakpoint.mdAndUp"
       >
-        <span slot="icon">
+        <template v-slot:icon>
           {{ emojiForType(log.__typename) }}
-        </span>
+        </template>
         <v-card elevation="2">
           <v-card-title
             v-if="log.startTime"

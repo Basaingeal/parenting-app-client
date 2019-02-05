@@ -21,15 +21,17 @@
             full-width
             width="290px"
           >
-            <v-text-field
-              slot="activator"
-              :value="readableStartDate"
-              label="Start Date"
-              readonly
-              required
-              outline
-              prepend-inner-icon="far fa-calendar"
-            />
+            <template v-slot:activator>
+              <v-text-field
+                :value="readableStartDate"
+                label="Start Date"
+                readonly
+                required
+                outline
+                prepend-inner-icon="far fa-calendar"
+              />
+            </template>
+
             <v-date-picker
               v-model="startDate"
               :allowed-dates="previousDates"
@@ -67,7 +69,7 @@
             width="290px"
           >
             <v-text-field
-              slot="activator"
+              v-slot:activator
               :value="readableStartTime"
               label="Start Time"
               readonly
