@@ -13,6 +13,8 @@
             <v-btn
               :color="logThemes.breastFeedingLog.color"
               outline
+              round
+              :to="{ name: 'feeding' }"
             >
               Feeding
             </v-btn>
@@ -21,6 +23,7 @@
             <v-btn
               :color="logThemes.diaperLog.color"
               outline
+              round
             >
               Diapers
             </v-btn>

@@ -21,7 +21,8 @@ query GetChildWithEverything($id: ID!){
       ... on BottleFeedingLog {
         startTime,
         amount,
-        bottleContent
+        bottleContent,
+        feedingType
       }
     }
   }

@@ -8,7 +8,7 @@ export function toFullDateTime (value) {
   return format(parseISO(value), 'dddd, MMMM Do, YYYY h:mm:ss A')
 }
 
-export const differenceInWords = (value, compareDate) => formatDistance(parseISO(value), compareDate, {addSuffix: true})
+export const differenceInWords = (value, compareDate) => formatDistance(parseISO(value), compareDate, { addSuffix: true })
 
 export function toMaterialDate (value, currentDate) {
   const parsedValue = parseISO(value)

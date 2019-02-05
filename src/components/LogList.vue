@@ -3,44 +3,24 @@
     <v-timeline
       :dense="$vuetify.breakpoint.smAndDown"
     >
-      <v-timeline-item
-        v-for="log in sortedLogs"
-        :key="log.id"
-        :color="colorForType(log.__typename)"
-        fill-dot
-        :large="$vuetify.breakpoint.mdAndUp"
-      >
-        <template #icon>
-          {{ emojiForType(log.__typename) }}
-        </template>
-        <v-card elevation="2">
-          <v-card-title
-            v-if="log.startTime"
-            class="title"
+      <template #default>
+        <template v-for="group in logsGroupedByDates">
+          <v-timeline-item
+            :key="group[0]"
+            hide-dot
           >
-            {{ log.startTime | differenceInWords(now) }}
-          </v-card-title>
-          <v-card-text v-if="log.__typename === 'BreastFeedingLog'">
-            <span class="font-weight-bold">
-              {{ childFirstName }}
-            </span>
-            was breastfed for
-            <span class="font-weight-bold">
-              {{ getMinutesFromSeconds(log.leftBreastDuration) + getMinutesFromSeconds(log.rightBreastDuration) }} minutes.
-            </span>
-            <span v-if="getMinutesFromSeconds(log.leftBreastDuration)">
-              <span class="font-weight-bold">
-                {{ getMinutesFromSeconds(log.leftBreastDuration) }} minute{{ getMinutesFromSeconds(log.leftBreastDuration) !== 1 ? 's' : '' }}
-              </span> on the left side.
-            </span>
-            <span v-if="getMinutesFromSeconds(log.rightBreastDuration)">
-              <span class="font-weight-bold">
-                {{ getMinutesFromSeconds(log.rightBreastDuration) }} minute{{ getMinutesFromSeconds(log.rightBreastDuration) !== 1 ? 's' : '' }}
-              </span> on the right side.
-            </span>
-          </v-card-text>
-        </v-card>
-      </v-timeline-item>
+            {{ group[0] }}
+          </v-timeline-item>
+          <template v-for="log in group[1]">
+            <breast-feeding-time-line-item
+              v-if="log.__typename === 'BreastFeedingLog'"
+              :key="log.id"
+              :log="log"
+              :child-first-name="childFirstName"
+            />
+          </template>
+        </template>
+      </template>
     </v-timeline>
   </v-container>
 </template>
@@ -48,10 +28,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import { differenceInWords, toMaterialDate } from '@/services/DateFilters'
-import logThemes from '@/constants/logThemes'
+import { parseISO, isSameDay, subDays, format } from 'date-fns'
+import BreastFeedingTimeLineItem from '@/components/timelineItems/BreastFeedingTimeLineItem.vue'
 
 export default {
   name: 'LogList',
+  components: {
+    BreastFeedingTimeLineItem
+  },
   filters: {
     differenceInWords,
     toMaterialDate
@@ -72,29 +56,31 @@ export default {
     ...mapGetters(['now']),
     sortedLogs () {
       const logsClone = [...this.logs]
-      logsClone.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
+      logsClone.sort((a, b) => new Date(b.startTime || b.dateAdded) - new Date(a.startTime || a.dateAdded))
       return logsClone
-    }
-  },
-  methods: {
-    colorForType (type) {
-      if (type === 'BreastFeedingLog' || type === 'BottleFeedingLog') {
-        return logThemes.breastFeedingLog.color
-      } else {
-        return logThemes.diaperLog.color
-      }
     },
-    emojiForType (type) {
-      if (type === 'BreastFeedingLog') {
-        return logThemes.breastFeedingLog.icon
-      } else if (type === 'BottleFeedingLog') {
-        return logThemes.bottleFeedingLog.icon
-      } else {
-        return logThemes.diaperLog.icon
-      }
+    todayLogs () {
+      return this.sortedLogs.filter(l => isSameDay(parseISO(l.startTime || l.dateAdded), this.now))
     },
-    getMinutesFromSeconds (seconds) {
-      return Math.round(seconds / 60)
+    yesterdayLogs () {
+      return this.sortedLogs.filter(l => isSameDay(parseISO(l.startTime || l.dateAdded), subDays(this.now, 1)))
+    },
+    otherLogs () {
+      return this.sortedLogs.filter(l => !this.todayLogs.includes(l) && !this.yesterdayLogs.includes(l))
+    },
+    logsGroupedByDates () {
+      const grouped = new Map()
+      this.sortedLogs.forEach(log => {
+        const logStartDate = parseISO(log.startTime || log.dateAdded)
+        const label = toMaterialDate(format(logStartDate, 'yyy-MM-dd'), this.now)
+
+        if (!grouped.has(label)) {
+          grouped.set(label, [])
+        }
+        grouped.get(label).push(log)
+      })
+
+      return Array.from(grouped)
     }
   }
 }
