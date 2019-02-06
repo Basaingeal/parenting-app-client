@@ -14,7 +14,7 @@
             </span>
           </v-timeline-item>
           <template v-for="log in group[1]">
-            <breast-feeding-time-line-item
+            <breast-feeding-timeline-item
               v-if="log.__typename === 'BreastFeedingLog'"
               :key="log.id"
               :log="log"
@@ -32,12 +32,12 @@
 import { mapGetters } from 'vuex'
 import { differenceInWords, toMaterialDate } from '@/services/DateFilters'
 import { parseISO, isSameDay, subDays, format } from 'date-fns'
-import BreastFeedingTimeLineItem from '@/components/timelineItems/BreastFeedingTimeLineItem.vue'
+import BreastFeedingTimelineItem from '@/components/timelineItems/BreastFeedingTimelineItem.vue'
 
 export default {
   name: 'LogList',
   components: {
-    BreastFeedingTimeLineItem
+    BreastFeedingTimelineItem
   },
   filters: {
     differenceInWords,
