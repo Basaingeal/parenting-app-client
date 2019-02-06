@@ -53,6 +53,7 @@
       </v-card-actions>
       <v-expand-transition>
         <div v-if="edit">
+          <v-divider />
           <slot name="edit" />
         </div>
       </v-expand-transition>

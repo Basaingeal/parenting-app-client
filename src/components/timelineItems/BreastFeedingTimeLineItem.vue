@@ -57,6 +57,7 @@
       {{ log.startTime | toMaterialDateTime(now, true) }}
     </template>
     <template #edit>
+      <breast-feeding-log-edit-form :log="log" />
       <v-card-text>
         <v-btn @click="edit = false">
           Close
@@ -78,6 +79,7 @@ import logThemes from '@/constants/logThemes'
 import { differenceInWords, toMaterialDate, toMaterialDateTime } from '@/services/DateFilters'
 import { mapGetters } from 'vuex'
 import BaseTimelineItem from '@/components/timelineItems/BaseTimelineItem'
+import BreastFeedingLogEditForm from '@/components/editForms/BreastFeedingLogEditForm'
 
 export default {
   name: 'BreastFeedingTimeineItem',
@@ -87,7 +89,8 @@ export default {
     toMaterialDateTime
   },
   components: {
-    BaseTimelineItem
+    BaseTimelineItem,
+    BreastFeedingLogEditForm
   },
   props: {
     log: {
@@ -109,8 +112,7 @@ export default {
     return {
       logThemes,
       edit: false,
-      deleteModal: false,
-      logCopy: {}
+      deleteModal: false
     }
   },
   computed: {
@@ -122,7 +124,6 @@ export default {
     },
     toggleEdit () {
       this.edit = !this.edit
-      this.logCopy = { ...this.log }
     }
   }
 }
