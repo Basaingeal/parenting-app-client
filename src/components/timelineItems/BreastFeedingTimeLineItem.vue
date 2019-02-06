@@ -22,22 +22,27 @@
         {{ log.startTime | differenceInWords(now) }}
       </span>
       <div class="mb-1">
-        <span class="font-weight-bold">
+        <span class="font-weight-medium">
           {{ childFirstName }}
         </span>
         was breastfed for
-        <span class="font-weight-bold">
+        <span class="font-weight-medium">
           {{ getMinutesFromSeconds(log.leftBreastDuration + log.rightBreastDuration) }} minutes.
         </span>
         <span v-if="getMinutesFromSeconds(log.leftBreastDuration)">
-          <span class="font-weight-bold">
+          <span class="font-weight-medium">
             {{ getMinutesFromSeconds(log.leftBreastDuration) }} minute{{ getMinutesFromSeconds(log.leftBreastDuration) !== 1 ? 's' : '' }}
           </span> on the left side.
         </span>
         <span v-if="getMinutesFromSeconds(log.rightBreastDuration)">
-          <span class="font-weight-bold">
+          <span class="font-weight-medium">
             {{ getMinutesFromSeconds(log.rightBreastDuration) }} minute{{ getMinutesFromSeconds(log.rightBreastDuration) !== 1 ? 's' : '' }}
           </span> on the right side.
+        </span>
+      </div>
+      <div v-if="log.details">
+        <span class="font-italic">
+          {{ log.details }}
         </span>
       </div>
     </v-layout>
