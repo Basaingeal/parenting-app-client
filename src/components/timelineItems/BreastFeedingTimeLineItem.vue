@@ -27,7 +27,7 @@
         </span>
         was breastfed for
         <span class="font-weight-bold">
-          {{ getMinutesFromSeconds(log.leftBreastDuration) + getMinutesFromSeconds(log.rightBreastDuration) }} minutes.
+          {{ getMinutesFromSeconds(log.leftBreastDuration + log.rightBreastDuration) }} minutes.
         </span>
         <span v-if="getMinutesFromSeconds(log.leftBreastDuration)">
           <span class="font-weight-bold">
@@ -116,18 +116,13 @@ export default {
   computed: {
     ...mapGetters(['now'])
   },
-  created () {
-    this.logCopy = { ...this.log }
-  },
   methods: {
     getMinutesFromSeconds (seconds) {
       return Math.round(seconds / 60)
     },
     toggleEdit () {
       this.edit = !this.edit
-      if (!this.edit) {
-        this.logCopy = { ...this.log }
-      }
+      this.logCopy = { ...this.log }
     }
   }
 }
