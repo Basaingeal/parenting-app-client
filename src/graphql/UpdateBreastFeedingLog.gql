@@ -1,0 +1,13 @@
+mutation UpdateBreastFeedingLog($log: BreastFeedingLogInput!){
+  updateBreastFeedingLog(log: $log) {
+    id,
+    userId,
+    details,
+    startTime,
+    lastBreastUsed,
+    leftBreastDuration,
+    rightBreastDuration,
+    feedingType,
+    dateAdded
+  }
+}

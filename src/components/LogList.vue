@@ -4,25 +4,36 @@
       :dense="dense"
     >
       <template #default>
-        <template v-for="group in logsGroupedByDates">
-          <v-timeline-item
-            :key="group[0]"
-            hide-dot
-          >
-            <span class="subheading font-weight-light">
-              {{ group[0] }}
-            </span>
-          </v-timeline-item>
-          <template v-for="log in group[1]">
-            <breast-feeding-timeline-item
-              v-if="log.__typename === 'BreastFeedingLog'"
-              :key="log.id"
-              :log="log"
-              :child-first-name="childFirstName"
-              :dense="dense"
-            />
+        <v-slide-y-transition
+          group
+          leave-absolute
+        >
+          <template v-for="group in logsGroupedByDates">
+            <v-timeline-item
+              :key="group[0]"
+              hide-dot
+            >
+              <span class="subheading font-weight-light">
+                {{ group[0] }}
+              </span>
+            </v-timeline-item>
+            <v-slide-y-transition
+              :key="group[0] + ' transition'"
+              group
+              leave-absolute
+            >
+              <template v-for="log in group[1]">
+                <breast-feeding-timeline-item
+                  v-if="log.__typename === 'BreastFeedingLog'"
+                  :key="log.id"
+                  :log="log"
+                  :child-first-name="childFirstName"
+                  :dense="dense"
+                />
+              </template>
+            </v-slide-y-transition>
           </template>
-        </template>
+        </v-slide-y-transition>
       </template>
     </v-timeline>
   </v-container>

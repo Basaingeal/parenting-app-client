@@ -36,6 +36,7 @@ import AddBreastFeedingLogManualForm from '@/components/AddBreastFeedingLogManua
 import { mapGetters } from 'vuex'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import CREATE_BREAST_FEEDING_LOG from '@/graphql/CreateBreastFeedingLog.gql'
+import { parseISO } from 'date-fns'
 
 export default {
   name: 'NewBreastFeedingLog',
@@ -100,7 +101,7 @@ export default {
         if (!breastFeedingLogs.length) {
           return ''
         }
-        const mostRecentLog = breastFeedingLogs.sort((a, b) => a.startTime < b.startTime ? 1 : 0)[0]
+        const mostRecentLog = breastFeedingLogs.sort((a, b) => parseISO(b.startTime) - parseISO(a.startTime))[0]
         return mostRecentLog.lastBreastUsed
       }
     }

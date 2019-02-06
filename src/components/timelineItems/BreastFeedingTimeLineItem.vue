@@ -41,28 +41,14 @@
         </span>
       </div>
     </v-layout>
-    <v-dialog v-model="deleteModal">
-      <v-card>
-        <v-card-actions>
-          <v-btn
-            flat
-            @click="deleteModal = false"
-          >
-            Close
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <template #timestamp>
       {{ log.startTime | toMaterialDateTime(now, true) }}
     </template>
     <template #edit>
-      <breast-feeding-log-edit-form :log="log" />
-      <v-card-text>
-        <v-btn @click="edit = false">
-          Close
-        </v-btn>
-      </v-card-text>
+      <breast-feeding-log-edit-form
+        :log="log"
+        @formSubmit="handleEditFormSubmit"
+      />
     </template>
     <template #delete>
       <v-card-text>
@@ -71,6 +57,28 @@
         </v-btn>
       </v-card-text>
     </template>
+    <v-snackbar
+      v-model="snackbar"
+      bottom
+      :timeout="1500"
+      class="mb-2 mx-3"
+    >
+      <v-icon color="success">
+        fas fa-check
+      </v-icon>
+      {{ snackbarText }}
+    </v-snackbar>
+    <v-dialog
+      v-model="deleteModal"
+      max-width="290px"
+    >
+      <delete-log-card
+        :color="logThemes.breastFeedingLog.color"
+        :log-id="log.id"
+        @noDelete="deleteModal = false"
+        @logDeleted="handleLogDeleted"
+      />
+    </v-dialog>
   </base-timeline-item>
 </template>
 
@@ -80,6 +88,8 @@ import { differenceInWords, toMaterialDate, toMaterialDateTime } from '@/service
 import { mapGetters } from 'vuex'
 import BaseTimelineItem from '@/components/timelineItems/BaseTimelineItem'
 import BreastFeedingLogEditForm from '@/components/editForms/BreastFeedingLogEditForm'
+import DeleteLogCard from '@/components/DeleteLogCard'
+import UPDATE_BREAST_FEEDING_LOG from '@/graphql/UpdateBreastFeedingLog.gql'
 
 export default {
   name: 'BreastFeedingTimeineItem',
@@ -90,7 +100,8 @@ export default {
   },
   components: {
     BaseTimelineItem,
-    BreastFeedingLogEditForm
+    BreastFeedingLogEditForm,
+    DeleteLogCard
   },
   props: {
     log: {
@@ -112,7 +123,9 @@ export default {
     return {
       logThemes,
       edit: false,
-      deleteModal: false
+      deleteModal: false,
+      snackbar: false,
+      snackbarText: ''
     }
   },
   computed: {
@@ -124,6 +137,22 @@ export default {
     },
     toggleEdit () {
       this.edit = !this.edit
+    },
+    async handleEditFormSubmit (formData) {
+      this.edit = false
+      await this.$apollo.mutate({
+        mutation: UPDATE_BREAST_FEEDING_LOG,
+        variables: {
+          log: formData
+        }
+      })
+      this.snackbarText = 'Log Updated'
+      this.snackbar = true
+    },
+    handleLogDeleted () {
+      this.deleteModal = false
+      this.snackbarText = 'Log Deleted'
+      this.snackbar = true
     }
   }
 }
