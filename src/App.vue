@@ -2,9 +2,9 @@
   <v-app>
     <the-navbar v-if="authCheckComplete" />
     <v-content>
-      <v-slide-x-reverse-transition>
+      <v-scroll-x-reverse-transition mode="out-in">
         <router-view v-if="authCheckComplete" />
-      </v-slide-x-reverse-transition>
+      </v-scroll-x-reverse-transition>
       <div v-if="!authCheckComplete">
         <the-token-loader :show-dialog="renewingToken" />
       </div>

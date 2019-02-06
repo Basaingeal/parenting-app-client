@@ -6,51 +6,48 @@
     right
     fixed
   >
-    <template #activator>
-      <v-btn
-        v-model="fab"
-        :light="!fab"
-        :dark="fab"
-        :color="fab ? 'primary' : ''"
-        fab
-      >
-        <v-icon>fas fa-plus</v-icon>
-        <span>&nbsp;</span>
-        <v-icon>fas fa-chevron-down</v-icon>
-      </v-btn>
-    </template>
+    <v-btn
+      slot="activator"
+      v-model="fab"
+      :light="!fab"
+      :dark="fab"
+      :color="fab ? 'primary' : ''"
+      fab
+    >
+      <v-icon>fas fa-plus</v-icon>
+      <span>&nbsp;</span>
+      <v-icon>fas fa-chevron-down</v-icon>
+    </v-btn>
     <v-tooltip
       :color="logThemes.breastFeedingLog.color"
       left
     >
-      <template #activator>
-        <v-btn
-          fab
-          dark
-          small
-          :color="logThemes.breastFeedingLog.color"
-          :to="{ name: 'newbreastfeedinglog'}"
-        >
-          {{ logThemes.breastFeedingLog.icon }}
-        </v-btn>
-      </template>
+      <v-btn
+        slot="activator"
+        fab
+        dark
+        small
+        :color="logThemes.breastFeedingLog.color"
+        :to="{ name: 'newbreastfeedinglog'}"
+      >
+        {{ logThemes.breastFeedingLog.icon }}
+      </v-btn>
       Add Breast-feeding Log
     </v-tooltip>
     <v-tooltip
       :color="logThemes.bottleFeedingLog.color"
       left
     >
-      <template #activator>
-        <v-btn
-          fab
-          dark
-          small
-          :color="logThemes.bottleFeedingLog.color"
-          :to="{ name: 'newbreastfeedinglog'}"
-        >
-          {{ logThemes.bottleFeedingLog.icon }}
-        </v-btn>
-      </template>
+      <v-btn
+        slot="activator"
+        fab
+        dark
+        small
+        :color="logThemes.bottleFeedingLog.color"
+        :to="{ name: 'newbreastfeedinglog'}"
+      >
+        {{ logThemes.bottleFeedingLog.icon }}
+      </v-btn>
 
       Add Bottle-feeding Log
     </v-tooltip>
@@ -58,17 +55,16 @@
       color="light-green"
       left
     >
-      <template #activator>
-        <v-btn
-          fab
-          dark
-          small
-          :color="logThemes.diaperLog.color"
-          :to="{ name: 'newbreastfeedinglog'}"
-        >
-          {{ logThemes.diaperLog.icon }}
-        </v-btn>
-      </template>
+      <v-btn
+        slot="activator"
+        fab
+        dark
+        small
+        :color="logThemes.diaperLog.color"
+        :to="{ name: 'newbreastfeedinglog'}"
+      >
+        {{ logThemes.diaperLog.icon }}
+      </v-btn>
 
       Add Diaper Log
     </v-tooltip>

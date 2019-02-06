@@ -22,18 +22,17 @@
             full-width
             width="290px"
           >
-            <template #activator>
-              <v-text-field
-                :value="readableStartDate"
-                label="Start Date"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-calendar"
-                color="light-blue"
-                :rules="[timeInPast, requiredRule('Start Date')]"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartDate"
+              label="Start Date"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-calendar"
+              color="light-blue"
+              :rules="[timeInPast, requiredRule('Start Date')]"
+            />
 
             <v-date-picker
               v-model="startDate"
@@ -71,18 +70,17 @@
             full-width
             width="290px"
           >
-            <template #activator>
-              <v-text-field
-                :value="readableStartTime"
-                label="Start Time"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-clock"
-                color="light-blue"
-                :rules="[timeInPast, requiredRule('Start Time')]"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartTime"
+              label="Start Time"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-clock"
+              color="light-blue"
+              :rules="[timeInPast, requiredRule('Start Time')]"
+            />
 
             <v-time-picker
               v-model="startTime"
