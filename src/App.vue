@@ -8,6 +8,27 @@
       <div v-if="!authCheckComplete">
         <the-token-loader :show-dialog="renewingToken" />
       </div>
+      <v-snackbar
+        :value="updateSnackbar"
+        :timeout="0"
+      >
+        An update is available
+        <v-spacer />
+        <v-btn
+          flat
+          color="primary"
+          @click="toggleUpdateSnackbar"
+        >
+          Dismiss
+        </v-btn>
+        <v-btn
+          flat
+          color="primary"
+          @click="reload"
+        >
+          Refresh
+        </v-btn>
+      </v-snackbar>
     </v-content>
   </v-app>
 </template>
@@ -30,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authenticated'])
+    ...mapGetters(['authenticated', 'updateSnackbar'])
   },
   async created () {
     this.startNowTimer()
@@ -47,7 +68,10 @@ export default {
     await this.checkWebPSupport()
   },
   methods: {
-    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer'])
+    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer', 'toggleUpdateSnackbar']),
+    reload () {
+      window.location.reload()
+    }
   }
 }
 </script>

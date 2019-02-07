@@ -14,7 +14,7 @@
         </v-flex>
         <v-flex class="ml-1">
           <span class="font-weight-regular title">
-            Nursry.APP - SW - 3
+            Nursry.APP - SW - 4
           </span>
         </v-flex>
       </v-layout>

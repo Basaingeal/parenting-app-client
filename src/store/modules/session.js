@@ -8,7 +8,8 @@ const state = {
   expiresAt: localStorage.getItem('expires_at'),
   tokenRenewalTimeoutId: null,
   userProfile: null,
-  accessToken: null
+  accessToken: null,
+  updateSnackbar: false
 }
 
 const getters = {
@@ -33,6 +34,9 @@ const getters = {
   },
   accessToken (state) {
     return state.accessToken
+  },
+  updateSnackbar (state) {
+    return state.updateSnackbar
   }
 }
 
@@ -65,6 +69,9 @@ const mutations = {
 
   userProfile (state, userProfile) {
     state.userProfile = userProfile
+  },
+  toggleUpdateSnackbar (state) {
+    state.updateSnackbar = !state.updateSnackbar
   }
 }
 
@@ -128,6 +135,9 @@ const actions = {
       console.error(error)
       commit('logout', true)
     }
+  },
+  toggleUpdateSnackbar ({ commit }) {
+    commit('toggleUpdateSnackbar')
   }
 }
 
