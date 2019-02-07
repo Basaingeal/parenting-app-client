@@ -1,7 +1,7 @@
 <template>
   <v-snackbar
     class="mb-2 mx-3"
-    :value="value"
+    :value="updateSnackbar"
     :timeout="0"
   >
     New version available
@@ -27,14 +27,8 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'TheUpdateSnackbar',
-  props: {
-    value: {
-      type: Boolean,
-      required: true
-    }
-  },
   computed: {
-    ...mapGetters(['serviceWorkerRegistration'])
+    ...mapGetters(['serviceWorkerRegistration', 'updateSnackbar'])
   },
   methods: {
     ...mapActions(['toggleUpdateSnackbar']),

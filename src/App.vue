@@ -9,7 +9,8 @@
         <the-token-loader :show-dialog="renewingToken" />
       </div>
     </v-content>
-    <the-update-snackbar :value="updateSnackbar" />
+    <the-update-snackbar />
+    <the-install-snackbar />
   </v-app>
 </template>
 
@@ -17,6 +18,7 @@
 import TheNavbar from '@/components/TheNavbar'
 import TheTokenLoader from '@/components/TheTokenLoader'
 import TheUpdateSnackbar from '@/components/TheUpdateSnackbar'
+import TheInstallSnackbar from '@/components/TheInstallSnackbar'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -24,7 +26,8 @@ export default {
   components: {
     TheNavbar,
     TheTokenLoader,
-    TheUpdateSnackbar
+    TheUpdateSnackbar,
+    TheInstallSnackbar
   },
   data () {
     return {
@@ -33,7 +36,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authenticated', 'updateSnackbar'])
+    ...mapGetters(['authenticated'])
   },
   async created () {
     this.startNowTimer()
