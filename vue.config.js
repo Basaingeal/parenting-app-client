@@ -30,10 +30,7 @@ module.exports = {
           urlPattern: /\.(?:png|gif|jpg|jpeg|svg|webp)$/,
           handler: 'staleWhileRevalidate',
           options: {
-            cacheName: 'images',
-            expiration: {
-              purgeOnQuotaError: true
-            }
+            cacheName: 'images'
           }
         }]
     }
