@@ -1,0 +1,39 @@
+.blockquote {
+  font-size: 1.125rem;
+}
+html {
+  font-size: 0.875rem;
+}
+.display-4 {
+  font-size: 7rem !important;
+}
+.display-3 {
+  font-size: 3.5rem !important;
+}
+.display-2 {
+  font-size: 2.8125rem !important;
+}
+.display-1 {
+  font-size: 2.125rem !important;
+}
+.headline {
+  font-size: 1.5rem !important;
+}
+.title {
+  font-size: 1.25rem !important;
+}
+.subheading {
+  font-size: 1rem !important;
+}
+.body-2 {
+  font-size: 0.875rem !important;
+}
+.body-1 {
+  font-size: 0.875rem !important;
+}
+.caption {
+  font-size: 0.75rem !important;
+}
+.v-btn {
+  font-size: 0.875rem;
+}
