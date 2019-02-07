@@ -81,6 +81,7 @@ const actions = {
   fullLogout ({ commit }) {
     commit('logout', false)
     commit('currentChildId', null)
+    window.localStorage.removeItem('dont_prompt_install')
     auth.logout()
   },
 
