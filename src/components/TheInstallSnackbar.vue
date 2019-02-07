@@ -6,10 +6,10 @@
     class="mb-2 mx-3"
     :timeout="0"
   >
-    <v-avatar size="48">
+    <v-avatar size="24">
       <img :src="require('@/assets/logo.png')">
     </v-avatar>
-    <span class="text--black">
+    <span class="black--text">
       Add Nursry to Home screen
     </span>
     <v-spacer />
