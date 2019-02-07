@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       {
-        urlPattern: /\.html$/,
+        urlPattern: /\.(?:html|.app)$/,
         handler: 'networkFirst',
         options: {
           networkTimeoutSeconds: 10,
@@ -64,7 +64,7 @@ module.exports = {
         options: {
           cacheName: 'fonts',
           expiration: {
-            maxEntries: 8
+            maxEntries: 50
           }
         }
       }]
