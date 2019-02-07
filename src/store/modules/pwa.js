@@ -1,7 +1,8 @@
 const state = {
   updateSnackbar: false,
   installSnackbar: false,
-  installPromptEvent: null
+  installPromptEvent: null,
+  dontPromptInstall: window.localStorage.getItem('dont_prompt_install') || false
 }
 
 const getters = {
@@ -9,7 +10,7 @@ const getters = {
     return state.updateSnackbar
   },
   installSnackbar (state) {
-    return state.updateSnackbar
+    return state.installSnackbar && !state.dontPromptInstall
   },
   installPromptEvent (state) {
     return state.installPromptEvent
@@ -21,7 +22,7 @@ const mutations = {
     state.updateSnackbar = !state.updateSnackbar
   },
   toggleInstallSnackbar (state) {
-    state.updateSnackbar = !state.updateSnackbar
+    state.installSnackbar = !state.installSnackbar
   },
   installPromptEvent (state, event) {
     state.installPromptEvent = event

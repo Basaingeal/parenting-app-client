@@ -10,7 +10,7 @@
       <img :src="require('@/assets/logo.png')">
     </v-avatar>
     <v-spacer />
-    <span class="black--text">
+    <span class="black--text ml-2">
       Add Nursry to Home screen
     </span>
     <v-spacer />
@@ -44,6 +44,11 @@ export default {
     prompt () {
       // this.installPromptEvent.prompt()
       window.bipEvent.prompt()
+      this.toggleInstallSnackbar()
+    },
+    dismiss () {
+      this.toggleInstallSnackbar()
+      window.localStorage.setItem('dont_prompt_install', true)
     }
   }
 }
