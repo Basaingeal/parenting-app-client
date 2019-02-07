@@ -7,6 +7,7 @@ window.addEventListener('beforeinstallprompt', e => {
   console.log('beforeinstallprompt event fired')
   console.log(e)
   // Stash the event so it can be triggered later.
+  window.bipEvent = e
   store.dispatch('installPromptEvent', e)
   store.dispatch('toggleInstallSnackbar')
 })

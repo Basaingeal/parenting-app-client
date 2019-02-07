@@ -6,9 +6,10 @@
     class="mb-2 mx-3"
     :timeout="0"
   >
-    <v-avatar size="24">
+    <v-avatar size="20">
       <img :src="require('@/assets/logo.png')">
     </v-avatar>
+    <v-spacer />
     <span class="black--text">
       Add Nursry to Home screen
     </span>
@@ -41,7 +42,8 @@ export default {
   methods: {
     ...mapActions(['toggleInstallSnackbar', 'installPromptEvent']),
     prompt () {
-      this.installPromptEvent.prompt()
+      // this.installPromptEvent.prompt()
+      window.bipEvent.prompt()
     }
   }
 }
