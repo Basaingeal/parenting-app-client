@@ -12,7 +12,7 @@
         :value="updateSnackbar"
         :timeout="0"
       >
-        An update is available
+        New version available
         <v-spacer />
         <v-btn
           flat
