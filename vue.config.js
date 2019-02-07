@@ -32,7 +32,9 @@ module.exports = {
           options: {
             cacheName: 'images'
           }
-        }]
+        }],
+      skipWaiting: true,
+      clientsClaim: true
     }
   }
 }

@@ -8,41 +8,23 @@
       <div v-if="!authCheckComplete">
         <the-token-loader :show-dialog="renewingToken" />
       </div>
-      <v-snackbar
-        :value="updateSnackbar"
-        :timeout="0"
-      >
-        New version available
-        <v-spacer />
-        <v-btn
-          flat
-          color="primary"
-          @click="toggleUpdateSnackbar"
-        >
-          Dismiss
-        </v-btn>
-        <v-btn
-          flat
-          color="primary"
-          @click="reload"
-        >
-          Refresh
-        </v-btn>
-      </v-snackbar>
     </v-content>
+    <the-update-snackbar :value="updateSnackbar" />
   </v-app>
 </template>
 
 <script>
 import TheNavbar from '@/components/TheNavbar'
 import TheTokenLoader from '@/components/TheTokenLoader'
+import TheUpdateSnackbar from '@/components/TheUpdateSnackbar'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     TheNavbar,
-    TheTokenLoader
+    TheTokenLoader,
+    TheUpdateSnackbar
   },
   data () {
     return {
@@ -68,10 +50,7 @@ export default {
     await this.checkWebPSupport()
   },
   methods: {
-    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer', 'toggleUpdateSnackbar']),
-    reload () {
-      window.location.reload()
-    }
+    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer'])
   }
 }
 </script>
