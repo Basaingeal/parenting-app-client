@@ -3,7 +3,7 @@
     <top-navigator :routes="navigatorRoutes" />
     <v-fade-transition>
       <div v-if="!child">
-        <bullet-list-loader
+        <timeline-loader
           v-for="index in 10"
           :key="index"
         />
@@ -50,7 +50,7 @@ import TopNavigator from '@/components/TopNavigator.vue'
 import GET_CHILDREN from '@/graphql/GetChildren.gql'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import { mapGetters } from 'vuex'
-import { BulletListLoader } from 'vue-content-loader'
+import TimelineLoader from '@/components/TimelineLoader'
 import logThemes from '@/constants/logThemes'
 
 export default {
@@ -58,7 +58,7 @@ export default {
   components: {
     LogList,
     HomeSpeedDial,
-    BulletListLoader,
+    TimelineLoader,
     TopNavigator
   },
   data () {
