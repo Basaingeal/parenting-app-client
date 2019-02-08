@@ -5,14 +5,24 @@
     <v-toolbar-title>
       <v-layout>
         <v-flex>
-          <v-img
-            :src="require('@/assets/logo.png')"
-            class="my-auto"
-            height="24"
-            width="24"
-          />
+          <v-fade-transition mode="out-in">
+            <the-back-button
+              v-if="$route.name !== 'home' && $route.name !== 'welcome'"
+            />
+
+            <v-img
+              v-else
+              :src="require('@/assets/logo.png')"
+              class="my-auto ml-2 mr-3"
+              height="24"
+              width="24"
+            />
+          </v-fade-transition>
         </v-flex>
-        <v-flex class="ml-1">
+        <v-flex
+          class="ml-1 my-auto"
+          shrink
+        >
           <span class="font-weight-regular title">
             Nursry.APP
           </span>
@@ -87,12 +97,14 @@
 import { mapActions, mapGetters } from 'vuex'
 import TheAccountCard from './TheAccountCard'
 import ChildrenList from './ChildrenList'
+import TheBackButton from './TheBackButton'
 
 export default {
   name: 'TheNavbar',
   components: {
     TheAccountCard,
-    ChildrenList
+    ChildrenList,
+    TheBackButton
   },
   computed: {
     ...mapGetters(['authenticated', 'profileImgSource', 'childrenCount'])
