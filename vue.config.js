@@ -3,12 +3,9 @@ module.exports = {
   outputDir: undefined,
   assetsDir: undefined,
   runtimeCompiler: undefined,
-  productionSourceMap: undefined,
+  productionSourceMap: false,
   parallel: undefined,
-
-  css: {
-    sourceMap: true
-  },
+  css: undefined,
 
   pwa: {
     name: 'Nursry.APP',
@@ -36,5 +33,7 @@ module.exports = {
       skipWaiting: true,
       clientsClaim: true
     }
-  }
+  },
+
+  publicPath: undefined
 }
