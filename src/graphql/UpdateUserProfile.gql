@@ -1,0 +1,8 @@
+mutation UpdateUserProfile ($userProfile: UserProfileInput!) {
+  updateUserProfile(userProfile: $userProfile) {
+    id,
+    userId,
+    preferredUnitSystem,
+    dateAdded
+  }
+}

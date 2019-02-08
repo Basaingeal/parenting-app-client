@@ -26,6 +26,7 @@
               <v-btn
                 color="info"
                 class="ml-0"
+                :to="{ name: 'userprofile'}"
               >
                 View Profile
               </v-btn>

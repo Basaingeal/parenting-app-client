@@ -34,6 +34,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "newchild" */ './views/NewChild.vue')
     },
     {
+      path: '/userprofile',
+      name: 'userprofile',
+      component: () => import(/* webpackChunkName: "userprofile" */ './views/UserProfile.vue')
+    },
+    {
       path: '/feeding',
       name: 'feeding',
       component: () => import(/* webpackChunkName: "feeding" */ './views/Feeding.vue')

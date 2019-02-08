@@ -1,0 +1,8 @@
+query GetUserProfile {
+  userProfile {
+    id,
+    userId,
+    preferredUnitSystem,
+    dateAdded
+  }
+}

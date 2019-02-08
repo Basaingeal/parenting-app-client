@@ -1,0 +1,8 @@
+mutation CreateUserProfile ($userProfile: UserProfileInput!) {
+  createUserProfile(userProfile: $userProfile) {
+    id,
+    userId,
+    preferredUnitSystem,
+    dateAdded
+  }
+}
