@@ -5,7 +5,7 @@
     <v-toolbar-title>
       <v-layout>
         <v-flex>
-          <v-fade-transition mode="out-in">
+          <v-scale-transition mode="out-in">
             <the-back-button
               v-if="$route.name !== 'home' && $route.name !== 'welcome'"
             />
@@ -17,7 +17,7 @@
               height="24"
               width="24"
             />
-          </v-fade-transition>
+          </v-scale-transition>
         </v-flex>
         <v-flex
           class="ml-1 my-auto"
