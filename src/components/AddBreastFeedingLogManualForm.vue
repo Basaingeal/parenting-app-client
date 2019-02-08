@@ -9,10 +9,7 @@
         row
         wrap
       >
-        <v-flex
-          xs6
-          md6
-        >
+        <v-flex xs6>
           <v-dialog
             ref="startDateDialog"
             v-model="startDateModal"
@@ -57,10 +54,7 @@
             </v-date-picker>
           </v-dialog>
         </v-flex>
-        <v-flex
-          xs6
-          md6
-        >
+        <v-flex xs6>
           <v-dialog
             ref="startTimeDialog"
             v-model="startTimeModal"
@@ -169,7 +163,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { format, parseISO, isBefore } from 'date-fns'
+import { format, parseISO, isBefore, isSameYear } from 'date-fns'
 import { toLocalISO } from '@/services/DateFilters'
 
 export default {
@@ -204,7 +198,15 @@ export default {
       return toLocalISO(`${this.startDate}T${this.startTime}`)
     },
     readableStartDate () {
-      return this.startDate ? format(parseISO(this.startDate), 'MMMM d') : this.startDate
+      if (!this.startDate) {
+        return ''
+      }
+      const parsedStartDate = parseISO(this.startDate)
+      let formatString = 'MMMM d'
+      if (!isSameYear(this.now, parsedStartDate)) {
+        formatString += ' y'
+      }
+      return format(parsedStartDate, formatString)
     },
     readableStartTime () {
       if (!this.startTime) {
