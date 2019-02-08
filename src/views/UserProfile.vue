@@ -21,7 +21,10 @@
             grow
             :class="{'ml-5': $vuetify.breakpoint.smAndUp}"
           >
-            <v-layout column>
+            <v-layout
+              v-if="userProfile"
+              column
+            >
               <v-flex grow>
                 <v-layout
                   row
@@ -55,6 +58,7 @@
                 </v-layout>
               </v-flex>
             </v-layout>
+            <form-loader v-if="!userProfile" />
           </v-flex>
         </v-layout>
       </v-card-text>
@@ -66,8 +70,12 @@
 import { mapGetters } from 'vuex'
 import GET_USER_PROFILE from '@/graphql/GetUserProfile.gql'
 import UPDATE_USER_PROFILE from '@/graphql/UpdateUserProfile.gql'
+import FormLoader from '@/components/FormLoader'
 export default {
   name: 'UserProfile',
+  components: {
+    FormLoader
+  },
   data () {
     return {
       preferredUnitSystem: null,
