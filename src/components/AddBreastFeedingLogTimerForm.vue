@@ -177,7 +177,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['now']),
+    ...mapGetters(['now', 'authenticated']),
     readableStartDate () {
       return format(parseISO(this.startDate), 'MMMM d')
     },
@@ -191,7 +191,7 @@ export default {
       return isBefore(parseISO(this.startDateTimeISO), this.now)
     },
     canSubmit () {
-      return ((!!this.leftDuration || !!this.rightDuration) && !this.timerRunning && this.valid)
+      return ((!!this.leftDuration || !!this.rightDuration) && !this.timerRunning && this.valid && this.authenticated)
     },
     submitData () {
       return {
