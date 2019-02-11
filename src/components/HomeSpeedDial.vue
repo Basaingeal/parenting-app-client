@@ -9,8 +9,6 @@
     <v-btn
       slot="activator"
       v-model="fab"
-      :light="!fab"
-      :dark="fab"
       :color="fab ? 'primary' : ''"
       fab
     >

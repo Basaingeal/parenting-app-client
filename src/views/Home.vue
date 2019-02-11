@@ -31,11 +31,13 @@
             </v-layout>
           </v-container>
         </div>
-        <log-list
-          v-if="child.logs.length"
-          :child-first-name="child.firstName"
-          :logs="child.logs"
-        />
+        <v-fade-transition mode="out-in">
+          <log-list
+            v-if="child.logs.length"
+            :child-first-name="child.firstName"
+            :logs="child.logs"
+          />
+        </v-fade-transition>
       </div>
     </v-fade-transition>
 
