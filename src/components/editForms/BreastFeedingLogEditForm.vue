@@ -21,17 +21,18 @@
             full-width
             width="290px"
           >
-            <v-text-field
-              slot="activator"
-              :value="readableStartDate"
-              label="Start Date"
-              readonly
-              required
-              outline
-              prepend-inner-icon="far fa-calendar"
-              :color="logThemes.breastFeedingLog.color"
-              :rules="[timeInPast, requiredRule('Start Date')]"
-            />
+            <template #activator>
+              <v-text-field
+                :value="readableStartDate"
+                label="Start Date"
+                readonly
+                required
+                outline
+                prepend-inner-icon="far fa-calendar"
+                :color="logThemes.breastFeedingLog.color"
+                :rules="[timeInPast, requiredRule('Start Date')]"
+              />
+            </template>
 
             <v-date-picker
               v-model="startDate"
@@ -69,17 +70,18 @@
             full-width
             width="290px"
           >
-            <v-text-field
-              slot="activator"
-              :value="readableStartTime"
-              label="Start Time"
-              readonly
-              required
-              outline
-              prepend-inner-icon="far fa-clock"
-              :color="logThemes.breastFeedingLog.color"
-              :rules="[timeInPast, requiredRule('Start Time')]"
-            />
+            <template #activator>
+              <v-text-field
+                :value="readableStartTime"
+                label="Start Time"
+                readonly
+                required
+                outline
+                prepend-inner-icon="far fa-clock"
+                :color="logThemes.breastFeedingLog.color"
+                :rules="[timeInPast, requiredRule('Start Time')]"
+              />
+            </template>
 
             <v-time-picker
               v-model="startTime"
