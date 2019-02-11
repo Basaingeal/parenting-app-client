@@ -23,7 +23,10 @@
           class="ml-1 my-auto"
           shrink
         >
-          <span class="font-weight-regular title">
+          <span
+            class="font-weight-regular title"
+            @click="scrollToTop"
+          >
             Nursry.APP
           </span>
         </v-flex>
@@ -110,7 +113,14 @@ export default {
     ...mapGetters(['authenticated', 'profileImgSource', 'childrenCount'])
   },
   methods: {
-    ...mapActions(['login', 'fullLogout'])
+    ...mapActions(['login', 'fullLogout']),
+    scrollToTop () {
+      this.$vuetify.goTo(0, {
+        easing: 'easeInOutCubic',
+        duration: 500,
+        offset: 0
+      })
+    }
   }
 }
 </script>

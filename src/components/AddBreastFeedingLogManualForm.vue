@@ -151,6 +151,7 @@
             color="light-blue"
             :block="$vuetify.breakpoint.smAndDown"
             dark
+            :disabled="!authenticated"
             @click="submitForm"
           >
             Finish and save
@@ -193,7 +194,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['now']),
+    ...mapGetters(['now', 'authenticated']),
     startDateTimeISO () {
       return toLocalISO(`${this.startDate}T${this.startTime}`)
     },

@@ -13,7 +13,7 @@ const state = {
 
 const getters = {
   authenticated (state) {
-    return !!state.accessToken
+    return !!state.accessToken && new Date(state.expiresAt) > new Date()
   },
   timeUntilExpired (state) {
     if (!state.expiresAt) {
@@ -99,6 +99,9 @@ const actions = {
     const expiresAt = JSON.parse(state.expiresAt)
     const delay = expiresAt - Date.now()
     if (delay > 5000) {
+      if (state.tokenRenewalTimeoutId) {
+        window.clearInterval(state.tokenRenewalTimeoutId)
+      }
       const tokenRenewalTimeoutId = setTimeout(async () => {
         await dispatch('renewToken')
       }, delay - 5000)
@@ -129,6 +132,18 @@ const actions = {
       console.error(error)
       commit('logout', true)
     }
+  },
+
+  renewTokenOnVisibilityChange ({ state, dispatch }) {
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        const expiresAtDate = new Date(state.expiresAt)
+        const now = new Date()
+        if (now > expiresAtDate) {
+          dispatch('renewToken')
+        }
+      }
+    })
   }
 }
 

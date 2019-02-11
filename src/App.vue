@@ -50,10 +50,11 @@ export default {
       this.$router.push({ name: 'welcome' })
     }
     this.authCheckComplete = true
+    this.renewTokenOnVisibilityChange()
     await this.checkWebPSupport()
   },
   methods: {
-    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer'])
+    ...mapActions(['checkWebPSupport', 'scheduleRenewal', 'refreshProfile', 'logout', 'renewToken', 'startNowTimer', 'renewTokenOnVisibilityChange'])
   }
 }
 </script>

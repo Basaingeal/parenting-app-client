@@ -179,6 +179,32 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <v-snackbar
+      :timeout="0"
+      :value="savingChild"
+      bottom
+      class="mb-2 mx-3"
+    >
+      <v-icon>fas fa-spinner fa-spin</v-icon>
+      <v-spacer />
+      <span>
+        Adding Child
+      </span>
+    </v-snackbar>
+    <v-snackbar
+      :timeout="0"
+      :value="uploadingImage"
+      bottom
+      class="mb-2 mx-3"
+    >
+      <v-icon color="white">
+        fas fa-spinner fa-spin
+      </v-icon>
+      <v-spacer />
+      <span>
+        Uploading Image
+      </span>
+    </v-snackbar>
   </v-form>
 </template>
 
@@ -216,7 +242,10 @@ export default {
         }
       ],
       babyImgSource: require('@/assets/baby-solid.svg'),
-      imageAdded: false
+      imageAdded: false,
+
+      savingChild: false,
+      uploadingImage: false
     }
   },
   computed: {
@@ -273,6 +302,8 @@ export default {
       }
     },
     async saveChild () {
+      this.savingChild = true
+      this.valid = false
       const response = await this.$apollo.mutate({
         mutation: CREATE_CHILD,
         variables: {
@@ -288,8 +319,10 @@ export default {
       })
       const newChild = response.data.createChild
       this.setCurrentChild(newChild.id)
+      this.savingChild = false
       // if an image was added, upload it using the new id.
       if (this.imageAdded) {
+        this.uploadingImage = true
         const formData = new FormData()
         formData.append('file', this.$refs.babyImageInput.files[0])
         await this.$axios.post(`childImage/${newChild.id}`, formData, {
@@ -297,6 +330,7 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         })
+        this.uploadingImage = false
       }
 
       return newChild
