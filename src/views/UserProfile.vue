@@ -106,7 +106,7 @@ export default {
         }
       })
 
-      if (window.history.length > 1) {
+      if (window.history.length > 2) {
         this.$router.go(-1)
       } else {
         this.$router.push({ name: 'home' })
