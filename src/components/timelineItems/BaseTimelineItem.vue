@@ -4,10 +4,10 @@
     fill-dot
     :large="!dense"
   >
-    <template slot="icon">
+    <template #icon>
       <slot name="icon" />
     </template>
-    <template slot="opposite">
+    <template #opposite>
       <slot name="opposite" />
     </template>
     <v-card raised>
