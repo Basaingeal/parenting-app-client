@@ -22,10 +22,10 @@
         <v-flex
           class="ml-1 my-auto"
           shrink
+          @click="scrollToTop"
         >
           <span
             class="font-weight-regular title"
-            @click="scrollToTop"
           >
             Nursry.APP
           </span>

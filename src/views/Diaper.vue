@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <top-navigator :routes="navigatorRoutes" />
     <v-fade-transition>
       <div v-if="!child">
@@ -38,7 +38,7 @@
         />
       </div>
     </v-fade-transition>
-  </v-container>
+  </div>
 </template>
 
 <script>

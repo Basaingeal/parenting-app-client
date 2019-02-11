@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <top-navigator :routes="navigatorRoutes" />
     <v-fade-transition>
       <div v-if="!child">
@@ -31,14 +31,16 @@
             </v-layout>
           </v-container>
         </div>
-        <log-list
-          v-if="feedingLogs.length"
-          :child-first-name="child.firstName"
-          :logs="feedingLogs"
-        />
       </div>
     </v-fade-transition>
-  </v-container>
+    <v-fade-transition>
+      <log-list
+        v-if="feedingLogs.length"
+        :child-first-name="child.firstName"
+        :logs="feedingLogs"
+      />
+    </v-fade-transition>
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <top-navigator :routes="navigatorRoutes" />
     <v-fade-transition>
       <div v-if="!child">
@@ -31,18 +31,17 @@
             </v-layout>
           </v-container>
         </div>
-        <v-fade-transition mode="out-in">
-          <log-list
-            v-if="child.logs.length"
-            :child-first-name="child.firstName"
-            :logs="child.logs"
-          />
-        </v-fade-transition>
       </div>
     </v-fade-transition>
-
+    <v-fade-transition mode="out-in">
+      <log-list
+        v-if="child.logs.length"
+        :child-first-name="child.firstName"
+        :logs="child.logs"
+      />
+    </v-fade-transition>
     <home-speed-dial />
-  </v-container>
+  </div>
 </template>
 
 <script>
