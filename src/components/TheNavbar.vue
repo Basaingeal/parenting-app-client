@@ -27,7 +27,7 @@
           <span
             class="font-weight-regular title"
           >
-            Nursry.APP
+            Nursry
           </span>
         </v-flex>
       </v-layout>

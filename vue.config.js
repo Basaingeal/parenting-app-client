@@ -8,7 +8,7 @@ module.exports = {
   css: undefined,
 
   pwa: {
-    name: 'Nursry.APP',
+    name: 'Nursry',
     themeColor: '#FFFFFF',
     msTileColor: '#ea80fc',
     workboxOptions: {

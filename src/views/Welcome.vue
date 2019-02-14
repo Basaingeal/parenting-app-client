@@ -10,7 +10,7 @@
         class="display-2 font-weight-thin"
         style="max-width: 475px"
       >
-        Welcome to Nursry.APP
+        Welcome to Nursry
       </h3>
       <p
         class="subheading font-weight-thin mt-3"
