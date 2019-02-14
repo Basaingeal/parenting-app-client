@@ -21,7 +21,7 @@
             full-width
             width="290px"
           >
-            <template #activator>
+            <template #activator="data">
               <v-text-field
                 :value="readableStartDate"
                 color="light-blue"
@@ -30,6 +30,7 @@
                 required
                 outline
                 prepend-inner-icon="far fa-calendar"
+                v-on="data.on"
               />
             </template>
 
@@ -69,7 +70,7 @@
             full-width
             width="290px"
           >
-            <template #activator>
+            <template #activator="data">
               <v-text-field
                 :value="readableStartTime"
                 label="Start Time"
@@ -79,6 +80,7 @@
                 outline
                 prepend-inner-icon="far fa-clock"
                 :rules="[timeInPast]"
+                v-on="data.on"
               />
             </template>
 

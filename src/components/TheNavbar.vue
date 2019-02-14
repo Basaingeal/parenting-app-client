@@ -43,10 +43,10 @@
         open-on-hover
         transition="slide-y-transition"
       >
-        <template #activator>
+        <template #activator="data">
           <v-btn
-
             icon
+            v-on="data.on"
           >
             <v-icon
               small
@@ -60,26 +60,25 @@
       </v-menu>
       <v-hover
         v-if="authenticated"
-        v-slot="{ hover }"
       >
         <v-menu
+          slot-scope="{ hover }"
           offset-y
           left
           nudge-bottom="12"
           transition="slide-y-transition"
         >
-          <template #activator>
-            <v-avatar
-              size="40"
-              class="my-auto"
-              :class="`elevation-${hover ? 12 : 2}`"
-            >
-              <v-img
-                :src="profileImgSource"
-                alt="Profile Image"
-              />
-            </v-avatar>
-          </template>
+          <v-avatar
+            slot="activator"
+            size="40"
+            class="my-auto"
+            :class="`elevation-${hover ? 12 : 2}`"
+          >
+            <v-img
+              :src="profileImgSource"
+              alt="Profile Image"
+            />
+          </v-avatar>
 
           <the-account-card />
         </v-menu>

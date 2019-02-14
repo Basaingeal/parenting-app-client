@@ -41,7 +41,7 @@
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
     "eslint": "^5.13.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint-plugin-vue": "^5.2.1",
     "graphql-tag": "^2.9.0",
     "live-server": "^1.2.1",
     "node-sass": "^4.9.0",

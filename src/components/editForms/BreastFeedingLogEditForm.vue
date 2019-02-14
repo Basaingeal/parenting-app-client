@@ -21,7 +21,7 @@
             full-width
             width="290px"
           >
-            <template #activator>
+            <template #activator="data">
               <v-text-field
                 :value="readableStartDate"
                 label="Start Date"
@@ -31,6 +31,7 @@
                 prepend-inner-icon="far fa-calendar"
                 :color="logThemes.breastFeedingLog.color"
                 :rules="[timeInPast, requiredRule('Start Date')]"
+                v-on="data.on"
               />
             </template>
 
@@ -70,7 +71,7 @@
             full-width
             width="290px"
           >
-            <template #activator>
+            <template #activator="data">
               <v-text-field
                 :value="readableStartTime"
                 label="Start Time"
@@ -80,6 +81,7 @@
                 prepend-inner-icon="far fa-clock"
                 :color="logThemes.breastFeedingLog.color"
                 :rules="[timeInPast, requiredRule('Start Time')]"
+                v-on="data.on"
               />
             </template>
 

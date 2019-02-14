@@ -36,7 +36,7 @@
                     <span>🍼</span>
                   </template>
                   <span class="display-3">
-                    🤱
+                    {{ logThemes.breastFeedingLog.icon }}
                   </span>
                 </v-badge>
               </v-flex>
@@ -85,7 +85,7 @@
                     <span>🍼</span>
                   </template>
                   <span class="display-3 mirror">
-                    🤱
+                    {{ logThemes.breastFeedingLog.icon }}
                   </span>
                 </v-badge>
               </v-flex>
@@ -127,6 +127,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import logThemes from '@/constants/logThemes'
 
 export default {
   name: 'DualTimer',
@@ -153,7 +154,8 @@ export default {
       timerStarted: false,
       startTime: null,
       lastTimerUsed: null,
-      endTime: null
+      endTime: null,
+      logThemes
     }
   },
   computed: {

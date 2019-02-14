@@ -1,7 +1,7 @@
 export default {
   breastFeedingLog: {
     color: 'light-blue',
-    icon: '🤱'
+    icon: '🤱🏼'
   },
   bottleFeedingLog: {
     color: 'light-blue',

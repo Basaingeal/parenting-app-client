@@ -6,29 +6,29 @@
     right
     fixed
   >
-    <template #activator>
-      <v-btn
-        v-model="fab"
-        :color="fab ? 'primary' : ''"
-        fab
-      >
-        <v-icon>fas fa-plus</v-icon>
-        <span>&nbsp;</span>
-        <v-icon>fas fa-chevron-down</v-icon>
-      </v-btn>
-    </template>
+    <v-btn
+      slot="activator"
+      v-model="fab"
+      :color="fab ? 'primary' : ''"
+      fab
+    >
+      <v-icon>fas fa-plus</v-icon>
+      <span>&nbsp;</span>
+      <v-icon>fas fa-chevron-down</v-icon>
+    </v-btn>
 
     <v-tooltip
       :color="logThemes.breastFeedingLog.color"
       left
     >
-      <template #activator>
+      <template #activator="data">
         <v-btn
           fab
           dark
           small
           :color="logThemes.breastFeedingLog.color"
           :to="{ name: 'newbreastfeedinglog'}"
+          v-on="data.on"
         >
           {{ logThemes.breastFeedingLog.icon }}
         </v-btn>
@@ -40,13 +40,14 @@
       :color="logThemes.bottleFeedingLog.color"
       left
     >
-      <template #activator>
+      <template #activator="data">
         <v-btn
           fab
           dark
           small
           :color="logThemes.bottleFeedingLog.color"
           :to="{ name: 'newbreastfeedinglog'}"
+          v-on="data.on"
         >
           {{ logThemes.bottleFeedingLog.icon }}
         </v-btn>
@@ -58,13 +59,14 @@
       color="light-green"
       left
     >
-      <template #activator>
+      <template #activator="data">
         <v-btn
           fab
           dark
           small
           :color="logThemes.diaperLog.color"
           :to="{ name: 'newbreastfeedinglog'}"
+          v-on="data.on"
         >
           {{ logThemes.diaperLog.icon }}
         </v-btn>

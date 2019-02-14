@@ -79,7 +79,7 @@
             full-width
             max-width="290px"
           >
-            <template #activator>
+            <template #activator="data">
               <v-text-field
                 :value="readableDoB"
                 label="Date of Birth"
@@ -88,6 +88,7 @@
                 outline
                 prepend-inner-icon="far fa-calendar"
                 :rules="requiredRule('Date of Birth')"
+                v-on="data.on"
               />
             </template>
 
@@ -126,13 +127,14 @@
             persistent
             max-width="290px"
           >
-            <template #activator>
+            <template #activator="data">
               <v-text-field
                 :value="readableToB"
                 label="Time of Birth"
                 readonly
                 outline
                 prepend-inner-icon="far fa-clock"
+                v-on="data.on"
               />
             </template>
 
