@@ -19,36 +19,34 @@
             full-width
             width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableStartDate"
-                label="Start Date"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-calendar"
-                color="light-blue"
-                :rules="[timeInPast, requiredRule('Start Date')]"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartDate"
+              label="Start Date"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-calendar"
+              :color="logThemes.breastFeedingLog.color"
+              :rules="[timeInPast, requiredRule('Start Date')]"
+            />
 
             <v-date-picker
               v-model="startDate"
               :allowed-dates="previousDates"
-              color="light-blue"
+              :color="logThemes.breastFeedingLog.color"
             >
               <v-spacer />
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="startDateModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="$refs.startDateDialog.save(startDate)"
               >
                 OK
@@ -66,35 +64,33 @@
             full-width
             width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableStartTime"
-                label="Start Time"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-clock"
-                color="light-blue"
-                :rules="[timeInPast, requiredRule('Start Time')]"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartTime"
+              label="Start Time"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-clock"
+              :color="logThemes.breastFeedingLog.color"
+              :rules="[timeInPast, requiredRule('Start Time')]"
+            />
 
             <v-time-picker
               v-model="startTime"
-              color="light-blue"
+              :color="logThemes.breastFeedingLog.color"
             >
               <v-spacer />
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="startTimeModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="$refs.startTimeDialog.save(startTime)"
               >
                 OK
@@ -107,7 +103,7 @@
             v-model="leftDuration"
             :items="minuteSelectItems"
             outline
-            color="light-blue"
+            :color="logThemes.breastFeedingLog.color"
             label="Left Duration"
             :rules="[durationRequiredRule]"
           />
@@ -117,7 +113,7 @@
             v-model="rightDuration"
             :items="minuteSelectItems"
             outline
-            color="light-blue"
+            :color="logThemes.breastFeedingLog.color"
             label="Right Duration"
             :rules="[durationRequiredRule]"
           />
@@ -130,7 +126,7 @@
             v-model="lastBreastUsed"
             :items="leftRightItems"
             outline
-            color="light-blue"
+            :color="logThemes.breastFeedingLog.color"
             label="Last Breast Used"
             :rules="[requiredRule('Last Breast Used')]"
           />
@@ -142,7 +138,7 @@
           <v-textarea
             v-model="details"
             outline
-            color="light-blue"
+            :color="logThemes.breastFeedingLog.color"
             label="Details"
             rows="2"
           />
@@ -152,7 +148,7 @@
           class="mt-auto"
         >
           <v-btn
-            color="light-blue"
+            :color="logThemes.breastFeedingLog.color"
             :block="$vuetify.breakpoint.smAndDown"
             dark
             :disabled="!authenticated"
@@ -170,6 +166,7 @@
 import { mapGetters } from 'vuex'
 import { format, parseISO, isBefore, isSameYear } from 'date-fns'
 import { toLocalISO } from '@/services/DateFilters'
+import logThemes from '@/constants/logThemes'
 
 export default {
   name: 'AddBreastFeedingLogManualForm',
@@ -194,7 +191,8 @@ export default {
           text: 'Right',
           value: 'RIGHT'
         }
-      ]
+      ],
+      logThemes
     }
   },
   computed: {

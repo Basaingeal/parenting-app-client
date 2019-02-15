@@ -14,11 +14,11 @@
         >
         <v-flex xs12>
           <v-hover
-            v-slot="{ hover }"
             :value="$vuetify.breakpoint.smAndDown"
             style="cursor: pointer"
           >
             <v-avatar
+              slot-scope="{ hover }"
               size="144"
               color="white"
               @click="openFileInput"
@@ -79,18 +79,16 @@
             full-width
             max-width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableDoB"
-                label="Date of Birth"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-calendar"
-                :rules="requiredRule('Date of Birth')"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableDoB"
+              label="Date of Birth"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-calendar"
+              :rules="requiredRule('Date of Birth')"
+            />
 
             <v-date-picker
               v-model="dateOfBirth"
@@ -127,16 +125,14 @@
             persistent
             max-width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableToB"
-                label="Time of Birth"
-                readonly
-                outline
-                prepend-inner-icon="far fa-clock"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableToB"
+              label="Time of Birth"
+              readonly
+              outline
+              prepend-inner-icon="far fa-clock"
+            />
 
             <v-time-picker
               v-model="timeOfBirth"

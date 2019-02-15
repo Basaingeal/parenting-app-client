@@ -29,12 +29,10 @@
               <v-flex class="mb-3">
                 <v-badge
                   :value="lastSideUsed === 'LEFT' && !timerStarted"
-                  color="light-blue lighten-2"
+                  :color="`${color} lighten-2`"
                   overlap
                 >
-                  <template #badge>
-                    <span>🍼</span>
-                  </template>
+                  <span slot="badge">🍼</span>
                   <span class="display-3">
                     {{ logThemes.breastFeedingLog.icon }}
                   </span>
@@ -78,12 +76,10 @@
               <v-flex class="mb-3">
                 <v-badge
                   :value="lastSideUsed === 'RIGHT' && !timerStarted"
-                  color="light-blue lighten-2"
+                  :color="`${logThemes.breastFeedingLog.color} lighten-2`"
                   overlap
                 >
-                  <template #badge>
-                    <span>🍼</span>
-                  </template>
+                  <span slot="badge">🍼</span>
                   <span class="display-3 mirror">
                     {{ logThemes.breastFeedingLog.icon }}
                   </span>

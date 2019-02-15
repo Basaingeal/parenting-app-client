@@ -1,9 +1,9 @@
 <template>
   <v-tabs
     v-model="tabsActive"
-    color="light-blue lighten-4"
+    :color="`${logThemes.breastFeedingLog.color} lighten-4`"
     fixed-tabs
-    slider-color="light-blue darken-4"
+    :slider-color="`${logThemes.breastFeedingLog.color} darken-4`"
   >
     <v-tab
       ripple
@@ -37,6 +37,7 @@ import { mapGetters } from 'vuex'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
 import CREATE_BREAST_FEEDING_LOG from '@/graphql/CreateBreastFeedingLog.gql'
 import { parseISO } from 'date-fns'
+import logThemes from '@/constants/logThemes'
 
 export default {
   name: 'NewBreastFeedingLog',
@@ -47,7 +48,8 @@ export default {
   data () {
     return {
       tabsActive: 0,
-      timerRunning: false
+      timerRunning: false,
+      logThemes
     }
   },
   computed: {

@@ -9,6 +9,6 @@ export default {
   },
   diaperLog: {
     color: 'light-green',
-    icon: '🧷'
+    icon: '🧺'
   }
 }

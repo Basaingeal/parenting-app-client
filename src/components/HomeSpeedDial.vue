@@ -21,18 +21,16 @@
       :color="logThemes.breastFeedingLog.color"
       left
     >
-      <template #activator="data">
-        <v-btn
-          fab
-          dark
-          small
-          :color="logThemes.breastFeedingLog.color"
-          :to="{ name: 'newbreastfeedinglog'}"
-          v-on="data.on"
-        >
-          {{ logThemes.breastFeedingLog.icon }}
-        </v-btn>
-      </template>
+      <v-btn
+        slot="activator"
+        fab
+        dark
+        small
+        :color="logThemes.breastFeedingLog.color"
+        :to="{ name: 'newbreastfeedinglog'}"
+      >
+        {{ logThemes.breastFeedingLog.icon }}
+      </v-btn>
 
       Add Breast-feeding Log
     </v-tooltip>
@@ -40,18 +38,16 @@
       :color="logThemes.bottleFeedingLog.color"
       left
     >
-      <template #activator="data">
-        <v-btn
-          fab
-          dark
-          small
-          :color="logThemes.bottleFeedingLog.color"
-          :to="{ name: 'newbreastfeedinglog'}"
-          v-on="data.on"
-        >
-          {{ logThemes.bottleFeedingLog.icon }}
-        </v-btn>
-      </template>
+      <v-btn
+        slot="activator"
+        fab
+        dark
+        small
+        :color="logThemes.bottleFeedingLog.color"
+        :to="{ name: 'newbreastfeedinglog'}"
+      >
+        {{ logThemes.bottleFeedingLog.icon }}
+      </v-btn>
 
       Add Bottle-feeding Log
     </v-tooltip>
@@ -59,18 +55,16 @@
       color="light-green"
       left
     >
-      <template #activator="data">
-        <v-btn
-          fab
-          dark
-          small
-          :color="logThemes.diaperLog.color"
-          :to="{ name: 'newbreastfeedinglog'}"
-          v-on="data.on"
-        >
-          {{ logThemes.diaperLog.icon }}
-        </v-btn>
-      </template>
+      <v-btn
+        slot="activator"
+        fab
+        dark
+        small
+        :color="logThemes.diaperLog.color"
+        :to="{ name: 'newbreastfeedinglog'}"
+      >
+        {{ logThemes.diaperLog.icon }}
+      </v-btn>
       Add Diaper Log
     </v-tooltip>
   </v-speed-dial>

@@ -11,7 +11,7 @@
         {{ log.startTime | differenceInWords(now) }}
       </span>
     </template>
-    <template #icon>
+    <template slot="icon">
       {{ logThemes.breastFeedingLog.icon }}
     </template>
     <v-layout column>

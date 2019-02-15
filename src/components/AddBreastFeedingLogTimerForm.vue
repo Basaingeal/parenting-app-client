@@ -21,35 +21,33 @@
             full-width
             width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableStartDate"
-                color="light-blue"
-                label="Start Date"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-calendar"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartDate"
+              :color="logThemes.breastFeedingLog.color"
+              label="Start Date"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-calendar"
+            />
 
             <v-date-picker
               v-model="startDate"
               :allowed-dates="previousDates"
-              color="light-blue"
+              :color="logThemes.breastFeedingLog.color"
             >
               <v-spacer />
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="startDateModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="$refs.startDateDialog.save(startDate)"
               >
                 OK
@@ -70,35 +68,33 @@
             full-width
             width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableStartTime"
-                label="Start Time"
-                color="light-blue"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-clock"
-                :rules="[timeInPast]"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartTime"
+              label="Start Time"
+              :color="logThemes.breastFeedingLog.color"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-clock"
+              :rules="[timeInPast]"
+            />
 
             <v-time-picker
               v-model="startTime"
-              color="light-blue"
+              :color="logThemes.breastFeedingLog.color"
             >
               <v-spacer />
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="startTimeModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="light-blue"
+                :color="logThemes.breastFeedingLog.color"
                 @click="$refs.startTimeDialog.save(startTime)"
               >
                 OK
@@ -113,6 +109,7 @@
         >
           <dual-timer
             :last-side-used="lastSideUsed"
+            :color="logThemes.breastFeedingLog.color"
             @timerStarted="updateStartDateTime"
             @timerStopped="updateTimerInfo"
           />
@@ -124,7 +121,7 @@
           <v-textarea
             v-model="details"
             outline
-            color="light-blue"
+            :color="logThemes.breastFeedingLog.color"
             label="Details"
             rows="2"
           />
@@ -134,7 +131,7 @@
           class="mt-auto"
         >
           <v-btn
-            color="light-blue"
+            :color="logThemes.breastFeedingLog.color"
             dark
             :block="$vuetify.breakpoint.smAndDown"
             :disabled="!canSubmit"
@@ -153,6 +150,7 @@ import { mapGetters } from 'vuex'
 import { format, parseISO, isBefore } from 'date-fns'
 import DualTimer from '@/components/DualTimer'
 import { toLocalISO } from '@/services/DateFilters'
+import logThemes from '@/constants/logThemes'
 
 export default {
   name: 'AddBreastFeedingLogTimerForm',
@@ -177,7 +175,8 @@ export default {
       rightDuration: 0,
       lastBreastUsed: null,
       timerRunning: false,
-      details: ''
+      details: '',
+      logThemes
     }
   },
   computed: {

@@ -21,19 +21,17 @@
             full-width
             width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableStartDate"
-                label="Start Date"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-calendar"
-                :color="logThemes.breastFeedingLog.color"
-                :rules="[timeInPast, requiredRule('Start Date')]"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartDate"
+              label="Start Date"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-calendar"
+              :color="logThemes.breastFeedingLog.color"
+              :rules="[timeInPast, requiredRule('Start Date')]"
+            />
 
             <v-date-picker
               v-model="startDate"
@@ -71,19 +69,17 @@
             full-width
             width="290px"
           >
-            <template #activator="data">
-              <v-text-field
-                :value="readableStartTime"
-                label="Start Time"
-                readonly
-                required
-                outline
-                prepend-inner-icon="far fa-clock"
-                :color="logThemes.breastFeedingLog.color"
-                :rules="[timeInPast, requiredRule('Start Time')]"
-                v-on="data.on"
-              />
-            </template>
+            <v-text-field
+              slot="activator"
+              :value="readableStartTime"
+              label="Start Time"
+              readonly
+              required
+              outline
+              prepend-inner-icon="far fa-clock"
+              :color="logThemes.breastFeedingLog.color"
+              :rules="[timeInPast, requiredRule('Start Time')]"
+            />
 
             <v-time-picker
               v-model="startTime"

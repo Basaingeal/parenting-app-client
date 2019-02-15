@@ -43,18 +43,16 @@
         open-on-hover
         transition="slide-y-transition"
       >
-        <template #activator="data">
-          <v-btn
-            icon
-            v-on="data.on"
+        <v-btn
+          slot="activator"
+          icon
+        >
+          <v-icon
+            small
           >
-            <v-icon
-              small
-            >
-              fas fa-person-booth
-            </v-icon>
-          </v-btn>
-        </template>
+            fas fa-person-booth
+          </v-icon>
+        </v-btn>
 
         <children-list />
       </v-menu>
