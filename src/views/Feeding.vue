@@ -38,6 +38,7 @@
         v-if="feedingLogs.length"
         :child-first-name="child.firstName"
         :logs="feedingLogs"
+        :units="userProfile.preferredUnitSystem"
       />
     </v-fade-transition>
   </div>
@@ -47,6 +48,7 @@
 import LogList from '@/components/LogList.vue'
 import GET_CHILDREN from '@/graphql/GetChildren.gql'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
+import GET_USER_PROFILE from '@/graphql/GetUserProfile.gql'
 import { mapGetters } from 'vuex'
 import { BulletListLoader } from 'vue-content-loader'
 import TopNavigator from '@/components/TopNavigator.vue'
@@ -106,6 +108,9 @@ export default {
       update (data) {
         return data.child
       }
+    },
+    userProfile: {
+      query: GET_USER_PROFILE
     }
   }
 }

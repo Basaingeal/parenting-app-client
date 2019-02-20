@@ -1,6 +1,6 @@
 <template>
   <base-timeline-item
-    :color="logThemes.breastFeedingLog.color"
+    :color="logThemes.bottleFeedingLog.color"
     :dense="dense"
     :edit="edit"
     @openEdit="toggleEdit"
@@ -12,8 +12,9 @@
       </span>
     </template>
     <template slot="icon">
-      {{ logThemes.breastFeedingLog.icon }}
+      {{ logThemes.bottleFeedingLog.icon }}
     </template>
+
     <v-layout column>
       <span
         v-if="dense"
@@ -25,20 +26,33 @@
         <span class="font-weight-medium">
           {{ childFirstName }}
         </span>
-        was breastfed for
-        <span class="font-weight-medium">
-          {{ getMinutesFromSeconds(log.leftBreastDuration + log.rightBreastDuration) }} minutes.
+        was bottlefed
+        <span
+          v-if="units === 'IMPERIAL'"
+          class="font-weight-medium"
+        >
+          {{ log.amount | mlToOz }} oz.
         </span>
-        <span v-if="getMinutesFromSeconds(log.leftBreastDuration)">
-          <span class="font-weight-medium">
-            {{ getMinutesFromSeconds(log.leftBreastDuration) }} minute{{ getMinutesFromSeconds(log.leftBreastDuration) !== 1 ? 's' : '' }}
-          </span> on the left side.
+        <span
+          v-else
+          class="font-weight-medium"
+        >
+          {{ log.amount }} ml.
         </span>
-        <span v-if="getMinutesFromSeconds(log.rightBreastDuration)">
-          <span class="font-weight-medium">
-            {{ getMinutesFromSeconds(log.rightBreastDuration) }} minute{{ getMinutesFromSeconds(log.rightBreastDuration) !== 1 ? 's' : '' }}
-          </span> on the right side.
+        of
+        <span
+          v-if="log.bottleContent === 'FORMULA'"
+          class="font-weight-medium"
+        >
+          formula
         </span>
+        <span
+          v-else
+          class="font-weight-medium"
+        >
+          breast milk
+        </span>
+        .
       </div>
       <div v-if="log.details">
         <span class="font-italic">
@@ -46,14 +60,12 @@
         </span>
       </div>
     </v-layout>
+
     <template #timestamp>
       {{ log.startTime | toMaterialDateTime(now, true) }}
     </template>
     <template #edit>
-      <breast-feeding-log-edit-form
-        :log="log"
-        @formSubmit="handleEditFormSubmit"
-      />
+      <span class="title">COMING SOON</span>
     </template>
     <v-snackbar
       v-model="snackbar"
@@ -71,7 +83,7 @@
       max-width="290px"
     >
       <delete-log-card
-        :color="logThemes.breastFeedingLog.color"
+        :color="logThemes.bottleFeedingLog.color"
         :log-id="log.id"
         @noDelete="deleteModal = false"
         @logDeleted="handleLogDeleted"
@@ -84,21 +96,21 @@
 import logThemes from '@/constants/logThemes'
 import { differenceInWords, toMaterialDate, toMaterialDateTime } from '@/services/DateFilters'
 import { mapGetters } from 'vuex'
+import { mlToOz } from '@/services/Conversions'
 import BaseTimelineItem from '@/components/timelineItems/BaseTimelineItem'
-import BreastFeedingLogEditForm from '@/components/editForms/BreastFeedingLogEditForm'
+/// /import BottleFeedingLogEditForm from '@/components/editForms/BottleFeedingLogEditForm'
 import DeleteLogCard from '@/components/DeleteLogCard'
-import UPDATE_BREAST_FEEDING_LOG from '@/graphql/UpdateBreastFeedingLog.gql'
-
+/// import UPDATE_BOTTLE_FEEDING_LOG from '@/graphql/UpdateBottleFeedingLog.gql'
 export default {
-  name: 'BreastFeedingTimeineItem',
+  name: 'BottleFeedingTimelineItem',
   filters: {
     differenceInWords,
     toMaterialDate,
-    toMaterialDateTime
+    toMaterialDateTime,
+    mlToOz
   },
   components: {
     BaseTimelineItem,
-    BreastFeedingLogEditForm,
     DeleteLogCard
   },
   props: {
@@ -115,6 +127,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    units: {
+      type: String,
+      required: false,
+      default: 'METRIC'
     }
   },
   data () {
@@ -130,23 +147,20 @@ export default {
     ...mapGetters(['now'])
   },
   methods: {
-    getMinutesFromSeconds (seconds) {
-      return Math.round(seconds / 60)
-    },
     toggleEdit () {
       this.edit = !this.edit
     },
-    async handleEditFormSubmit (formData) {
-      this.edit = false
-      await this.$apollo.mutate({
-        mutation: UPDATE_BREAST_FEEDING_LOG,
-        variables: {
-          log: formData
-        }
-      })
-      this.snackbarText = 'Log Updated'
-      this.snackbar = true
-    },
+    // // async handleEditFormSubmit (formData) {
+    // //   this.edit = false
+    // //   await this.$apollo.mutate({
+    // //     mutation: UPDATE_BREAST_FEEDING_LOG,
+    // //     variables: {
+    // //       log: formData
+    // //     }
+    // //   })
+    // //   this.snackbarText = 'Log Updated'
+    // //   this.snackbar = true
+    // // },
     handleLogDeleted () {
       this.deleteModal = false
       this.snackbarText = 'Log Deleted'

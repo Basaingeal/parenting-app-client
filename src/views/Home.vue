@@ -35,9 +35,10 @@
     </v-fade-transition>
     <v-fade-transition mode="out-in">
       <log-list
-        v-if="child && child.logs.length"
+        v-if="child && child.logs.length && userProfile"
         :child-first-name="child.firstName"
         :logs="child.logs"
+        :units="userProfile.preferredUnitSystem"
       />
     </v-fade-transition>
     <home-speed-dial />
@@ -50,6 +51,7 @@ import HomeSpeedDial from '@/components/HomeSpeedDial.vue'
 import TopNavigator from '@/components/TopNavigator.vue'
 import GET_CHILDREN from '@/graphql/GetChildren.gql'
 import GET_CHILD_WITH_EVERYTHING from '@/graphql/GetChildWithEverything.gql'
+import GET_USER_PROFILE from '@/graphql/GetUserProfile.gql'
 import { mapGetters } from 'vuex'
 import TimelineLoader from '@/components/TimelineLoader'
 import logThemes from '@/constants/logThemes'
@@ -103,6 +105,9 @@ export default {
       update (data) {
         return data.child
       }
+    },
+    userProfile: {
+      query: GET_USER_PROFILE
     }
   }
 }

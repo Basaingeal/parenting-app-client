@@ -29,6 +29,14 @@
                 :child-first-name="childFirstName"
                 :dense="dense"
               />
+              <bottle-feeding-timeline-item
+                v-if="log.__typename === 'BottleFeedingLog'"
+                :key="log.id"
+                :log="log"
+                :child-first-name="childFirstName"
+                :dense="dense"
+                :units="units"
+              />
             </template>
           </v-slide-y-transition>
         </template>
@@ -42,11 +50,13 @@ import { mapGetters } from 'vuex'
 import { differenceInWords, toMaterialDate } from '@/services/DateFilters'
 import { parseISO, isSameDay, subDays, format } from 'date-fns'
 import BreastFeedingTimelineItem from '@/components/timelineItems/BreastFeedingTimelineItem.vue'
+import BottleFeedingTimelineItem from '@/components/timelineItems/BottleFeedingTimelineItem.vue'
 
 export default {
   name: 'LogList',
   components: {
-    BreastFeedingTimelineItem
+    BreastFeedingTimelineItem,
+    BottleFeedingTimelineItem
   },
   filters: {
     differenceInWords,
@@ -62,6 +72,11 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    },
+    units: {
+      type: String,
+      required: false,
+      default: 'METRIC'
     }
   },
   computed: {

@@ -44,7 +44,7 @@
         dark
         small
         :color="logThemes.bottleFeedingLog.color"
-        :to="{ name: 'newbreastfeedinglog'}"
+        :to="{ name: 'newbottlefeedinglog'}"
       >
         {{ logThemes.bottleFeedingLog.icon }}
       </v-btn>

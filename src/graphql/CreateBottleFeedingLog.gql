@@ -1,0 +1,12 @@
+mutation CreateBottleFeedingLog($log: BottleFeedingLogInput!){
+  createBottleFeedingLog(log: $log) {
+    id,
+    userId,
+    details,
+    startTime,
+    amount,
+    bottleContent,
+    feedingType,
+    dateAdded
+  }
+}
