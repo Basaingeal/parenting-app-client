@@ -35,7 +35,7 @@
     </v-fade-transition>
     <v-fade-transition mode="out-in">
       <log-list
-        v-if="child && child.logs.length && userProfile"
+        v-if="child && child.logs.length"
         :child-first-name="child.firstName"
         :logs="child.logs"
         :units="userProfile.preferredUnitSystem"
@@ -83,7 +83,8 @@ export default {
   computed: {
     ...mapGetters(['currentChildId']),
     validCurrentChildId () {
-      return this.children && this.children.find(c => c.id === this.currentChildId)
+      return this.children &&
+      this.children.find(c => c.id === this.currentChildId)
     }
   },
   apollo: {

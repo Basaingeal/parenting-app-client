@@ -48,10 +48,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import { differenceInWords, toMaterialDate } from '@/services/DateFilters'
-import { parseISO, isSameDay, subDays, format } from 'date-fns'
-import BreastFeedingTimelineItem from '@/components/timelineItems/BreastFeedingTimelineItem.vue'
-import BottleFeedingTimelineItem from '@/components/timelineItems/BottleFeedingTimelineItem.vue'
-
+import { parseISO, isSameDay, subDays, format } from 'date-fns/fp'
+import BreastFeedingTimelineItem
+  from '@/components/timelineItems/BreastFeedingTimelineItem.vue'
+import BottleFeedingTimelineItem
+  from '@/components/timelineItems/BottleFeedingTimelineItem.vue'
 export default {
   name: 'LogList',
   components: {
@@ -83,23 +84,33 @@ export default {
     ...mapGetters(['now']),
     sortedLogs () {
       const logsClone = [...this.logs]
-      logsClone.sort((a, b) => new Date(b.startTime || b.dateAdded) - new Date(a.startTime || a.dateAdded))
+      logsClone.sort((a, b) => {
+        const bDate = new Date(b.startTime || b.dateAdded)
+        const aDate = new Date(a.startTime || a.dateAdded)
+        return bDate - aDate
+      })
       return logsClone
     },
     todayLogs () {
-      return this.sortedLogs.filter(l => isSameDay(parseISO(l.startTime || l.dateAdded), this.now))
+      return this.sortedLogs
+        .filter(l => isSameDay(this.now)(parseISO(l.startTime || l.dateAdded)))
     },
     yesterdayLogs () {
-      return this.sortedLogs.filter(l => isSameDay(parseISO(l.startTime || l.dateAdded), subDays(this.now, 1)))
+      return this.sortedLogs
+        .filter(l =>
+          isSameDay(parseISO(l.startTime || l.dateAdded))(subDays(1)(this.now)))
     },
     otherLogs () {
-      return this.sortedLogs.filter(l => !this.todayLogs.includes(l) && !this.yesterdayLogs.includes(l))
+      return this.sortedLogs
+        .filter(l => !this.todayLogs.includes(l) &&
+         !this.yesterdayLogs.includes(l))
     },
     logsGroupedByDates () {
       const grouped = new Map()
       this.sortedLogs.forEach(log => {
         const logStartDate = parseISO(log.startTime || log.dateAdded)
-        const label = toMaterialDate(format(logStartDate, 'yyy-MM-dd'), this.now)
+        const label =
+          toMaterialDate(format('yyy-MM-dd')(logStartDate), this.now)
 
         if (!grouped.has(label)) {
           grouped.set(label, [])

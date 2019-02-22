@@ -2,5 +2,6 @@
   "standard.options": {
     "parser": "babel-eslint"
   },
+  "standard.usePackageJson": false,
   // "editor.fontFamily": "Fira Code, Operator Mono Lig"
 }

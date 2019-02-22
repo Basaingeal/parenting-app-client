@@ -121,7 +121,7 @@
           sm6
         >
           <v-select
-            v-model="rightDuration"
+            v-model="log.rightBreastDuration"
             :items="minuteSelectItems"
             outline
             :color="logThemes.breastFeedingLog.color"
