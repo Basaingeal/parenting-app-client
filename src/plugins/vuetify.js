@@ -3,7 +3,9 @@ import Vuetify from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 import '@fortawesome/fontawesome-free/css/all.css'
 
-const vuetifyConfig = new Vuetify({
+Vue.use(Vuetify)
+
+export default new Vuetify({
   customProperties: true,
   icons: {
     iconfont: 'fa'
@@ -20,7 +22,3 @@ const vuetifyConfig = new Vuetify({
     }
   }
 })
-
-Vue.use(Vuetify)
-
-export { vuetifyConfig }
