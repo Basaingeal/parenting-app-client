@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import './plugins/axios'
-import './plugins/vuetify'
+import { vuetifyConfig } from './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
@@ -21,5 +21,6 @@ new Vue({
   router,
   store,
   apolloProvider: createProvider(apolloClientOptions),
+  vuetify: vuetifyConfig,
   render: h => h(App)
 }).$mount('#app')

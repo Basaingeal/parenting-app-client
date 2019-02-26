@@ -21,7 +21,7 @@
     "vue-apollo": "^3.0.0-beta.28",
     "vue-content-loader": "^0.2.1",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.5.3",
+    "vuetify": "next",
     "vuex": "^3.1.0"
   },
   "devDependencies": {
@@ -49,7 +49,7 @@
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-vuetify": "^0.4.6",
     "vue-template-compiler": "^2.6.7",
-    "vuetify-loader": "^1.2.1"
+    "vuetify-loader": "latest"
   },
   "eslintConfig": {
     "root": true,
