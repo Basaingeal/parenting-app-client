@@ -16,7 +16,7 @@
             <v-btn
               :color="route.color"
               outline
-              round
+              rounded
               small
               :to="route.to"
             >

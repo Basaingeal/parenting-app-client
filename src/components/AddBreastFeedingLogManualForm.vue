@@ -38,14 +38,14 @@
             >
               <v-spacer />
               <v-btn
-                flat
+                text
                 :color="logThemes.breastFeedingLog.color"
                 @click="startDateModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
-                flat
+                text
                 :color="logThemes.breastFeedingLog.color"
                 @click="$refs.startDateDialog.save(startDate)"
               >
@@ -82,14 +82,14 @@
             >
               <v-spacer />
               <v-btn
-                flat
+                text
                 :color="logThemes.breastFeedingLog.color"
                 @click="startTimeModal = false"
               >
                 Cancel
               </v-btn>
               <v-btn
-                flat
+                text
                 :color="logThemes.breastFeedingLog.color"
                 @click="$refs.startTimeDialog.save(startTime)"
               >

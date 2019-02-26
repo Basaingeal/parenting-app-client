@@ -13,7 +13,6 @@
       fab
     >
       <v-icon>fas fa-plus</v-icon>
-      <span>&nbsp;</span>
       <v-icon>fas fa-chevron-down</v-icon>
     </v-btn>
 

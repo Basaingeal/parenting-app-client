@@ -35,7 +35,7 @@
     </v-fade-transition>
     <v-fade-transition mode="out-in">
       <log-list
-        v-if="child && child.logs.length"
+        v-if="child && child.logs.length && userProfile"
         :child-first-name="child.firstName"
         :logs="child.logs"
         :units="userProfile.preferredUnitSystem"
