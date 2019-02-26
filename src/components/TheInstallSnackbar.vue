@@ -15,14 +15,14 @@
     </span>
     <v-spacer />
     <v-btn
-      flat
+      text
       color="primary"
       @click="toggleInstallSnackbar"
     >
       No
     </v-btn>
     <v-btn
-      flat
+      text
       color="primary"
       @click="prompt"
     >

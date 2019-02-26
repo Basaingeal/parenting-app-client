@@ -7,14 +7,14 @@
     New version available
     <v-spacer />
     <v-btn
-      flat
+      text
       color="primary"
       @click="toggleUpdateSnackbar"
     >
       Dismiss
     </v-btn>
     <v-btn
-      flat
+      text
       color="primary"
       @click="reload"
     >

@@ -6,14 +6,14 @@
     <v-card-actions>
       <v-spacer />
       <v-btn
-        flat
+        text
         :color="color"
         @click="$emit('noDelete')"
       >
         No
       </v-btn>
       <v-btn
-        flat
+        text
         :color="color"
         @click="deleteLog"
       >

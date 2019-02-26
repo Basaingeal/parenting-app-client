@@ -29,7 +29,7 @@
             class="ml-auto"
           >
             <v-btn
-              flat
+              text
               icon
               color="#757575"
               @click="$emit('openEdit')"
@@ -41,7 +41,7 @@
             shrink
           >
             <v-btn
-              flat
+              text
               icon
               color="#757575"
               @click="$emit('openDelete')"
