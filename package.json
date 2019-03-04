@@ -16,8 +16,8 @@
     "eventemitter3": "^3.1.0",
     "register-service-worker": "^1.6.2",
     "roboto-fontface": "*",
-    "unfetch": "^4.0.1",
-    "vue": "^2.6.7",
+    "unfetch": "^4.1.0",
+    "vue": "^2.6.8",
     "vue-apollo": "^3.0.0-beta.28",
     "vue-content-loader": "^0.2.1",
     "vue-router": "^3.0.1",
@@ -37,7 +37,7 @@
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
-    "eslint": "^5.14.1",
+    "eslint": "^5.15.0",
     "eslint-plugin-vue": "^5.2.2",
     "graphql-tag": "^2.9.0",
     "live-server": "^1.2.1",
@@ -48,7 +48,7 @@
     "vue-cli-plugin-apollo": "^0.19.1",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-vuetify": "^0.4.6",
-    "vue-template-compiler": "^2.6.7",
+    "vue-template-compiler": "^2.6.8",
     "vuetify-loader": "latest"
   },
   "eslintConfig": {
