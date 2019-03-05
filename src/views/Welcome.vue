@@ -13,7 +13,7 @@
         Welcome to Nursry
       </h3>
       <p
-        class="subheading font-weight-thin mt-3"
+        class="subtitle-1 font-weight-thin mt-3"
         style="max-width: 475px"
       >
         A new web-based application for tracking all of your newborn's needs while providing growth charts and analytics,

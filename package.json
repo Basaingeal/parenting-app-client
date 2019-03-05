@@ -21,7 +21,7 @@
     "vue-apollo": "^3.0.0-beta.28",
     "vue-content-loader": "^0.2.1",
     "vue-router": "^3.0.1",
-    "vuetify": "next",
+    "vuetify": "^2.0.0-alpha.7",
     "vuex": "^3.1.0"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
-    "eslint": "^5.15.0",
+    "eslint": "^5.15.1",
     "eslint-plugin-vue": "^5.2.2",
     "graphql-tag": "^2.9.0",
     "live-server": "^1.2.1",

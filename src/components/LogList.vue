@@ -2,6 +2,7 @@
   <v-container>
     <v-timeline
       :dense="dense"
+      :reverse="!dense"
     >
       <v-slide-y-transition
         group
@@ -12,7 +13,7 @@
             :key="group[0]"
             hide-dot
           >
-            <span class="subheading font-weight-light">
+            <span class="subtitle-1 font-weight-light">
               {{ group[0] }}
             </span>
           </v-timeline-item>
