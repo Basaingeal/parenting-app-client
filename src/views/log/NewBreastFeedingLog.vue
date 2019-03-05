@@ -1,9 +1,9 @@
 <template>
   <v-tabs
     v-model="tabsActive"
-    :color="`${logThemes.breastFeedingLog.color} lighten-4`"
+    :background-color="`${logThemes.breastFeedingLog.color} lighten-4`"
     fixed-tabs
-    :slider-color="`${logThemes.breastFeedingLog.color} darken-4`"
+    :color="`${logThemes.breastFeedingLog.color} darken-4`"
   >
     <v-tab
       ripple
